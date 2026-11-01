@@ -1,0 +1,1164 @@
+--- SAP_Automation_v23_Tram.bas.goc
++++ SAP_Automation_v23_Tram.bas
+@@ -6,7 +6,7 @@
+ Public Const PR_DOC_TYPE As String = "ZEX"
+ 
+ ' Phien ban macro - hien tren tieu de hop thoai de biet dang chay dung ban
+-Public Const MACRO_VERSION As String = "v23.1-Tram (31/10/2026)"
++Public Const MACRO_VERSION As String = "v23.1-Tram-gl.2 (31/10/2026)"
+ 
+ ' Dau thap phan SAP dang dung cho tai khoan cua ban (SU3 > Defaults > Decimal Notation):
+ '   "."  neu SAP hien so dang 1,234,567.89   (mac dinh)
+@@ -35,6 +35,7 @@
+ Public Const MIGO_BWART As String = "101"
+ Private Const MIGO_TBL_ID As String = "tblSAPLMIGOTV_GOITEM"
+ Private curStep As String
++Private gPOWarn As String         ' canh bao khi nhap gia PO (PBXX khong duoc...) - hien o hop thoai truoc khi Save
+ Private ctlCache As Object
+ Private gDecSep As String        ' dau thap phan SAP dang dung (tu phat hien)
+ Private gLastQtyDisp As String   ' gia tri so luong SAP hien sau khi nhap
+@@ -71,6 +72,20 @@
+     Dim objConn As Object
+     Dim objSession As Object
+ 
++    ' SAP GIA LAP (test khong can SAP that): neu co module SapGiaLap va sheet
++    ' SAP_GiaLap dang BAT thi dung SAP gia lap (cua so so TRAM_PHIEN khi chay qua tram).
++    ' Khong co module / gia lap TAT -> chay SAP that nhu cu.
++    Dim objGiaLap As Object, idxGL As Long
++    If TRAM_AUTO Then idxGL = TRAM_PHIEN
++    On Error Resume Next
++    Set objGiaLap = Application.Run("SapGiaLap_PhienNeuBat", idxGL)
++    Err.Clear
++    If Not objGiaLap Is Nothing Then
++        On Error GoTo 0
++        Set GetSapSession = objGiaLap
++        Exit Function
++    End If
++
+     On Error Resume Next
+     Set SapGuiAuto = GetObject("SAPGUI")
+     If SapGuiAuto Is Nothing Then
+@@ -111,6 +126,41 @@
+     Set GetSapSession = objSession
+ End Function
+ 
++' --------------------------------------------------------------------------
++' .Select / .Type / .Close cua SAP GUI goi qua 3 ham nay: voi SAP that y het
++' goi truc tiep; voi SAP gia lap (VBA khong cho dat ham ten Select/Type/Close)
++' thi goi ChonTab / Loai / DongCuaSo.
++' --------------------------------------------------------------------------
++Public Function LaSapGiaLap(o As Object) As Boolean
++    On Error Resume Next
++    LaSapGiaLap = CallByName(o, "LaGiaLap", VbGet)
++    Err.Clear
++End Function
++
++Public Sub SapSelect(o As Object)
++    If LaSapGiaLap(o) Then
++        CallByName o, "ChonTab", VbMethod
++    Else
++        o.Select
++    End If
++End Sub
++
++Public Function SapType(o As Object) As String
++    If LaSapGiaLap(o) Then
++        SapType = CallByName(o, "Loai", VbGet)
++    Else
++        SapType = o.Type
++    End If
++End Function
++
++Public Sub SapClose(o As Object)
++    If LaSapGiaLap(o) Then
++        CallByName o, "DongCuaSo", VbMethod
++    Else
++        o.Close
++    End If
++End Sub
++
+ 
+ ' --------------------------------------------------------------------------
+ ' Tach so chung tu (chuoi so) tu dong thong bao trang thai cua SAP
+@@ -157,7 +207,7 @@
+     If c Is Nothing Then Set c = NativeFind(session, idPart)
+     ' (d) quet toan bo man hinh
+     If c Is Nothing Then Set c = SearchCtl(session.findById("wnd[0]/usr"), idPart)
+-    If Not c Is Nothing Then ctlCache(idPart) = c.Id
++    If Not c Is Nothing Then ctlCache(idPart) = c.id
+     Err.Clear
+     On Error GoTo 0
+     Set FindCtlSoft = c
+@@ -175,7 +225,7 @@
+         ' Bang item: lay dung GRIDCONTROL thuoc SAPLMEGUI:3212
+         Set allC = usr.FindAllByName("GRIDCONTROL", "GuiCustomControl")
+         For k = 0 To allC.Count - 1
+-            If InStr(allC.ElementAt(k + 0).Id, "SAPLMEGUI:3212") > 0 Then
++            If InStr(allC.ElementAt(k + 0).id, "SAPLMEGUI:3212") > 0 Then
+                 Set c = allC.ElementAt(k + 0).findById("shellcont/shell")
+                 If Not c Is Nothing Then Set NativeFind = c: Exit Function
+             End If
+@@ -298,7 +348,7 @@
+         Set ch = ChildAt(parent, i)
+         If Not ch Is Nothing Then
+             sId = ""
+-            sId = ch.Id
++            sId = ch.id
+             If Len(sId) > 0 And InStr(1, sId, idPart, vbTextCompare) > 0 Then
+                 Set SearchCtl = ch
+                 Exit Function
+@@ -363,7 +413,7 @@
+     wsD.Range("F1").Value = "Macro " & MACRO_VERSION & " | " & note
+     wsD.Range("F2").Value = "Transaction: " & session.Info.Transaction & " | Title: " & session.findById("wnd[0]").Text & _
+                             " | So cua so: " & session.Children.Count & " | Status bar: " & session.findById("wnd[0]/sbar").Text
+-    wsD.Range("F3").Value = "SAP GUI: " & session.Parent.Parent.MajorVersion & "." & session.Parent.Parent.MinorVersion & _
++    wsD.Range("F3").Value = "SAP GUI: " & session.parent.parent.MajorVersion & "." & session.parent.parent.MinorVersion & _
+                             " | He thong: " & session.Info.SystemName & " | Client: " & session.Info.Client
+ 
+     Dim usrC As Object
+@@ -373,7 +423,7 @@
+     Err.Clear
+     Dim testC As Object
+     Set testC = ChildAt(usrC, 0)
+-    wsD.Range("F5").Value = "Doc control dau tien: " & IIf(testC Is Nothing, "KHONG DOC DUOC (" & Err.Description & ")", testC.Id)
++    wsD.Range("F5").Value = "Doc control dau tien: " & IIf(testC Is Nothing, "KHONG DOC DUOC (" & Err.Description & ")", testC.id)
+     Err.Clear
+ 
+     Dim rowOut As Long
+@@ -393,11 +443,11 @@
+         Set ch = Nothing
+         Set ch = ChildAt(parent, i)
+         If Not ch Is Nothing Then
+-            sId = ch.Id
++            sId = ch.id
+             p = InStr(sId, "wnd[0]/usr/")
+             If p > 0 Then sId = Mid(sId, p + 11)
+             wsD.Cells(rowOut, 1).Value = "'" & sId
+-            wsD.Cells(rowOut, 2).Value = ch.Type
++            wsD.Cells(rowOut, 2).Value = SapType(ch)
+             wsD.Cells(rowOut, 3).Value = ch.Name
+             wsD.Cells(rowOut, 4).Value = "'" & Left(ch.Text, 60)
+             rowOut = rowOut + 1
+@@ -451,9 +501,35 @@
+ ' Chu y: "16,5" dang chu -> 16.5 (khong de VBA hieu nham thanh 165).
+ ' Tra ve Empty neu o trong / khong phai so.
+ ' --------------------------------------------------------------------------
++' --------------------------------------------------------------------------
++' v23: Dong sheet CongNo tuong ung voi dong r cua sheet PR.
++' Doc tu cong thuc o PR!C (vd =IF(CongNo!D4="","",CongNo!D4) -> 4).
++' Neu co ai CHEN/XOA dong o sheet CongNo, Excel tu doi cong thuc sheet PR,
++' macro van lay dung dong (truoc v23 macro gia dinh PR dong r = CongNo dong r
++' -> lech 1 dong thi doc phai o trong -> go gia 0 -> SAP bao
++' "Net price must be greater than 0").
++' --------------------------------------------------------------------------
++Function CNRow(ByVal r As Long) As Long
++    Dim f As String, p As Long, d As String
++    CNRow = r
++    On Error Resume Next
++    f = CStr(ThisWorkbook.Sheets("PR").Range("C" & r).Formula)
++    On Error GoTo 0
++    p = InStr(1, f, "CongNo!", vbTextCompare)
++    If p = 0 Then Exit Function
++    p = p + 7
++    Do While p <= Len(f)
++        If Mid$(f, p, 1) = "$" Or Mid$(f, p, 1) Like "[A-Za-z]" Then p = p + 1 Else Exit Do
++    Loop
++    Do While p <= Len(f)
++        If Mid$(f, p, 1) Like "#" Then d = d & Mid$(f, p, 1): p = p + 1 Else Exit Do
++    Loop
++    If d <> "" Then CNRow = CLng(d)
++End Function
++
+ Function CongNoNum(ByVal r As Long, ByVal col As String) As Variant
+     Dim v As Variant, s As String
+-    v = ThisWorkbook.Sheets("CongNo").Range(col & r).Value
++    v = ThisWorkbook.Sheets("CongNo").Range(col & CNRow(r)).Value
+     CongNoNum = Empty
+     If IsEmpty(v) Then Exit Function
+     If VarType(v) = vbString Then
+@@ -529,8 +605,8 @@
+     Dim cq As Variant, cp As Variant
+     cq = CongNoNum(r, "F")
+     cp = CongNoNum(r, "G")
+-    If UCase(Trim(CStr(ThisWorkbook.Sheets("CongNo").Range("D" & r).Value))) <> UCase(Trim(CStr(ws.Range("C" & r).Value))) Then
+-        errs = errs & "Ma hang khac CongNo dong " & r & "; "
++    If UCase(Trim(CStr(ThisWorkbook.Sheets("CongNo").Range("D" & CNRow(r)).Value))) <> UCase(Trim(CStr(ws.Range("C" & r).Value))) Then
++        errs = errs & "Ma hang khac CongNo dong " & CNRow(r) & "; "
+     End If
+     If IsEmpty(cq) Then
+         errs = errs & "So_luong CongNo khong hop le; "
+@@ -589,7 +665,7 @@
+ 
+     curStep = "mo tab Account Assignment (mat hang " & (idx + 1) & ")"
+     Set tabAcc = FindCtl(session, "tabpTABREQDT7")
+-    tabAcc.Select
++    SapSelect tabAcc
+     CheckPopup session
+ 
+     ' Acct Assignment Category
+@@ -602,7 +678,7 @@
+             CheckPopup session
+             SelectDetailItem session, idx
+             Set tabAcc = FindCtl(session, "tabpTABREQDT7")
+-            tabAcc.Select
++            SapSelect tabAcc
+             CheckPopup session
+         End If
+     Else
+@@ -623,7 +699,7 @@
+         CheckPopup session
+         SelectDetailItem session, idx
+         Set tabAcc = FindCtl(session, "tabpTABREQDT7")
+-        tabAcc.Select
++        SapSelect tabAcc
+         CheckPopup session
+     End If
+ 
+@@ -969,12 +1045,10 @@
+ 
+         ' 6. Save
+         curStep = "bam Save"
+-        session.findById("wnd[0]/tbar[0]/btn[11]").press
+-        CheckPopup session
+-
++        ' v24-auto2: xu ly hop thoai "Save Document - System messages issued" giong PO
+         Dim msg As String, soPR As String
++        soPR = SaveDocWithPopups(session, "PR")
+         msg = session.findById("wnd[0]/sbar").Text
+-        soPR = ExtractDocNumber(msg)
+ 
+         Dim rr As Variant
+         For Each rr In rowsInGroup
+@@ -987,15 +1061,15 @@
+ 
+ GroupError:
+         ' Ghi CHI TIET loi (mat hang nao, buoc nao, SAP bao gi) roi DUNG macro
+-        Dim errText As String, sbarText As String
++        Dim errText As String, SbarText As String
+         errText = Err.Description
+         On Error Resume Next
+-        sbarText = session.findById("wnd[0]/sbar").Text
++        SbarText = session.findById("wnd[0]/sbar").Text
+ 
+         Dim errFull As String
+         errFull = "LOI" & IIf(j >= 0, " o mat hang thu " & (j + 1), "") & _
+                   ", buoc [" & curStep & "]: " & errText & _
+-                  IIf(sbarText <> "", " | SAP bao: " & sbarText, "")
++                  IIf(SbarText <> "", " | SAP bao: " & SbarText, "")
+ 
+         Dim rr2 As Variant
+         For Each rr2 In rowsInGroup
+@@ -1524,10 +1598,10 @@
+ 
+     Dim rr As Variant
+     For Each rr In prLines
+-        mat = UCase(Trim(CStr(wsC.Range("D" & rr).Value)))
++        mat = UCase(Trim(CStr(wsC.Range("D" & CNRow(rr)).Value)))
+         If IsEmpty(CongNoNum(rr, "F")) Or IsEmpty(CongNoNum(rr, "G")) Then
+             nDiff = nDiff + 1
+-            rep = rep & "  - " & mat & ": SL/gia o sheet CongNo dong " & rr & " khong hop le" & vbCrLf
++            rep = rep & "  - " & mat & ": SL/gia o sheet CongNo dong " & CNRow(rr) & " khong hop le" & vbCrLf
+             GoTo NextLine
+         End If
+         q = CongNoNum(rr, "F")
+@@ -1657,8 +1731,10 @@
+         On Error Resume Next
+         TramActivate
+         On Error GoTo POError
++        If gPOWarn <> "" Then cmpRep = cmpRep & vbCrLf & "Canh bao khi nhap gia:" & vbCrLf & gPOWarn
+         If nDiff = 0 Then
+             ans = Hoi("PO cho " & sup & ": " & lines.Count & " dong, tong " & Format(sapTotal, "#,##0") & vbCrLf & _
++                         IIf(gPOWarn <> "", "Canh bao khi nhap gia:" & vbCrLf & gPOWarn & vbCrLf, "") & _
+                          "Gia + SL BANG TUYET DOI sheet CongNo (ma hang, so luong, don gia)." & vbCrLf & vbCrLf & _
+                          "Luu (Save) PO nay?", vbYesNo + vbQuestion, "CreatePO " & MACRO_VERSION)
+         Else
+@@ -1672,11 +1748,9 @@
+             Exit Sub
+         End If
+ 
+-        ' (d) Save
++        ' (d) Save - v23: tu xu ly hop thoai canh bao SAP hien ra khi Save (bam Save/Yes de luu de)
+         curStep = "bam Save PO"
+-        session.findById("wnd[0]/tbar[0]/btn[11]").press
+-        CheckPopup session
+-        newPO = ExtractDocNumber(session.findById("wnd[0]/sbar").Text)
++        newPO = SavePOWithPopups(session, sup)
+         On Error GoTo 0
+ 
+         wsPO.Cells(v, "J").NumberFormat = "@"
+@@ -1715,17 +1789,19 @@
+ '   4. Tra ve Collection cac Array(ma_hang, so_luong, don_gia) doc tu SAP de so sanh.
+ ' --------------------------------------------------------------------------
+ Function EnterPOInSAP(session As Object, wsPR As Worksheet, lines As Collection, ByVal vendor As String) As Collection
+-    Dim tbl As Object, cmb As Object, fld As Object
++    Dim TBL As Object, cmb As Object, fld As Object
+     Dim cBanfn As Long, cBnfpo As Long, cMat As Long, cQty As Long, cPrice As Long
+     Dim i As Long, r As Long, soPR As String, prItem As String, prevPR As String, posInPR As Long
+     Dim cel As Object
+ 
++    gPOWarn = ""
++
+     ' 1. Mo ME21N
+     curStep = "mo ME21N"
+     SapCuaSo session
+     session.findById("wnd[0]/tbar[0]/okcd").Text = "/nme21n"
+     session.findById("wnd[0]").sendVKey 0
+-    CheckPopup session
++    CheckPopupPO session
+     If UCase(session.Info.Transaction) <> "ME21N" Then
+         Err.Raise vbObjectError + 601, "EnterPOInSAP", "SAP khong mo duoc ME21N (dang o '" & session.Info.Transaction & "')"
+     End If
+@@ -1733,14 +1809,14 @@
+     curStep = "chon Loai PO (" & PO_DOC_TYPE & ")"
+     Set cmb = FindCtl(session, "cmbMEPO_TOPLINE-BSART")
+     If cmb.key <> PO_DOC_TYPE Then cmb.key = PO_DOC_TYPE
+-    CheckPopup session
++    CheckPopupPO session
+ 
+     curStep = "nhap Ma NCC " & vendor
+     Set fld = FindCtl(session, "ctxtMEPO_TOPLINE-SUPERFIELD")
+     fld.Text = vendor
+     fld.SetFocus
+     session.findById("wnd[0]").sendVKey 0
+-    CheckPopup session
++    CheckPopupPO session
+ 
+     ' Thu gon Item Detail de bang item hien duoc nhieu dong hon (it phai cuon)
+     On Error Resume Next
+@@ -1750,12 +1826,12 @@
+ 
+     ' 2. Xac dinh vi tri cac cot trong bang item
+     curStep = "tim cac cot bang item PO"
+-    Set tbl = FindCtl(session, PO_TBL_ID)
+-    cBanfn = TblColIndex(tbl, "MEPO1211-BANFN")
+-    cBnfpo = TblColIndex(tbl, "MEPO1211-BNFPO")
+-    cMat = TblColIndex(tbl, "MEPO1211-EMATN")
+-    cQty = TblColIndex(tbl, "MEPO1211-MENGE")
+-    cPrice = TblColIndex(tbl, "MEPO1211-NETPR")
++    Set TBL = FindCtl(session, PO_TBL_ID)
++    cBanfn = TblColIndex(TBL, "MEPO1211-BANFN")
++    cBnfpo = TblColIndex(TBL, "MEPO1211-BNFPO")
++    cMat = TblColIndex(TBL, "MEPO1211-EMATN")
++    cQty = TblColIndex(TBL, "MEPO1211-MENGE")
++    cPrice = TblColIndex(TBL, "MEPO1211-NETPR")
+     If cBanfn < 0 Or cBnfpo < 0 Then
+         Err.Raise vbObjectError + 602, "EnterPOInSAP", _
+             "Bang item PO khong co cot 'Purch.Req.' / 'Item of requisition' (BANFN/BNFPO). " & _
+@@ -1776,13 +1852,23 @@
+         prItem = Trim(CStr(wsPR.Range("P" & r).Value))
+         If prItem = "" Then prItem = CStr(PrItemGuess(wsPR, r))   ' suy ra theo thu tu dong trong PR
+ 
++        ' v23: khong bao gio go SL/gia 0 vao SAP
++        If IsEmpty(CongNoNum(r, "F")) Or IsEmpty(CongNoNum(r, "G")) Then
++            Err.Raise vbObjectError + 610, "EnterPOInSAP", "Sheet CongNo dong " & CNRow(r) & " (" & wsPR.Range("C" & r).Value & _
++                ") khong co SL/don gia hop le. Kiem tra sheet CongNo (co bi chen/xoa dong khong?)"
++        End If
++        If CDbl(CongNoNum(r, "F")) <= 0 Or CDbl(CongNoNum(r, "G")) <= 0 Then
++            Err.Raise vbObjectError + 611, "EnterPOInSAP", "Sheet CongNo dong " & CNRow(r) & " (" & wsPR.Range("C" & r).Value & _
++                "): SL hoac don gia = 0. Kiem tra sheet CongNo truoc khi tao PO"
++        End If
++
+         curStep = "them dong PR " & soPR & "/" & prItem & " (" & wsPR.Range("C" & r).Value & ")"
+         Set cel = PORowCell(session, i, cBanfn)
+         cel.Text = soPR
+         Set cel = PORowCell(session, i, cBnfpo)
+         cel.Text = prItem
+         session.findById("wnd[0]").sendVKey 0
+-        CheckPopup session
++        CheckPopupPO session
+ 
+         ' SAP co the bao loi ngay khi lay dong PR sang (vd "Gia tri item PO phai <= gia tri
+         ' item PR"), do gia mac dinh tren PO (tu info record...) khac gia PR.
+@@ -1792,13 +1878,20 @@
+             adoptErr = session.findById("wnd[0]/sbar").Text
+             curStep = "chinh SL/gia theo CongNo ngay khi them dong PR " & soPR & "/" & prItem & _
+                       " (SAP bao: " & adoptErr & ")"
++            On Error Resume Next
+             Set cel = PORowCell(session, i, cQty)
+-            cel.Text = SapNumber(CDbl(CongNoNum(r, "F")))
+-            Set cel = PORowCell(session, i, cPrice)
+-            cel.Text = SapNumber(CDbl(CongNoNum(r, "G")))
+-            session.findById("wnd[0]").sendVKey 0
+-            CheckPopup session
+-            CheckSbarError session
++            If cel.Changeable Then cel.Text = SapNumber(CDbl(CongNoNum(r, "F")))
++            Err.Clear
++            On Error GoTo 0
++            Dim adoptNetErr As String
++            If Not TrySetNetPrice(session, i, cPrice, CDbl(CongNoNum(r, "G")), "", adoptNetErr) Then
++                ' o Net Price khong sua duoc (hang kho...) -> nhap qua dieu kien PBXX, KHONG dung chu trinh
++                Dim adoptPb As String
++                adoptPb = TryPBXX(session, i, CDbl(CongNoNum(r, "G")))
++                If adoptPb <> "" Then
++                    gPOWarn = gPOWarn & "  - dong " & (i + 1) & " " & wsPR.Range("C" & r).Value & ": " & adoptPb & vbCrLf
++                End If
++            End If
+         End If
+     Next i
+ 
+@@ -1819,7 +1912,7 @@
+             Set cel = PORowCell(session, i, cQty)
+             cel.Text = SapNumber(expQ)
+             session.findById("wnd[0]").sendVKey 0
+-            CheckPopup session
++            CheckPopupPO session
+             CheckSbarError session
+             ReadPORow session, i, cQty, cPrice, expQ, expP, dq, dp, q, pr
+         End If
+@@ -1834,8 +1927,15 @@
+                 ' CACH 2: Net Price khong duoc -> nhap dieu kien PBXX o tab Conditions
+                 curStep = "nhap gia qua dieu kien PBXX dong PO " & (i + 1) & _
+                           IIf(netErr <> "", " (Net Price loi: " & netErr & ")", "")
+-                SetPriceByPBXX session, i, expP
++                Dim pbErr As String
++                pbErr = TryPBXX(session, i, expP)
+                 ReadPORow session, i, cQty, cPrice, expQ, expP, dq, dp, q, pr
++                If pbErr <> "" Or Abs(pr - expP) > 0.5 Then
++                    ' v23: KHONG dung chu trinh. Ghi lai, dong nay se hien LECH o hop thoai truoc khi Save
++                    gPOWarn = gPOWarn & "  - dong " & (i + 1) & " " & wsPR.Range("C" & r).Value & ": gia SAP " & _
++                              Format(pr, "#,##0") & " / CongNo " & Format(expP, "#,##0") & _
++                              IIf(pbErr <> "", " (PBXX: " & pbErr & ")", "") & vbCrLf
++                End If
+             End If
+         End If
+ 
+@@ -1845,8 +1945,8 @@
+     Next i
+ 
+     On Error Resume Next
+-    Set tbl = FindCtl(session, PO_TBL_ID)
+-    tbl.VerticalScrollbar.Position = 0
++    Set TBL = FindCtl(session, PO_TBL_ID)
++    TBL.VerticalScrollbar.Position = 0
+     Err.Clear
+     On Error GoTo 0
+     Set EnterPOInSAP = res
+@@ -1856,15 +1956,15 @@
+ ' luc nen chi cuon khi dong can lay nam ngoai vung dang hien, va khong cuon
+ ' qua gioi han cua thanh cuon (tranh loi "The method got an invalid argument").
+ Function PORowCell(session As Object, ByVal idx As Long, ByVal col As Long) As Object
+-    Dim tbl As Object, vis As Long, pos As Long, mx As Long, newPos As Long, tries As Long, lastPos As Long
+-    Set tbl = FindCtl(session, PO_TBL_ID)
+-    vis = tbl.VisibleRowCount
+-    pos = tbl.VerticalScrollbar.Position
++    Dim TBL As Object, vis As Long, pos As Long, mx As Long, newPos As Long, tries As Long, lastPos As Long
++    Set TBL = FindCtl(session, PO_TBL_ID)
++    vis = TBL.VisibleRowCount
++    pos = TBL.VerticalScrollbar.Position
+ 
+     For tries = 1 To 6
+         If idx >= pos And idx <= pos + vis - 1 Then Exit For
+         lastPos = pos
+-        mx = tbl.VerticalScrollbar.Maximum
++        mx = TBL.VerticalScrollbar.Maximum
+         If idx < pos Then
+             newPos = idx
+         Else
+@@ -1876,11 +1976,11 @@
+         Select Case tries
+             Case 1, 2
+                 ' Cach 1: dat vi tri thanh cuon
+-                tbl.VerticalScrollbar.Position = newPos
++                TBL.VerticalScrollbar.Position = newPos
+             Case 3, 4
+                 ' Cach 2: dat con tro vao hang cuoi dang hien roi bam Page Down / Page Up
+                 On Error Resume Next
+-                tbl.GetCell(IIf(idx < pos, 0, vis - 1) + 0, col + 0).SetFocus
++                TBL.GetCell(IIf(idx < pos, 0, vis - 1) + 0, col + 0).SetFocus
+                 On Error GoTo 0
+                 session.findById("wnd[0]").sendVKey IIf(idx < pos, 81, 82)
+             Case 5
+@@ -1888,16 +1988,16 @@
+                 SetItemDetail session, False
+         End Select
+         WaitSap session
+-        Set tbl = FindCtl(session, PO_TBL_ID)
+-        vis = tbl.VisibleRowCount
+-        pos = tbl.VerticalScrollbar.Position
++        Set TBL = FindCtl(session, PO_TBL_ID)
++        vis = TBL.VisibleRowCount
++        pos = TBL.VerticalScrollbar.Position
+     Next tries
+ 
+     If idx - pos < 0 Or idx - pos > vis - 1 Then
+         Err.Raise vbObjectError + 607, "PORowCell", "Khong cuon bang item toi dong " & (idx + 1) & _
+-            " (dang hien dong " & (pos + 1) & "-" & (pos + vis) & ", toi da cuon " & tbl.VerticalScrollbar.Maximum & ")"
++            " (dang hien dong " & (pos + 1) & "-" & (pos + vis) & ", toi da cuon " & TBL.VerticalScrollbar.Maximum & ")"
+     End If
+-    Set PORowCell = tbl.GetCell(idx - pos + 0, col + 0)
++    Set PORowCell = TBL.GetCell(idx - pos + 0, col + 0)
+ End Function
+ 
+ ' Tim nut thu gon / mo rong phan Item Detail (nut DYN_4000-BUTTON trong khu vuc SUB3)
+@@ -1927,7 +2027,7 @@
+     If b Is Nothing Then Exit Sub
+     b.press
+     WaitSap session
+-    CheckPopup session
++    CheckPopupPO session
+ End Sub
+ 
+ ' Doc lai SL + gia cua dong PO thu idx tren bang item
+@@ -1950,6 +2050,15 @@
+     Set cel = PORowCell(session, idx, cPrice)
+ 
+     On Error Resume Next
++    If Not cel.Changeable Then
++        If Err.Number = 0 Then
++            errText = "o Net Price bi khoa (gia lay tu dieu kien)"
++            On Error GoTo 0
++            Exit Function
++        End If
++        Err.Clear
++    End If
++    If oldText = "" Then oldText = cel.Text
+     cel.Text = SapNumber(price)
+     If Err.Number <> 0 Then
+         errText = "o Net Price khong sua duoc (" & Err.Description & ")"
+@@ -1960,7 +2069,7 @@
+     On Error GoTo 0
+ 
+     session.findById("wnd[0]").sendVKey 0
+-    CheckPopup session
++    CheckPopupPO session
+     mt = session.findById("wnd[0]/sbar").MessageType
+     If mt = "E" Or mt = "A" Then
+         errText = session.findById("wnd[0]/sbar").Text
+@@ -1976,18 +2085,29 @@
+     TrySetNetPrice = True
+ End Function
+ 
+-' CACH 2 (theo file record): chon dong idx o Item Detail -> tab Conditions ->
+-' dieu kien PBXX (sua dong PBXX co san, hoac them vao dong trong dau tien) = gia CongNo
++' CACH 2: nhap gia qua dieu kien PBXX o tab Conditions cua dong idx.
++' v23 (sua loi dung chu trinh o hang kho):
++'   - Quet CA bang Conditions (co cuon), khong chi vai dong dang hien
++'   - Bo qua hop thoai thong bao (chi co nut Tiep tuc) thay vi dung lai
++'   - Neu SAP khong nhan PBXX hoac o PBXX bi khoa -> sua dong gia co san
++'     (PB00 / PR00 / P000) neu dong do cho sua
++'   - Khong bao gio go gia 0
+ Sub SetPriceByPBXX(session As Object, ByVal idx As Long, ByVal price As Double)
+     Dim tabC As Object, ct As Object, cK As Long, cA As Long
+-    Dim rr As Long, nRows As Long, t As String, rowPB As Long, rowEmpty As Long
++    Dim rowPB As Long, rowEmpty As Long, rowAlt As Long, cel As Object, st As String, ok As Boolean
++
++    If price <= 0 Then
++        Err.Raise vbObjectError + 609, "SetPriceByPBXX", "Don gia CongNo = 0 -> khong nhap PBXX (kiem tra sheet CongNo)"
++    End If
+ 
+     SetItemDetail session, True        ' can mo Item Detail de vao tab Conditions
+     SelectDetailItem session, idx
++    CheckPopupPO session
+ 
+     Set tabC = FindCtl(session, "tabpTABIDT9")
+-    tabC.Select
+-    CheckPopup session
++    SapSelect tabC
++    WaitSap session
++    CheckPopupPO session
+ 
+     Set ct = FindCtl(session, COND_TBL_ID)
+     cK = TblColIndex(ct, "KOMV-KSCHL")
+@@ -1996,38 +2116,446 @@
+         Err.Raise vbObjectError + 605, "SetPriceByPBXX", "Bang Conditions khong co cot Condition type / Amount (KSCHL/KBETR)"
+     End If
+ 
+-    rowPB = -1: rowEmpty = -1
+-    nRows = ct.VisibleRowCount
+-    For rr = 0 To nRows - 1
+-        t = ""
+-        On Error Resume Next
+-        t = UCase(Trim(ct.GetCell(rr + 0, cK + 0).Text))
+-        On Error GoTo 0
+-        If t = "PBXX" Then
+-            rowPB = rr
+-            Exit For
++    FindCondRows session, cK, cA, rowPB, rowEmpty, rowAlt
++
++    ' Chua co dong PBXX -> go PBXX vao dong trong dau tien
++    If rowPB < 0 And rowEmpty >= 0 Then
++        Set cel = CondCell(session, rowEmpty, cK)
++        cel.Text = "PBXX"
++        session.findById("wnd[0]").sendVKey 0
++        CheckPopupPO session
++        If SbarIsError(session) Then
++            ' SAP khong cho dung PBXX cho dong nay -> xoa o vua go, dung dong gia co san
++            st = SbarText(session)
++            On Error Resume Next
++            Set cel = CondCell(session, rowEmpty, cK)
++            cel.Text = ""
++            session.findById("wnd[0]").sendVKey 0
++            WaitSap session
++            Err.Clear
++            On Error GoTo 0
++            CheckPopupPO session
++            If rowAlt < 0 Then
++                Err.Raise vbObjectError + 607, "SetPriceByPBXX", "SAP khong nhan PBXX (" & st & ") va khong co dong gia nao sua duoc"
++            End If
++            rowPB = rowAlt
++        Else
++            FindCondRows session, cK, cA, rowPB, rowEmpty, rowAlt
+         End If
+-        If t = "" And rowEmpty < 0 Then rowEmpty = rr
+-    Next rr
++    End If
+ 
+     If rowPB < 0 Then
+-        If rowEmpty < 0 Then
+-            Err.Raise vbObjectError + 606, "SetPriceByPBXX", "Bang Conditions khong con dong trong de them PBXX"
++        If rowAlt < 0 Then
++            Err.Raise vbObjectError + 606, "SetPriceByPBXX", "Bang Conditions khong co dong PBXX va khong them duoc (het dong trong)"
++        End If
++        rowPB = rowAlt
++    End If
++
++    ' O Amount cua dong PBXX bi khoa -> thu dong gia khac
++    Set cel = CondCell(session, rowPB, cA)
++    ok = False
++    On Error Resume Next
++    ok = cel.Changeable
++    Err.Clear
++    On Error GoTo 0
++    If Not ok Then
++        If rowAlt >= 0 And rowAlt <> rowPB Then
++            rowPB = rowAlt
++            Set cel = CondCell(session, rowPB, cA)
++        Else
++            Err.Raise vbObjectError + 608, "SetPriceByPBXX", "O so tien cua dieu kien gia bi khoa (khong sua duoc)"
+         End If
+-        ct.GetCell(rowEmpty + 0, cK + 0).Text = "PBXX"
+-        rowPB = rowEmpty
+-        session.findById("wnd[0]").sendVKey 0
+-        CheckPopup session
+-        CheckSbarError session
+-        Set ct = FindCtl(session, COND_TBL_ID)
+     End If
+ 
+-    ct.GetCell(rowPB + 0, cA + 0).Text = SapNumber(price)
++    cel.Text = SapNumber(price)
+     session.findById("wnd[0]").sendVKey 0
++    CheckPopupPO session
++    If SbarIsError(session) Then
++        Err.Raise vbObjectError + 604, "SetPriceByPBXX", "SAP bao loi khi nhap gia o Conditions: " & SbarText(session)
++    End If
++End Sub
++
++' Goi SetPriceByPBXX nhung KHONG lam dung chu trinh: tra ve "" neu thanh cong,
++' nguoc lai tra ve ly do (de ghi canh bao va chay tiep).
++Function TryPBXX(session As Object, ByVal idx As Long, ByVal price As Double) As String
++    Dim saveStep As String
++    saveStep = curStep
++    On Error GoTo EH
++    SetPriceByPBXX session, idx, price
++    curStep = saveStep
++    Exit Function
++EH:
++    TryPBXX = Err.Description
++    Resume DonDep
++DonDep:
++    curStep = saveStep
++    On Error Resume Next
++    ClosePopupCancel session
++    SetItemDetail session, False
++    Err.Clear
++End Function
++
++' Tim tren bang Conditions (quet het, co cuon): dong PBXX, dong trong dau tien
++' (o Condition type cho go), va 1 dong gia co san cho sua (PB00/PR00/P000/PBXX).
++' So dong tra ve la so dong TUYET DOI (tinh tu dau bang).
++Sub FindCondRows(session As Object, ByVal cK As Long, ByVal cA As Long, _
++                 ByRef rowPB As Long, ByRef rowEmpty As Long, ByRef rowAlt As Long)
++    Dim ct As Object, total As Long, vis As Long, pos As Long, lastPos As Long, mx As Long
++    Dim rr As Long, t As String, chg As Boolean, guard As Long
++    rowPB = -1: rowEmpty = -1: rowAlt = -1
++    Set ct = FindCtl(session, COND_TBL_ID)
++    On Error Resume Next
++    vis = ct.VisibleRowCount
++    total = ct.RowCount
++    mx = ct.VerticalScrollbar.Maximum
++    If total <= 0 Then total = vis
++    If ct.VerticalScrollbar.Position <> 0 Then
++        ct.VerticalScrollbar.Position = 0
++        WaitSap session
++    End If
++    Err.Clear
++    lastPos = -1
++    For guard = 1 To 30
++        Set ct = Nothing
++        Set ct = FindCtlSoft(session, COND_TBL_ID)
++        If ct Is Nothing Then Exit For
++        pos = ct.VerticalScrollbar.Position
++        If pos = lastPos Then Exit For
++        lastPos = pos
++        For rr = 0 To vis - 1
++            If pos + rr >= total And total > vis Then Exit For
++            t = ""
++            t = UCase(Trim(ct.GetCell(rr + 0, cK + 0).Text))
++            If t = "PBXX" And rowPB < 0 Then rowPB = pos + rr
++            If t = "" And rowEmpty < 0 Then
++                chg = False
++                chg = ct.GetCell(rr + 0, cK + 0).Changeable
++                If chg Then rowEmpty = pos + rr
++            End If
++            If rowAlt < 0 And (t = "PB00" Or t = "PR00" Or t = "P000" Or t = "PBXX") Then
++                chg = False
++                chg = ct.GetCell(rr + 0, cA + 0).Changeable
++                If chg Then rowAlt = pos + rr
++            End If
++        Next rr
++        If rowPB >= 0 And rowEmpty >= 0 Then Exit For
++        If pos + vis >= total Or pos >= mx Then Exit For
++        ct.VerticalScrollbar.Position = IIf(pos + vis > mx, mx, pos + vis)
++        WaitSap session
++    Next guard
++    Err.Clear
++    On Error GoTo 0
++End Sub
++
++' O (dong tuyet doi absRow, cot col) cua bang Conditions - tu cuon neu can
++Function CondCell(session As Object, ByVal absRow As Long, ByVal col As Long) As Object
++    Dim ct As Object, pos As Long, vis As Long, mx As Long, np As Long
++    Set ct = FindCtl(session, COND_TBL_ID)
++    vis = ct.VisibleRowCount
++    pos = ct.VerticalScrollbar.Position
++    If absRow < pos Or absRow > pos + vis - 1 Then
++        mx = ct.VerticalScrollbar.Maximum
++        np = absRow
++        If np > mx Then np = mx
++        If np < 0 Then np = 0
++        ct.VerticalScrollbar.Position = np
++        WaitSap session
++        Set ct = FindCtl(session, COND_TBL_ID)
++        pos = ct.VerticalScrollbar.Position
++    End If
++    If absRow - pos < 0 Or absRow - pos > vis - 1 Then
++        Err.Raise vbObjectError + 612, "CondCell", "Khong cuon duoc bang Conditions toi dong " & (absRow + 1)
++    End If
++    Set CondCell = ct.GetCell(absRow - pos + 0, col + 0)
++End Function
++
++Function SbarText(session As Object) As String
++    On Error Resume Next
++    SbarText = session.findById("wnd[0]/sbar").Text
++End Function
++
++' ==========================================================================
++' v23: XU LY HOP THOAI (POPUP) SAP
++' ==========================================================================
++' Cua so popup tren cung dang mo (wnd[1], wnd[2]...), Nothing neu khong co
++Function PopupWnd(session As Object) As Object
++    Dim k As Long, w As Object
++    On Error Resume Next
++    For k = 3 To 1 Step -1
++        Set w = Nothing
++        Set w = session.findById("wnd[" & k & "]")
++        Err.Clear
++        If Not w Is Nothing Then
++            Set PopupWnd = w
++            Exit Function
++        End If
++    Next k
++End Function
++
++' Gom noi dung chu + cac nut bam tren popup
++Sub CollectPopup(o As Object, ByRef txt As String, btns As Collection, ByVal depth As Long)
++    Dim i As Long, n As Long, ch As Object, tp As String, t As String
++    If depth > 10 Then Exit Sub
++    On Error Resume Next
++    n = -1
++    n = o.Children.Count
++    If n <= 0 Then Exit Sub
++    For i = 0 To n - 1
++        Set ch = Nothing
++        Set ch = ChildAt(o, i)
++        If Not ch Is Nothing Then
++            tp = "": t = ""
++            tp = SapType(ch)
++            t = Trim(ch.Text)
++            If tp = "GuiButton" Then
++                btns.Add ch
++            ElseIf t <> "" And (tp = "GuiLabel" Or tp = "GuiTextField" Or tp = "GuiCTextField" Or tp = "GuiTitlebar") Then
++                txt = txt & t & " "
++            End If
++            CollectPopup ch, txt, btns, depth + 1
++        End If
++    Next i
++End Sub
++
++Function PopupText(w As Object) As String
++    Dim txt As String, btns As New Collection
++    On Error Resume Next
++    txt = w.Text & ": "
++    CollectPopup w, txt, btns, 0
++    PopupText = Trim(txt)
++End Function
++
++Private Function HasWord(ByVal t As String, ByVal words As String) As Boolean
++    Dim a As Variant, i As Long
++    a = Split(words, "|")
++    For i = LBound(a) To UBound(a)
++        If InStr(1, t, " " & a(i) & " ", vbTextCompare) > 0 Then HasWord = True: Exit Function
++    Next i
++End Function
++
++' Cham diem nut: positive=True tim nut Save/Yes/Tiep tuc; False tim nut Cancel/No
++Function BtnScore(b As Object, ByVal positive As Boolean) As Long
++    Dim t As String, id As String, ch As Variant
++    On Error Resume Next
++    t = b.Text & " " & b.Tooltip
++    id = UCase(b.id)
++    On Error GoTo 0
++    For Each ch In Array("&", ".", ",", ":", "(", ")", "?", "!", "-", "/")
++        t = Replace(t, ch, " ")
++    Next ch
++    t = " " & LCase(Trim(t)) & " "
++    If positive Then
++        If HasWord(t, "no|cancel|khong|huy|edit|check|messages|message|log|hold|park|back|exit|print") Then Exit Function
++        If HasWord(t, "save|luu") Then BtnScore = 100: Exit Function
++        If HasWord(t, "yes|continue|ok|confirm|enter|tiep") Then BtnScore = 80: Exit Function
++        If InStr(id, "SPOP-OPTION1") > 0 Or InStr(id, "BUTTON_1") > 0 Then BtnScore = 60: Exit Function
++        If InStr(id, "TBAR[0]/BTN[0]") > 0 Then BtnScore = 40: Exit Function
++    Else
++        If HasWord(t, "cancel|huy|no|khong|back") Then BtnScore = 100: Exit Function
++        If InStr(id, "SPOP-OPTION_CAN") > 0 Then BtnScore = 90: Exit Function
++        If InStr(id, "SPOP-OPTION2") > 0 Or InStr(id, "BUTTON_2") > 0 Then BtnScore = 70: Exit Function
++        If InStr(id, "TBAR[0]/BTN[12]") > 0 Then BtnScore = 60: Exit Function
++    End If
++End Function
++
++' Bam nut phu hop tren popup w. Tra ve True neu da bam duoc.
++Function PressPopupButton(session As Object, w As Object, ByVal positive As Boolean) As Boolean
++    Dim btns As New Collection, txt As String, b As Object, best As Object, bestSc As Long, sc As Long
++    CollectPopup w, txt, btns, 0
++    For Each b In btns
++        sc = BtnScore(b, positive)
++        If sc > bestSc Then bestSc = sc: Set best = b
++    Next b
++    On Error Resume Next
++    If Not best Is Nothing Then
++        best.press
++    Else
++        w.sendVKey IIf(positive, 0, 12)     ' Enter = Tiep tuc / F12 = Huy
++    End If
++    PressPopupButton = (Err.Number = 0)
++    Err.Clear
++    On Error GoTo 0
++    WaitSap session
++End Function
++
++Sub ClosePopupCancel(session As Object)
++    Dim w As Object, k As Long
++    For k = 1 To 3
++        Set w = PopupWnd(session)
++        If w Is Nothing Then Exit Sub
++        PressPopupButton session, w, False
++    Next k
++End Sub
++
++' Nhu CheckPopup nhung dung cho PO: hop thoai THONG BAO (khong co nut No/Cancel,
++' chi co Tiep tuc) thi tu bam Tiep tuc va chay tiep; hop thoai hoi Yes/No thi dung lai.
++Sub CheckPopupPO(session As Object)
++    Dim k As Long, w As Object, txt As String, btns As Collection, b As Object, isQuestion As Boolean
++    WaitSap session
++    For k = 1 To 4
++        Set w = PopupWnd(session)
++        If w Is Nothing Then Exit Sub
++        txt = "": Set btns = New Collection
++        CollectPopup w, txt, btns, 0
++        isQuestion = False
++        For Each b In btns
++            If BtnScore(b, False) >= 70 Then isQuestion = True
++        Next b
++        If isQuestion Then Exit For
++        On Error Resume Next
++        w.sendVKey 0
++        Err.Clear
++        On Error GoTo 0
++        WaitSap session
++    Next k
+     CheckPopup session
+-    CheckSbarError session
+ End Sub
+ 
++' Hop thoai/Thong bao co noi PO dang co LOI (khong chi canh bao)?
++Function IsFaultyMsg(ByVal txt As String) As Boolean
++    Dim t As String
++    t = LCase(txt)
++    IsFaultyMsg = (InStr(t, "faulty") > 0 Or InStr(t, "error") > 0 Or InStr(t, "incorrect") > 0 Or _
++                   InStr(t, "incomplete") > 0 Or InStr(t, "khong hop le") > 0)
++End Function
++
++' --------------------------------------------------------------------------
++' v23: SAVE PO va tu xu ly hop thoai SAP hien ra truoc khi luu
++'  - Hop thoai CANH BAO (vd "co thong bao, ban co muon luu?") -> bam Save/Yes
++'  - Canh bao (chu vang) o thanh trang thai -> Enter roi bam Save lan nua
++'  - Hop thoai noi PO con dong LOI -> hoi ban (mac dinh No) truoc khi luu de
++'  - Tra ve So PO; khong luu duoc thi bao loi kem noi dung SAP
++' --------------------------------------------------------------------------
++Function SavePOWithPopups(session As Object, ByVal sup As String) As String
++    Dim k As Long, w As Object, txt As String, mt As String, st As String, nSave As Long, num As String, nIdle As Long
++    curStep = "bam Save PO"
++    session.findById("wnd[0]/tbar[0]/btn[11]").press
++    nSave = 1
++    For k = 1 To 15
++        WaitSap session
++        Set w = PopupWnd(session)
++        If Not w Is Nothing Then
++            txt = PopupText(w)
++            curStep = "xu ly hop thoai SAP khi Save (" & Left(txt, 150) & ")"
++            If IsFaultyMsg(txt) Then
++                On Error Resume Next
++                TramActivate
++                On Error GoTo 0
++                If Hoi("Khi Save PO " & sup & ", SAP bao:" & vbCrLf & vbCrLf & txt & vbCrLf & vbCrLf & _
++                          "PO van con dong LOI. Van LUU DE (Save) PO nay?" & vbCrLf & _
++                          "(No = huy Save, giu nguyen man hinh SAP de ban tu kiem tra)", _
++                          vbYesNo + vbExclamation + vbDefaultButton2, "CreatePO " & MACRO_VERSION) = vbNo Then
++                    PressPopupButton session, w, False
++                    Err.Raise vbObjectError + 620, "SavePO", "CHUA SAVE - ban chon khong luu khi SAP bao: " & txt
++                End If
++            End If
++            If Not PressPopupButton(session, w, True) Then
++                Err.Raise vbObjectError + 621, "SavePO", "Khong bam duoc nut Save/Yes tren hop thoai SAP: " & txt
++            End If
++        Else
++            st = "": mt = ""
++            On Error Resume Next
++            st = session.findById("wnd[0]/sbar").Text
++            mt = session.findById("wnd[0]/sbar").MessageType
++            On Error GoTo 0
++            If mt = "S" Then
++                num = ExtractDocNumber(st)
++                If num <> "" Then
++                    SavePOWithPopups = num
++                    Exit Function
++                End If
++            ElseIf mt = "E" Or mt = "A" Then
++                Err.Raise vbObjectError + 622, "SavePO", "SAP bao loi khi Save: " & st
++            ElseIf mt = "W" Or mt = "I" Then
++                ' canh bao o thanh trang thai -> xac nhan (Enter) roi Save lai
++                If nSave >= 4 Then
++                    Err.Raise vbObjectError + 623, "SavePO", "Da bam Save " & nSave & " lan, SAP van canh bao: " & st
++                End If
++                curStep = "xac nhan canh bao SAP khi Save (" & st & ")"
++                session.findById("wnd[0]").sendVKey 0
++                WaitSap session
++                If PopupWnd(session) Is Nothing Then
++                    session.findById("wnd[0]/tbar[0]/btn[11]").press
++                    nSave = nSave + 1
++                End If
++            Else
++                nIdle = nIdle + 1
++                If nIdle > 5 Then Exit For
++                Application.Wait Now + TimeSerial(0, 0, 1)
++            End If
++        End If
++    Next k
++    Err.Raise vbObjectError + 624, "SavePO", "Da bam Save nhung chua nhan duoc So PO. Thanh trang thai SAP: " & st
++End Function
++
++' Ban tong quat cua SavePOWithPopups, dung cho ca PR (v24-auto2)
++Function SaveDocWithPopups(session As Object, ByVal nhan As String, Optional ByVal choKhongDoi As Boolean = False) As String
++    Dim k As Long, w As Object, txt As String, mt As String, st As String, nSave As Long, num As String, nIdle As Long
++    curStep = "bam Save " & nhan
++    session.findById("wnd[0]/tbar[0]/btn[11]").press
++    nSave = 1
++    For k = 1 To 15
++        WaitSap session
++        Set w = PopupWnd(session)
++        If Not w Is Nothing Then
++            txt = PopupText(w)
++            curStep = "xu ly hop thoai SAP khi Save (" & Left(txt, 150) & ")"
++            If IsFaultyMsg(txt) Then
++                On Error Resume Next
++                TramActivate
++                On Error GoTo 0
++                If Hoi("Khi Save " & nhan & ", SAP bao:" & vbCrLf & vbCrLf & txt & vbCrLf & vbCrLf & _
++                          nhan & " van con dong LOI. Van LUU DE (Save)?" & vbCrLf & _
++                          "(No = huy Save, giu nguyen man hinh SAP de ban tu kiem tra)", _
++                          vbYesNo + vbExclamation + vbDefaultButton2, "Save " & nhan & " " & MACRO_VERSION) = vbNo Then
++                    PressPopupButton session, w, False
++                    Err.Raise vbObjectError + 620, "Save" & nhan, "CHUA SAVE - ban chon khong luu khi SAP bao: " & txt
++                End If
++            End If
++            If Not PressPopupButton(session, w, True) Then
++                Err.Raise vbObjectError + 621, "Save" & nhan, "Khong bam duoc nut Save/Yes tren hop thoai SAP: " & txt
++            End If
++        Else
++            st = "": mt = ""
++            On Error Resume Next
++            st = session.findById("wnd[0]/sbar").Text
++            mt = session.findById("wnd[0]/sbar").MessageType
++            On Error GoTo 0
++            If mt = "S" Then
++                num = ExtractDocNumber(st)
++                If num <> "" Then
++                    SaveDocWithPopups = num
++                    Exit Function
++                End If
++                ' ME22N: SAP bao "No data was changed" (khong co gi de luu) = du lieu tren SAP da dung
++                If choKhongDoi And (InStr(1, st, "no data", vbTextCompare) > 0 Or InStr(1, st, "not changed", vbTextCompare) > 0) Then
++                    SaveDocWithPopups = "(KHONG DOI)"
++                    Exit Function
++                End If
++            ElseIf mt = "E" Or mt = "A" Then
++                Err.Raise vbObjectError + 622, "Save" & nhan, "SAP bao loi khi Save: " & st
++            ElseIf mt = "W" Or mt = "I" Then
++                ' canh bao o thanh trang thai -> xac nhan (Enter) roi Save lai
++                If nSave >= 4 Then
++                    Err.Raise vbObjectError + 623, "Save" & nhan, "Da bam Save " & nSave & " lan, SAP van canh bao: " & st
++                End If
++                curStep = "xac nhan canh bao SAP khi Save (" & st & ")"
++                session.findById("wnd[0]").sendVKey 0
++                WaitSap session
++                If PopupWnd(session) Is Nothing Then
++                    session.findById("wnd[0]/tbar[0]/btn[11]").press
++                    nSave = nSave + 1
++                End If
++            Else
++                nIdle = nIdle + 1
++                If nIdle > 5 Then Exit For
++                Application.Wait Now + TimeSerial(0, 0, 1)
++            End If
++        End If
++    Next k
++    Err.Raise vbObjectError + 624, "Save" & nhan, "Da bam Save nhung chua nhan duoc so " & nhan & ". Thanh trang thai SAP: " & st
++End Function
++
+ ' True neu thanh trang thai SAP dang bao loi (loai E/A)
+ Function SbarIsError(session As Object) As Boolean
+     Dim mt As String
+@@ -2050,14 +2578,14 @@
+ End Sub
+ 
+ ' Tim chi so cot cua bang (table control) theo ten truong, vd "MEPO1211-BANFN". -1 neu khong co.
+-Function TblColIndex(tbl As Object, ByVal fieldName As String) As Long
++Function TblColIndex(TBL As Object, ByVal fieldName As String) As Long
+     Dim c As Long, n As Long, nm As String
+     TblColIndex = -1
+     On Error Resume Next
+-    n = tbl.Columns.Count
++    n = TBL.Columns.Count
+     For c = 0 To n - 1
+         nm = ""
+-        nm = tbl.GetCell(0, c + 0).Name
++        nm = TBL.GetCell(0, c + 0).Name
+         If UCase(nm) = UCase(fieldName) Then
+             TblColIndex = c
+             Exit Function
+@@ -2298,7 +2826,7 @@
+ ' Tra ve so dong da xu ly.
+ ' --------------------------------------------------------------------------
+ Function EnterMIGO(session As Object, ByVal soPO As String, ByVal txt As String, ByVal nExpected As Long) As Long
+-    Dim c As Object, tbl As Object, cOK As Long, cTxt As Long, nRows As Long, i As Long, cel As Object
++    Dim c As Object, TBL As Object, cOK As Long, cTxt As Long, nRows As Long, i As Long, cel As Object
+ 
+     curStep = "mo MIGO"
+     SapCuaSo session
+@@ -2334,15 +2862,15 @@
+     On Error GoTo 0
+ 
+     curStep = "tim cot OK / Text tren bang dong MIGO"
+-    Set tbl = FindCtlSoft(session, MIGO_TBL_ID)
++    Set TBL = FindCtlSoft(session, MIGO_TBL_ID)
+     nRows = 0
+     cOK = -1: cTxt = -1
+-    If Not tbl Is Nothing Then
++    If Not TBL Is Nothing Then
+         On Error Resume Next
+-        nRows = tbl.RowCount
++        nRows = TBL.RowCount
+         On Error GoTo 0
+-        cOK = TblColIndex(tbl, "GOITEM-TAKE_IT")
+-        cTxt = TblColIndex(tbl, "GOITEM-SGTXT")
++        cOK = TblColIndex(TBL, "GOITEM-TAKE_IT")
++        cTxt = TblColIndex(TBL, "GOITEM-SGTXT")
+     End If
+ 
+     ' Khong con dong nao de nhan (bang trong / SAP bao loi) -> coi la DA NHAP KHO, ghi chu lai, bo qua
+@@ -2352,7 +2880,7 @@
+     lt = LCase(sbT)
+     noItemMsg = (InStr(lt, "selectable") > 0 Or InStr(lt, "does not contain") > 0 Or InStr(lt, "no items") > 0 _
+                  Or InStr(lt, "kh" & ChrW(244) & "ng ch" & ChrW(7913) & "a") > 0 Or InStr(lt, "kh" & ChrW(244) & "ng c" & ChrW(243)) > 0)
+-    If tbl Is Nothing Or nRows = 0 Or noItemMsg Or (cOK < 0 And cTxt < 0) Then
++    If TBL Is Nothing Or nRows = 0 Or noItemMsg Or (cOK < 0 And cTxt < 0) Then
+         gMigoNote = "PO khong con dong nao de nhap kho (da MIGO truoc do?)" & IIf(sbT <> "", " | SAP bao: " & sbT, "")
+         EnterMIGO = -1
+         Exit Function
+@@ -2386,33 +2914,33 @@
+ 
+ ' Lay o (dong idx, cot col) cua bang dong MIGO, cuon neu can
+ Function MigoRowCell(session As Object, ByVal idx As Long, ByVal col As Long) As Object
+-    Dim tbl As Object, vis As Long, pos As Long, mx As Long, newPos As Long, tries As Long
+-    Set tbl = FindCtl(session, MIGO_TBL_ID)
+-    vis = tbl.VisibleRowCount
+-    pos = tbl.VerticalScrollbar.Position
++    Dim TBL As Object, vis As Long, pos As Long, mx As Long, newPos As Long, tries As Long
++    Set TBL = FindCtl(session, MIGO_TBL_ID)
++    vis = TBL.VisibleRowCount
++    pos = TBL.VerticalScrollbar.Position
+     For tries = 1 To 4
+         If idx >= pos And idx <= pos + vis - 1 Then Exit For
+-        mx = tbl.VerticalScrollbar.Maximum
++        mx = TBL.VerticalScrollbar.Maximum
+         If idx < pos Then newPos = idx Else newPos = idx - vis + 1
+         If newPos > mx Then newPos = mx
+         If newPos < 0 Then newPos = 0
+         If tries <= 2 Then
+-            tbl.VerticalScrollbar.Position = newPos
++            TBL.VerticalScrollbar.Position = newPos
+         Else
+             On Error Resume Next
+-            tbl.GetCell(IIf(idx < pos, 0, vis - 1) + 0, col + 0).SetFocus
++            TBL.GetCell(IIf(idx < pos, 0, vis - 1) + 0, col + 0).SetFocus
+             On Error GoTo 0
+             session.findById("wnd[0]").sendVKey IIf(idx < pos, 81, 82)
+         End If
+         WaitSap session
+-        Set tbl = FindCtl(session, MIGO_TBL_ID)
+-        vis = tbl.VisibleRowCount
+-        pos = tbl.VerticalScrollbar.Position
++        Set TBL = FindCtl(session, MIGO_TBL_ID)
++        vis = TBL.VisibleRowCount
++        pos = TBL.VerticalScrollbar.Position
+     Next tries
+     If idx - pos < 0 Or idx - pos > vis - 1 Then
+         Err.Raise vbObjectError + 703, "MigoRowCell", "Khong cuon bang dong MIGO toi dong " & (idx + 1)
+     End If
+-    Set MigoRowCell = tbl.GetCell(idx - pos + 0, col + 0)
++    Set MigoRowCell = TBL.GetCell(idx - pos + 0, col + 0)
+ End Function
+ 
+ 
+@@ -2756,11 +3284,15 @@
+         Next r
+         Exit Sub
+     End If
+-    curStep = "bam Save"
+-    session.findById("wnd[0]/tbar[0]/btn[11]").press
+-    CheckPopup session
++    ' v23.1-Tram-gl.2: Save qua SaveDocWithPopups (xu ly popup + canh bao W nhu PR/PO).
++    ' Chi ghi DA LUU khi thanh trang thai la S va co dung so PO (hoac "No data was changed");
++    ' truoc day ghi DA LUU ca khi SAP chi canh bao (W) va PO chua duoc luu.
++    Dim soLuu As String
++    soLuu = SaveDocWithPopups(session, "PO " & soPO, True)
+     msg = session.findById("wnd[0]/sbar").Text
+-    CheckSbarError session
++    If soLuu <> soPO And soLuu <> "(KHONG DOI)" Then
++        Err.Raise vbObjectError + 910, "SuaPO", "Save xong nhung SAP khong bao da luu PO " & soPO & " (thanh trang thai: " & msg & ")"
++    End If
+     POSuaStatus ws, lastR, "DA LUU: " & msg
+     Exit Sub
+ 
+@@ -2874,6 +3406,11 @@
+ Function TramDamBaoPhien(ByVal n As Long, ByVal anSap As Boolean) As Long
+     Dim eng As Object, conn As Object, t As Single, k As Long, c As Long
+     On Error Resume Next
++    ' SAP gia lap dang BAT: coi nhu da co du n cua so
++    k = 0
++    k = Application.Run("SapGiaLap_DamBaoPhien", n, anSap)
++    Err.Clear
++    If k > 0 Then TramDamBaoPhien = k: Exit Function
+     Set eng = GetObject("SAPGUI").GetScriptingEngine
+     If eng Is Nothing Then Exit Function
+     If eng.Children.Count = 0 Then Exit Function

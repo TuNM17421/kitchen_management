@@ -1,0 +1,308 @@
+{
+ "NCC MẪU 02": {
+  "email": [
+   "ncc02@example.com"
+  ],
+  "tel": "Liên hệ 4373004820",
+  "mancc": "2900008",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 03": {
+  "email": [
+   "ncc03@example.com"
+  ],
+  "tel": "Liên hệ 2469667754",
+  "mancc": "2900021",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 04": {
+  "email": [
+   "ncc04@example.com"
+  ],
+  "tel": "Liên hệ 5148247615",
+  "mancc": "2900024",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 35": {
+  "email": [
+   "ncc35@example.com"
+  ],
+  "tel": "Liên hệ 3270902444",
+  "mancc": "2900028",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 06": {
+  "email": [
+   "ncc06@example.com"
+  ],
+  "tel": "Liên hệ 6691105590",
+  "mancc": "2900016",
+  "ck": 15,
+  "note": "Tên gọi khác: HTX Hữu cơ NCC MẪU 06; Hữu cơ NCC MẪU 06"
+ },
+ "NCC MẪU 36": {
+  "email": [
+   "ncc36@example.com"
+  ],
+  "tel": "Liên hệ 0221749317",
+  "mancc": "2900011",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 12": {
+  "email": [
+   "ncc12@example.com"
+  ],
+  "tel": "Liên hệ 4365971533",
+  "mancc": "2900030",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng | Gộp từ mã 2000009 (giá khung đồ khô) ngày 1"
+ },
+ "NCC MẪU 09": {
+  "email": [
+   "ncc09@example.com"
+  ],
+  "tel": "Liên hệ 8235991963",
+  "mancc": "2900020",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 10": {
+  "email": [
+   "ncc10@example.com"
+  ],
+  "tel": "Liên hệ 7671174409",
+  "mancc": "2900019",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 11": {
+  "email": [
+   "ncc11@example.com"
+  ],
+  "tel": "Liên hệ 0335117849",
+  "mancc": "2900015",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 13": {
+  "email": [
+   "ncc13@example.com"
+  ],
+  "tel": "Liên hệ 7689391837",
+  "mancc": "2900004",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 14": {
+  "email": [
+   "ncc14@example.com"
+  ],
+  "tel": "Liên hệ 3009457506",
+  "mancc": "2900002",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 16": {
+  "email": [
+   "ncc16@example.com"
+  ],
+  "tel": "Liên hệ 7131950159",
+  "mancc": "2900031",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 15": {
+  "email": [
+   "ncc15@example.com"
+  ],
+  "tel": "Liên hệ 1064235546",
+  "mancc": "2900026",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 18": {
+  "email": [
+   "ncc18@example.com"
+  ],
+  "tel": "Liên hệ 6576980805",
+  "mancc": "2900013",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 19": {
+  "email": [
+   "ncc19@example.com"
+  ],
+  "tel": "Liên hệ 5386748949",
+  "mancc": "2900027",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 21": {
+  "email": [
+   "ncc21@example.com"
+  ],
+  "tel": "Liên hệ 1300933915",
+  "mancc": "2900018",
+  "ck": 15,
+  "note": "Giá khung ghi tên 'MẦM XANH' — cùng mã NCC 2900018 | Tên gọi khác: MẦM XANH"
+ },
+ "NCC MẪU 22": {
+  "email": [
+   "ncc22@example.com"
+  ],
+  "tel": "Liên hệ 8043832823",
+  "mancc": "2900022",
+  "ck": 15,
+  "note": "Giá khung ghi tên 'T VÀ P' — cùng mã NCC 2900022 | Tên gọi khác: T VÀ P"
+ },
+ "NCC MẪU 26": {
+  "email": [
+   "ncc26@example.com"
+  ],
+  "tel": "Liên hệ 9307469646",
+  "mancc": "2900014",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 23": {
+  "email": [
+   "ncc23@example.com"
+  ],
+  "tel": "Liên hệ 3574493471",
+  "mancc": "2900005",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 24": {
+  "email": [
+   "ncc24@example.com"
+  ],
+  "tel": "Liên hệ 8946590880",
+  "mancc": "2900023",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 27": {
+  "email": [
+   "ncc27@example.com"
+  ],
+  "tel": "Liên hệ 3038269652",
+  "mancc": "2900025",
+  "ck": 15,
+  "note": "Tên gọi khác: TP Cao cấp"
+ },
+ "NCC MẪU 28": {
+  "email": [
+   "ncc28@example.com"
+  ],
+  "tel": "Liên hệ 4267681070",
+  "mancc": "2900029",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 17": {
+  "email": [
+   "ncc17@example.com"
+  ],
+  "tel": "Liên hệ 7550598971",
+  "mancc": "2900035",
+  "ck": 15,
+  "note": ""
+ },
+ "NCC MẪU 05": {
+  "email": [
+   "ncc05@example.com"
+  ],
+  "tel": "",
+  "mancc": "2900032",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 32": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900001",
+  "ck": 0,
+  "note": "Nhà cung cấp này không cần báo công nợ"
+ },
+ "NCC MẪU 07": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900003",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 01": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900006",
+  "ck": 0,
+  "note": "Nhà cung cấp này không cần báo công nợ"
+ },
+ "NCC MẪU 30": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900007",
+  "ck": 0,
+  "note": "Nhà cung cấp này không cần báo công nợ"
+ },
+ "NCC MẪU 31": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900009",
+  "ck": 0,
+  "note": "Nhà cung cấp này không cần báo công nợ"
+ },
+ "NCC MẪU 33": {
+  "email": [
+   "ncc33@example.com"
+  ],
+  "tel": "",
+  "mancc": "2900010",
+  "ck": 30,
+  "note": "Chỉ báo công nợ ngày 30 hàng tháng"
+ },
+ "NCC MẪU 34": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900012",
+  "ck": 0,
+  "note": "Nhà cung cấp này không cần báo công nợ"
+ },
+ "NCC MẪU 29": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900017",
+  "ck": 0,
+  "note": "Nhà cung cấp này không cần báo công nợ"
+ },
+ "NCC MẪU 08": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900034",
+  "ck": 0,
+  "note": "Nhà cung cấp này không cần báo công nợ"
+ },
+ "NCC MẪU 20": {
+  "email": [],
+  "tel": "",
+  "mancc": "2900036",
+  "ck": 15,
+  "note": "Mã NCC tạm 2900036 (chưa có mã thật); chưa có email/SĐT — điền để báo công nợ"
+ },
+ "NCC MẪU 25": {
+  "email": [
+   "ncc25@example.com"
+  ],
+  "tel": "",
+  "mancc": "2900033",
+  "ck": 15,
+  "note": ""
+ }
+}

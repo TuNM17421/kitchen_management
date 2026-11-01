@@ -1,0 +1,93 @@
+﻿HƯỚNG DẪN CÀI TRẠM SAP – QUY TRÌNH PR TRƯỚC
+(30/10/2026)
+
+Mục đích: bấm nút trên giao diện "Điều hành PR trước" là máy công ty tự chạy SAP, số chứng từ tự ghi về:
+  - 2.2 "Tạo PR trên SAP"        → CreatePR (ME51N)
+  - 3.2 "Tạo trên SAP"           → CreatePO (ME21N)
+  - 3.4 "Cập nhật trên SAP"      → sửa PO (ME22N): đổi số lượng dòng có sẵn, thêm dòng PR bổ sung
+  - 7.1 "Nhập kho trên SAP"      → MIGO cuối kỳ (1 chứng từ mỗi PO mỗi kỳ)
+  - 8.2 "Tạo file ĐNTT"          → TaoDNTT: file ĐNTT + PDF ở C:\TramSAP\DNTT_xuat, tự chép lên XuatSAP
+
+Cách chạy: Giao diện ghi lệnh vào sheet "lenh" của PRTruoc_DuLieu → cổng Google (Apps Script)
+→ TramSAP.ps1 trên máy SAP hỏi lệnh mỗi 15 giây → mở Template_PR_Tram.xlsm, điền CongNo,
+chạy macro v23-Tram (không hiện hộp thoại) → gửi số chứng từ + nhật ký macro về.
+
+CHẾ ĐỘ LƯU (mỗi loại riêng, đổi bằng nút trong ô "Trạm SAP" của từng bước):
+  - Tạo PR / tạo PO: LƯU THẬT (theo yêu cầu ngày 30/10/2026).
+  - Sửa PO (ME22N) và MIGO: mặc định KHÔNG LƯU (chạy thử) vì macro mới, chưa chạy trên SAP thật.
+    Chạy thử 1 lần thấy màn hình SAP điền đúng → bấm "Chuyển sang lưu thật".
+Khi lưu thật, macro chỉ tự Save/Post khi số lượng, giá trên SAP khớp tuyệt đối dữ liệu gửi đi
+(MIGO: đã tích đủ mọi dòng); lệch → không lưu, báo lỗi về giao diện.
+
+------------------------------------------------------------------
+BƯỚC 1 – CỔNG GOOGLE (làm 1 lần, trên máy nào cũng được)
+------------------------------------------------------------------
+1. Mở file PRTruoc_DuLieu (Google Sheets) trong thư mục dự án.
+2. Menu Tiện ích mở rộng → Apps Script.
+3. Xóa hết nội dung Code.gs, dán toàn bộ nội dung file TramSAP_API.gs (cùng thư mục này). Bấm Lưu.
+4. Bấm Triển khai → Tùy chọn triển khai mới → bánh răng chọn "Ứng dụng web":
+     - Thực thi với tư cách: Tôi
+     - Người có quyền truy cập: Bất kỳ ai
+   → Triển khai → cho phép quyền truy cập (chọn tài khoản, Nâng cao → Đi tới… nếu Google cảnh báo).
+5. Chép "URL ứng dụng web" (kết thúc bằng /exec).
+   Ai không có TOKEN thì gọi URL này cũng bị từ chối.
+
+------------------------------------------------------------------
+BƯỚC 2 – MÁY SAP
+------------------------------------------------------------------
+1. Tạo thư mục C:\TramSAP và chép vào đó TOÀN BỘ file trong scripts\TramSAP (trừ TramSAP_API.gs và file hướng dẫn):
+     TramSAP.ps1, TramSAP.config.json, ChayTramSAP.bat,
+     SAP_Automation_v23_Tram.bas, MIGO_TungPhan_v2_Tram.bas, DNTT_Automation_v6_Tram.bas,
+     DNTT.xlsx, DNTT-CCDC.xlsx (file mẫu ĐNTT, chép từ bản dự án cũ – macro chỉ mở chỉ đọc)
+2. Chép file Template_PR_v3.xlsm đang dùng thành C:\TramSAP\Template_PR_Tram.xlsm
+   (bản riêng cho trạm – KHÔNG dùng chung file đang làm hằng ngày, vì trạm xóa CongNo mỗi lần chạy).
+3. Mở Template_PR_Tram.xlsm → Alt+F11 → chuột phải module SAP_Automation → Remove (No khi hỏi xuất)
+   → File → Import File → chọn SAP_Automation_v23_Tram.bas.
+   Nếu đã có module MIGO_TungPhan thì Remove nó; rồi Import File → MIGO_TungPhan_v2_Tram.bas.
+   Nếu đã có module DNTT_Automation thì Remove nó; rồi Import File → DNTT_Automation_v6_Tram.bas → Ctrl+S → đóng Excel.
+   (Trạm tự sửa sheet DNTT_CauHinh của file trạm để lấy file mẫu và thư mục xuất trong C:\TramSAP,
+    không đọc/ghi gì vào thư mục dự án cũ.)
+   Kiểm tra: Alt+F8 → PhienBan → phải hiện "v23-Tram (30/10/2026)".
+4. Mở TramSAP.config.json bằng Notepad, dán URL /exec vào "url" (giữ nguyên dấu ngoặc kép), lưu.
+   Nếu để file Excel ở chỗ khác thì sửa "fileExcel" (dùng \\ thay cho \).
+5. Mở SAP Logon, ĐĂNG NHẬP. Cửa sổ SAP đầu tiên sẽ do trạm điều khiển.
+6. Nháy đúp ChayTramSAP.bat. Cửa sổ đen hiện "Ket noi cong Google: OK. Dang cho lenh..." là xong.
+   Trên giao diện, ô "Trạm SAP" ở thanh trên chuyển xanh "trực tuyến".
+
+------------------------------------------------------------------
+KHI DÙNG
+------------------------------------------------------------------
+- Giữ máy SAP bật, SAP đăng nhập, cửa sổ ChayTramSAP.bat mở. Không thao tác trên cửa sổ SAP đầu tiên
+  khi trạm đang chạy lệnh (trạm sẽ gõ /n vào cửa sổ đó). Muốn làm việc SAP khác: mở cửa sổ SAP thứ hai.
+- SAP tự đăng xuất khi để lâu không dùng → lệnh báo lỗi "chua dang nhap"; đăng nhập lại rồi gửi lại lệnh.
+- PR: bước 2.2 chọn đợt (có thể "Tách 1 NCC thành đợt riêng" để thử với 1 NCC) → Tạo PR trên SAP.
+  Số PR về bước 2.3. Sau khi PR được duyệt trên SAP, bấm "Đã duyệt" ở 2.3.
+- PO: bước 3.1 lập danh sách PO → bước 3.2 bấm "Tạo trên SAP" từng NCC (chỉ khi mọi PR nguồn đã duyệt).
+- Sửa PO: sau khi chỉnh SL (3.3, 6.1) hoặc gắn PR bổ sung (6.2), PO hiện "cần sửa ME22N" → bước 3.4 bấm
+  "Cập nhật trên SAP". Bảng item ME22N phải hiện các cột Item, Material, PO Quantity, Net Price,
+  Purch.Req., Item of requisition (giống ME21N).
+- MIGO: bước 7.1 lập chứng từ MIGO → chọn → "Nhập kho trên SAP". PO phải đã cập nhật SAP xong.
+- ĐNTT: bước 8.2 lập ĐNTT → chọn → "Tạo file ĐNTT". Link PDF / Excel hiện trong bảng 8.2 và 8.3.
+- Mỗi lệnh lưu bản Excel kết quả ở C:\TramSAP\KetQua\<mã lệnh>.xlsm; nhật ký ở C:\TramSAP\TramSAP_log.txt.
+- Nếu SAP hiện hộp thoại lạ (popup), macro dừng và báo lỗi; màn hình SAP giữ nguyên để kiểm tra.
+- Dừng trạm: đóng cửa sổ ChayTramSAP.bat.
+
+LỖI THƯỜNG GẶP
+- "Sai token": TOKEN trong TramSAP.config.json khác TramSAP_API.gs → chép lại cho giống.
+- "Khong ket noi duoc cong Google": máy không ra Internet / proxy chặn script.google.com → hỏi IT mở.
+- "File Excel chua co macro v23-Tram": làm lại bước 2.3.
+- PowerShell báo không cho chạy script: dùng ChayTramSAP.bat (đã có -ExecutionPolicy Bypass);
+  nếu vẫn bị chặn do chính sách công ty → hỏi IT.
+
+------------------------------------------------------------------
+CẬP NHẬT 31/10/2026 – CHẠY NGẦM + 2 CỬA SỔ SAP SONG SONG
+------------------------------------------------------------------
+- Excel của trạm luôn chạy ẩn; cửa sổ SAP trạm dùng được thu nhỏ khi chạy (không chiếm màn hình).
+  Cửa sổ trạm (ChayTramSAP.bat) mở thu nhỏ dưới thanh tác vụ – mở lên để xem nhật ký, đóng để dừng trạm.
+- PR có nhiều nhóm (PR-T11-NV be1, PR-T11-BN be2…) được nhập SONG SONG: mỗi nhóm 1 cửa sổ SAP + 1 Excel ẩn riêng.
+  Trạm tự mở thêm cửa sổ SAP (session) nếu chưa đủ. Bản Excel của từng nhóm lưu ở KetQua\<mã lệnh>_1.xlsm, _2.xlsm.
+- Tuỳ chọn trong TramSAP.config.json (không có thì dùng mặc định):
+    "soPhienSAP": 2       (1 = nhập lần lượt như cũ)
+    "anCuaSoSAP": true    (false = giữ nguyên cửa sổ SAP, dùng khi SAP báo lỗi không cuộn được bảng lúc thu nhỏ)
+- Cần import lại 2 module: SAP_Automation_v23_Tram.bas và MIGO_TungPhan_v2_Tram.bas (bản 31/10), chép TramSAP.ps1 và ChayTramSAP.bat mới.
+- Không thao tác trên các cửa sổ SAP đang thu nhỏ của trạm khi trạm đang chạy lệnh.

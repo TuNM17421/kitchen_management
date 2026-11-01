@@ -1,0 +1,294 @@
+
+=== 1 PR / ket qua
+    [1000000001.0, 'Purchase requisition number 1000000001 created', 'NCC A', 'PR-T11-NV', '10']
+    [1000000001.0, 'Purchase requisition number 1000000001 created', 'NCC A', 'PR-T11-NV', '20']
+    [1000000001.0, 'Purchase requisition number 1000000001 created', 'NCC B', 'PR-T11-NV', '30']
+    [1000000001.0, 'Purchase requisition number 1000000001 created', 'NCC B', 'PR-T11-NV', '40']
+     hang. | Da kiem tra lai Account Assignment (K + Cost center + Fund) cho ca 4 mat hang: deu dung. | Hay kiem tra lai tren man hinh SAP (Alt+Tab) truoc khi tra loi. |  | Ban co muon LUU (Save) PR nay khong?  => Yes
+[CreatePR] Xong. PR tao thanh cong: 1 / 1 | (Dau thap phan SAP dang dung: ',')  => OK
+
+
+=== 1 PR / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+
+=== 2 PO / ket qua
+    ['NCC A', '2000001', 2.0, '1000000001', 1160000.0, 1160000.0, 0.0, 'DA TAO PO - KHOP CONGNO', '4500000001', 1160000.0]
+    ['NCC B', '2000002', 2.0, '1000000001', 300000.0, 300000.0, 0.0, 'DA TAO PO - KHOP CONGNO', '4500000002', 300000.0]
+    , tong 1,160,000 | Gia + SL BANG TUYET DOI sheet CongNo (ma hang, so luong, don gia). |  | Luu (Save) PO nay?  => Yes
+[CreatePO v23.1-Tram-gl.2 (31/10/2026)] PO cho NCC B: 2 dong, tong 300,000 | Gia + SL BANG TUYET DOI sheet CongNo (ma hang, so luong, don gia). |  | Luu (Save) PO nay?  => Yes
+[CreatePO v23.1-Tram-gl.2 (31/10/2026)] Da xu ly xong tao PO. Kiem tra cot SoPO / Status sheet PO.  => OK
+
+
+=== 2 PO / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 10.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', '']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000002', '10', 'VT003', 3.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', '']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+PO A 4500000001 PO B 4500000002
+
+=== 3 PR bo sung / ket qua
+    [1000000002.0, 'Purchase requisition number 1000000002 created', 'NCC A', 'PR-T11-BS', '10']
+     hang. | Da kiem tra lai Account Assignment (K + Cost center + Fund) cho ca 1 mat hang: deu dung. | Hay kiem tra lai tren man hinh SAP (Alt+Tab) truoc khi tra loi. |  | Ban co muon LUU (Save) PR nay khong?  => Yes
+[CreatePR] Xong. PR tao thanh cong: 1 / 1 | (Dau thap phan SAP dang dung: ',')  => OK
+
+
+=== 3 PR bo sung / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 10.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', '']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000002', '10', 'VT003', 3.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', '']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+
+=== 4a ME22N khong luu / ket qua
+    ['4500000001', 'SUA', '10', '', '', 'VT001', 12.0, 50000.0, 'Hang 1', 'DA DIEN, CHUA LUU', '']
+    ['4500000001', 'THEM', '', '1000000002', '10', 'VT005', 4.0, 25000.0, 'Hang 5', 'DA DIEN, CHUA LUU', '30']
+    [SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000001: 2 dong. Bat dau nhap vao SAP?  => Yes
+[SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000001: 2 dong. | SL va gia BANG TUYET DOI du lieu gui di. |  | Luu (Save) PO nay?  => No
+
+
+=== 4a ME22N khong luu / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 10.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', '']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000002', '10', 'VT003', 3.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', '']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+
+=== 4b ME22N luu that + mo o che do hien thi / ket qua
+    ['4500000001', 'SUA', '10', '', '', 'VT001', 12.0, 50000.0, 'Hang 1', 'DA LUU: Expense PO 4500000001 changed', '']
+    ['4500000001', 'THEM', '', '1000000002', '10', 'VT005', 4.0, 25000.0, 'Hang 5', 'DA LUU: Expense PO 4500000001 changed', '30']
+    [SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000001: 2 dong. Bat dau nhap vao SAP?  => Yes
+[SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000001: 2 dong. | SL va gia BANG TUYET DOI du lieu gui di. |  | Luu (Save) PO nay?  => Yes
+
+
+=== 4b ME22N luu that + mo o che do hien thi / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000002', '10', 'VT003', 3.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', '']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 0.0, '', 'ME22N them dong']
+ME22N | Kich ban |  | Dong 33: MO_PO / XEM / PO mo o che do hien thi (macro phai bam Ctrl+F1 de sua) | 
+ME22N | Mo PO (hien thi) | 4500000001 | 2 dong | 
+ME22N | sendVKey 25 | wnd[0] | Ctrl+F1 Display <-> Change | 
+ME22N | Doi che do | 4500000001 | sua | 
+ME22N | Kich ban |  | Dong 33: MO_PO / XEM / PO mo o che do hien thi (macro phai bam Ctrl+F1 de sua) | 
+ME22N | Mo PO (hien thi) | 4500000001 | 3 dong | 
+ME22N | SAP bao [S] | wnd[0]/sbar | Expense PO 4500000001 changed | 
+
+=== 4c ME22N PO bi khoa / ket qua
+    ['4500000002', 'SUA', '10', '', '', 'VT003', 4.0, 80000.0, 'Hang 3', 'LOI buoc [chon PO khac (Shift+F5) 4500000002]: SAP bao loi: Purchase order is currently being processed by user GIALAP2 | SAP: Purchase order is currently being processed by user GIALAP2', '']
+    [SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000002: 1 dong. Bat dau nhap vao SAP?  => Yes
+[SuaPO v23.1-Tram-gl.2 (31/10/2026)] LOI buoc [chon PO khac (Shift+F5) 4500000002]: SAP bao loi: Purchase order is currently being processed by user GIALAP2 | SAP: Purchase order is currently being processed by user GIALAP2 | Man hinh SAP giu nguyen.  => OK
+
+
+=== 4c ME22N PO bi khoa / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000002', '10', 'VT003', 3.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', '']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 0.0, '', 'ME22N them dong']
+
+=== 4d ME22N canh bao W khi Save / ket qua
+    ['4500000002', 'SUA', '10', '', '', 'VT003', 4.0, 80000.0, 'Hang 3', 'DA LUU: Expense PO 4500000002 changed', '']
+    [SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000002: 1 dong. Bat dau nhap vao SAP?  => Yes
+[SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000002: 1 dong. | SL va gia BANG TUYET DOI du lieu gui di. |  | Luu (Save) PO nay?  => Yes
+
+
+=== 4d ME22N canh bao W khi Save / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000002', '10', 'VT003', 4.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 0.0, '', 'ME22N them dong']
+
+=== 4e ME22N loi E khi Save / ket qua
+    ['4500000002', 'SUA', '10', '', '', 'VT003', 3.0, 80000.0, 'Hang 3', 'LOI buoc [bam Save PO 4500000002]: SAP bao loi khi Save: Enter G/L account for item 00010 | SAP: Enter G/L account for item 00010', '']
+    [SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000002: 1 dong. Bat dau nhap vao SAP?  => Yes
+[SuaPO v23.1-Tram-gl.2 (31/10/2026)] Sua PO 4500000002: 1 dong. | SL va gia BANG TUYET DOI du lieu gui di. |  | Luu (Save) PO nay?  => Yes
+[SuaPO v23.1-Tram-gl.2 (31/10/2026)] LOI buoc [bam Save PO 4500000002]: SAP bao loi khi Save: Enter G/L account for item 00010 | SAP: Enter G/L account for item 00010 | Man hinh SAP giu nguyen.  => OK
+
+
+=== 4e ME22N loi E khi Save / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 0.0, '', 'ME22N them dong']
+    ['PO', '4500000002', '10', 'VT003', 4.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+
+=== 5a MIGO khong luu / ket qua
+    ['P01', '4500000001', '25.10.2026', '10', 'VT001', 4.0, 'Nhan ky 1', '', 'DA DIEN + CHECK, CHUA POST (che do khong luu) 31/10 16:Sat | SAP: Document is O.K.']
+    ['P01', '4500000001', '25.10.2026', '20', 'VT002', 5.5, 'Nhan ky 1', '', 'DA DIEN + CHECK, CHUA POST (che do khong luu) 31/10 16:Sat | SAP: Document is O.K.']
+    [MIGO tung phan v2] Se nhap kho tung phan 1 phieu: |   - P01: PO 4500000001, ngay 25.10.2026, 2 dong |  | CHE DO KHONG LUU: chi dien man hinh + Check, KHONG Post. | Bat dau?  => Yes
+[MIGO tung phan v2] Phieu P01: da dien 2/2 dong, chua Post. | Kiem tra man hinh SAP. Chuyen sang phieu tiep theo?  => Yes
+[MIGO tung phan v2] Xong. Kiem tra cot H/I sheet MIGO_TP, roi copy cot A + H dan vao trang web (buoc 4.3). Nho Ctrl+S.  => OK
+
+
+=== 5a MIGO khong luu / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 0.0, '', 'ME22N them dong']
+    ['PO', '4500000002', '10', 'VT003', 4.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+
+=== 5b MIGO luu that (nhap 1 phan) / ket qua
+    ['P01', '4500000001', '25.10.2026', '10', 'VT001', 4.0, 'Nhan ky 1', '5000000001', 'Material document 5000000001 posted']
+    ['P01', '4500000001', '25.10.2026', '20', 'VT002', 5.5, 'Nhan ky 1', '5000000001', 'Material document 5000000001 posted']
+    [MIGO tung phan v2] Se nhap kho tung phan 1 phieu: |   - P01: PO 4500000001, ngay 25.10.2026, 2 dong |  | Macro se HOI truoc khi Post tung phieu. | Bat dau?  => Yes
+[MIGO tung phan v2] Phieu P01: da dien 2/2 dong. | Kiem tra tren SAP roi tra loi: POST nhap kho?  => Yes
+[MIGO tung phan v2] Xong. Kiem tra cot H/I sheet MIGO_TP, roi copy cot A + H dan vao trang web (buoc 4.3). Nho Ctrl+S.  => OK
+
+
+=== 5b MIGO luu that (nhap 1 phan) / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 4.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 5.5, '', '']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 0.0, '', 'ME22N them dong']
+    ['PO', '4500000002', '10', 'VT003', 4.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['MIGO', '5000000001', '1', 'VT001', 4.0, '', '', '4500000001', '10', '', '', 'PO 4500000001/10 | Ngay CT 25.10.2026 | Ngay HT 25.10.2026 | Phieu P01 | Text: Nhan ky 1']
+    ['MIGO', '5000000001', '2', 'VT002', 5.5, '', '', '4500000001', '20', '', '', 'PO 4500000001/20 | Ngay CT 25.10.2026 | Ngay HT 25.10.2026 | Phieu P01 | Text: Nhan ky 1']
+
+=== 5c MIGO nhan vuot / ket qua
+    ['P02', '4500000001', '26.10.2026', '10', 'VT001', 9.0, 'Nhan ky 2', '', 'LOI buoc [dong MIGO 2]: SAP bao loi: PO quantity exceeded by 1,000 KG : VT001 4500000001 10']
+    [MIGO tung phan v2] Se nhap kho tung phan 1 phieu: |   - P02: PO 4500000001, ngay 26.10.2026, 1 dong |  | Macro se HOI truoc khi Post tung phieu. | Bat dau?  => Yes
+[MIGO tung phan v2] Loi phieu P02: | SAP bao loi: PO quantity exceeded by 1,000 KG : VT001 4500000001 10 | Buoc: dong MIGO 2 | Man hinh SAP giu nguyen. Neu loi 'khong tim thay control': mo rong phan Header/Item cua MIGO, chay SAP_ChanDoan va gui file.  => OK
+
+
+=== 5c MIGO nhan vuot / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000002', '10', 'VT003', 4.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['MIGO', '5000000001', '1', 'VT001', 4.0, '', '', '4500000001', '10', '', '', 'PO 4500000001/10 | Ngay CT 25.10.2026 | Ngay HT 25.10.2026 | Phieu P01 | Text: Nhan ky 1']
+    ['MIGO', '5000000001', '2', 'VT002', 5.5, '', '', '4500000001', '20', '', '', 'PO 4500000001/20 | Ngay CT 25.10.2026 | Ngay HT 25.10.2026 | Phieu P01 | Text: Nhan ky 1']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 4.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 5.5, '', '']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 0.0, '', 'ME22N them dong']
+
+=== 5d MIGO ngay sai / ket qua
+    ['P03', '4500000001', '2026-10-26', '10', 'VT001', 1.0, 'x', '', 'LOI buoc [dong MIGO 2]: SAP bao loi: Document date 2026-10-26 is not valid (format dd.mm.yyyy)']
+    [MIGO tung phan v2] Se nhap kho tung phan 1 phieu: |   - P03: PO 4500000001, ngay 2026-10-26, 1 dong |  | Macro se HOI truoc khi Post tung phieu. | Bat dau?  => Yes
+[MIGO tung phan v2] Loi phieu P03: | SAP bao loi: Document date 2026-10-26 is not valid (format dd.mm.yyyy) | Buoc: dong MIGO 2 | Man hinh SAP giu nguyen. Neu loi 'khong tim thay control': mo rong phan Header/Item cua MIGO, chay SAP_ChanDoan va gui file.  => OK
+
+
+=== 5d MIGO ngay sai / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000002', '10', 'VT003', 4.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['MIGO', '5000000001', '1', 'VT001', 4.0, '', '', '4500000001', '10', '', '', 'PO 4500000001/10 | Ngay CT 25.10.2026 | Ngay HT 25.10.2026 | Phieu P01 | Text: Nhan ky 1']
+    ['MIGO', '5000000001', '2', 'VT002', 5.5, '', '', '4500000001', '20', '', '', 'PO 4500000001/20 | Ngay CT 25.10.2026 | Ngay HT 25.10.2026 | Phieu P01 | Text: Nhan ky 1']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 4.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 5.5, '', '']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 0.0, '', 'ME22N them dong']
+
+=== 5e MIGO 2 phieu, cua so 2 / ket qua
+    ['P04', '4500000001', '27.10.2026', '10', 'VT001', 8.0, 'Nhan ky 2', '5001000001', 'Material document 5001000001 posted']
+    ['P05', '4500000001', '27.10.2026', '30', 'VT005', 4.0, 'Nhan ky 2', '5001000002', 'Material document 5001000002 posted']
+    |   - P04: PO 4500000001, ngay 27.10.2026, 1 dong |   - P05: PO 4500000001, ngay 27.10.2026, 1 dong |  | Macro se HOI truoc khi Post tung phieu. | Bat dau?  => Yes
+[MIGO tung phan v2] Phieu P04: da dien 1/1 dong. | Kiem tra tren SAP roi tra loi: POST nhap kho?  => Yes
+[MIGO tung phan v2] Phieu P05: da dien 1/1 dong. | Kiem tra tren SAP roi tra loi: POST nhap kho?  => Yes
+[MIGO tung phan v2] Xong. Kiem tra cot H/I sheet MIGO_TP, roi copy cot A + H dan vao trang web (buoc 4.3). Nho Ctrl+S.  => OK
+
+
+=== 5e MIGO 2 phieu, cua so 2 / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000002', '10', 'VT005', 4.0, 25000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000002', '10', 'VT003', 4.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+    ['MIGO', '5000000001', '1', 'VT001', 4.0, '', '', '4500000001', '10', '', '', 'PO 4500000001/10 | Ngay CT 25.10.2026 | Ngay HT 25.10.2026 | Phieu P01 | Text: Nhan ky 1']
+    ['MIGO', '5000000001', '2', 'VT002', 5.5, '', '', '4500000001', '20', '', '', 'PO 4500000001/20 | Ngay CT 25.10.2026 | Ngay HT 25.10.2026 | Phieu P01 | Text: Nhan ky 1']
+    ['PO', '4500000001', '10', 'VT001', 12.0, 50000.0, 2000001.0, '1000000001', '10', 12.0, '', 'ME22N 31/10/2026 16:59']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 5.5, '', '']
+    ['PO', '4500000001', '30', 'VT005', 4.0, 25000.0, 2000001.0, '1000000002', '10', 4.0, '', 'ME22N them dong']
+    ['MIGO', '5001000001', '1', 'VT001', 8.0, '', '', '4500000001', '10', '', '', 'PO 4500000001/10 | Ngay CT 27.10.2026 | Ngay HT 27.10.2026 | Phieu P04 | Text: Nhan ky 2']
+    ['MIGO', '5001000002', '1', 'VT005', 4.0, '', '', '4500000001', '30', '', '', 'PO 4500000001/30 | Ngay CT 27.10.2026 | Ngay HT 27.10.2026 | Phieu P05 | Text: Nhan ky 2']
+
+=== 7a PR, CongNo lech 1 dong / ket qua
+    ['=IF($CongNo.D4="";"";$CongNo.D4)']
+    [1000000001.0, 'Purchase requisition number 1000000001 created', 'NCC A', 'PR-T11-NV', '10']
+    [1000000001.0, 'Purchase requisition number 1000000001 created', 'NCC A', 'PR-T11-NV', '20']
+    [1000000001.0, 'Purchase requisition number 1000000001 created', 'NCC B', 'PR-T11-NV', '30']
+    [1000000001.0, 'Purchase requisition number 1000000001 created', 'NCC B', 'PR-T11-NV', '40']
+     hang. | Da kiem tra lai Account Assignment (K + Cost center + Fund) cho ca 4 mat hang: deu dung. | Hay kiem tra lai tren man hinh SAP (Alt+Tab) truoc khi tra loi. |  | Ban co muon LUU (Save) PR nay khong?  => Yes
+[CreatePR] Xong. PR tao thanh cong: 1 / 1 | (Dau thap phan SAP dang dung: ',')  => OK
+
+
+=== 7a PR, CongNo lech 1 dong / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+
+=== 7b PO, CongNo lech 1 dong / ket qua
+    ['NCC A', '2000001', 2.0, '1000000001', 1160000.0, 1160000.0, 0.0, 'DA TAO PO - KHOP CONGNO', '4500000001', 1160000.0]
+    ['NCC B', '2000002', 2.0, '1000000001', 300000.0, 300000.0, 0.0, 'DA TAO PO - KHOP CONGNO', '4500000002', 300000.0]
+    , tong 1,160,000 | Gia + SL BANG TUYET DOI sheet CongNo (ma hang, so luong, don gia). |  | Luu (Save) PO nay?  => Yes
+[CreatePO v23.1-Tram-gl.2 (31/10/2026)] PO cho NCC B: 2 dong, tong 300,000 | Gia + SL BANG TUYET DOI sheet CongNo (ma hang, so luong, don gia). |  | Luu (Save) PO nay?  => Yes
+[CreatePO v23.1-Tram-gl.2 (31/10/2026)] Da xu ly xong tao PO. Kiem tra cot SoPO / Status sheet PO.  => OK
+
+
+=== 7b PO, CongNo lech 1 dong / DB sau lenh
+    ['PR', '1000000001', '10', 'VT001', 10.0, 50000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '20', 'VT002', 5.5, 120000.0, 'phát', '', '', 0.0, '', 'DISPO MỰC_DẦU / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '30', 'VT003', 3.0, 80000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PR', '1000000001', '40', 'VT004', 2.0, 30000.0, 'phát', '', '', 0.0, '', 'DISPO MINH_LỚN / EKORG NHỎ / EKGRP PHỞ_DẦU']
+    ['PO', '4500000001', '10', 'VT001', 10.0, 50000.0, 2000001.0, '1000000001', '10', 0.0, '', '']
+    ['PO', '4500000001', '20', 'VT002', 5.5, 120000.0, 2000001.0, '1000000001', '20', 0.0, '', '']
+    ['PO', '4500000002', '10', 'VT003', 3.0, 80000.0, 2000002.0, '1000000001', '30', 0.0, '', '']
+    ['PO', '4500000002', '20', 'VT004', 2.0, 30000.0, 2000002.0, '1000000001', '40', 0.0, '', '']
+
+=== 6 TramDamBaoPhien(3)
+   3

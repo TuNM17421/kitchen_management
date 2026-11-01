@@ -1,0 +1,7 @@
+*.bas -text
+*.cls -text
+*.bat -text
+*.ps1 -text
+*.txt -text
+*.xlsx binary
+*.xlsm binary
