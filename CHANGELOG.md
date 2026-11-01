@@ -1,5 +1,11 @@
 # Nhật ký thay đổi
 
+## Bảng thực đơn 1.1 + thanh cuộn (01/11/2026)
+
+- Sửa lỗi gốc: ô tên hàng / tên món dùng class `wrap` trùng với khung trang nên bị padding 24px và `display:grid`, làm cột tên bị bóp. Khung trang giờ chỉ áp cho `body>.wrap`.
+- Ẩn thanh cuộn ở bảng, danh sách, nhật ký và dải bước (vẫn cuộn được); bảng cuộn ngang có bóng mờ ở mép báo còn nội dung.
+- Bảng thực đơn 1.1: cột cố định theo nội dung, ô nhập kiểu bảng tính (chỉ hiện viền khi rê chuột hoặc đang nhập), nút xóa chỉ hiện khi rê chuột, dòng ngoài tháng chữ mờ, thêm nhãn cho ô nhập. Trên điện thoại mỗi món thành một thẻ nhỏ, không cuộn ngang.
+
 ## Bố cục theo review (01/11/2026)
 
 - Kết quả và thẻ số (KPI) nằm ngay dưới tiêu đề mỗi mục; khối kho chuyển xuống cuối.

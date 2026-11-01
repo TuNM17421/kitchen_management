@@ -11,11 +11,11 @@ function vTD(){
   for(const i of idx){const r=rows[i];
     if(r.d!==lastD){lastD=r.d;body+=`<tr class="day"><td colspan="7">${DOW[P(r.d).getUTCDay()]} ${dm(r.d)}${r.d.slice(0,7)!==S.thang?' <span class="muted">(ngoài tháng, không tính)</span>':''}</td></tr>`;}
     const has=S.dm[slug(r.mon)], hasR=r.nl&&r.nl.length;
-    body+=`<tr><td><select data-td="${i}" data-f="d" ${W()?'':'disabled'}>${days.map(d=>`<option value="${d}" ${d===r.d?'selected':''}>${DOW[P(d).getUTCDay()]} ${dm(d)}</option>`).join('')}</select></td>
-      <td><select data-td="${i}" data-f="b" ${W()?'':'disabled'}>${N.bua.map(b=>`<option ${b===r.b?'selected':''}>${b}</option>`).join('')}</select></td>
-      <td><input type="text" id="td-l-${i}" data-td="${i}" data-f="loai" value="${esc(r.loai)}" ${W()?'':'disabled'}></td>
-      <td class="wrap"><input type="text" id="td-m-${i}" list="dl-mon" data-td="${i}" data-f="mon" value="${esc(r.mon)}" ${W()?'':'disabled'}></td>
-      <td><input type="text" inputmode="decimal" data-td="${i}" data-f="tl" value="${r.tl!=null&&r.tl!==''?String(+(+r.tl).toFixed(2)).replace('.',','):''}" placeholder="100" style="width:64px;text-align:right" aria-label="Tỷ lệ suất" title="% số suất của bữa dùng món này (trống = theo quy tắc chung)" ${W()?'':'disabled'}></td>
+    body+=`<tr${r.d.slice(0,7)!==S.thang?' class="out"':''}><td><select data-td="${i}" data-f="d" aria-label="Ngày" ${W()?'':'disabled'}>${days.map(d=>`<option value="${d}" ${d===r.d?'selected':''}>${DOW[P(d).getUTCDay()]} ${dm(d)}</option>`).join('')}</select></td>
+      <td><select data-td="${i}" data-f="b" aria-label="Bữa" ${W()?'':'disabled'}>${N.bua.map(b=>`<option ${b===r.b?'selected':''}>${b}</option>`).join('')}</select></td>
+      <td><input type="text" id="td-l-${i}" data-td="${i}" data-f="loai" aria-label="Loại món" value="${esc(r.loai)}" title="${esc(r.loai)}" ${W()?'':'disabled'}></td>
+      <td class="wrap"><input type="text" id="td-m-${i}" list="dl-mon" data-td="${i}" data-f="mon" aria-label="Tên món" value="${esc(r.mon)}" title="${esc(r.mon)}" ${W()?'':'disabled'}></td>
+      <td><input type="text" inputmode="decimal" data-td="${i}" data-f="tl" value="${r.tl!=null&&r.tl!==''?String(+(+r.tl).toFixed(2)).replace('.',','):''}" placeholder="100" class="num-in" aria-label="Tỷ lệ suất" title="% số suất của bữa dùng món này (trống = theo quy tắc chung)" ${W()?'':'disabled'}></td>
       <td>${r.mon?(hasR?`<span class="pill ok" title="Định lượng riêng của bữa này (${r.nl.length} nguyên liệu)">định lượng riêng</span>`:has?'<span class="pill ok">có định mức</span>':'<span class="pill run">thiếu định mức</span>'):''}</td>
       <td>${W()?`<button class="x" data-act="td-del" data-i="${i}" aria-label="Xóa dòng">×</button>`:''}</td></tr>`;}
   const wsOpts=ws.map(w=>{const d=S.td[ED.nhom+'_'+w];return `<option value="${w}" ${w===ED.week?'selected':''}>Tuần ${dm(w)}–${dm(addD(w,6))} ${d?'· '+(d.items||[]).length+' món':'· trống'}</option>`;}).join('');
@@ -31,7 +31,7 @@ function vTD(){
    ${W()?`<details class="box" ${ED.packOpen?'open':''}><summary class="meta"><b>Nạp gói dữ liệu từ Drive</b> – thực đơn + định lượng + lượng khách soạn sẵn (vd thực đơn tuần 1 từ Excel)</summary>
      <div class="toolbar"><input type="text" id="pack-id" value="${esc(ED.packId||PACK_TUAN1||'')}" placeholder="ID hoặc link file .json trên Drive" style="flex:1;min-width:220px"><button class="btn sm primary" data-act="pack-load" ${ED.packing?'disabled':''}>${ED.packing?esc(ED.packing):'Nạp gói'}</button></div>
      <div class="meta">Gói mặc định: thực đơn tháng 11 chạy thử – thực đơn tuần 1 Excel (ở cữ, nội trú thường + nội trú chung, nhân viên) từ 02/11 lặp lại mọi tuần đến 30/11 (01/11 lấy thực đơn Chủ nhật), định mức tham chiếu, lượng khách cả tháng (CBNV 260/160/100, nội trú 40, ở cữ 15), 6 mặt hàng ngoài bảng giá. Ghi đè thực đơn tháng 11 hiện có.</div></details>`:''}
-   ${rows.length?`<div class="tbl-wrap"><table class="t"><thead><tr><th>Ngày</th><th>Bữa</th><th>Loại món</th><th>Tên món</th><th class="r">% suất</th><th>Định mức</th><th></th></tr></thead><tbody>${body}</tbody></table></div>`:
+   ${rows.length?`<div class="tbl-wrap"><table class="t td-tbl"><colgroup><col class="c-d"><col class="c-b"><col class="c-l"><col><col class="c-tl"><col class="c-dm"><col class="c-x"></colgroup><thead><tr><th>Ngày</th><th>Bữa</th><th>Loại món</th><th>Tên món</th><th class="r">% suất</th><th>Định mức</th><th><span class="sr">Xóa</span></th></tr></thead><tbody>${body}</tbody></table></div>`:
    `<div class="empty"><b>Tuần ${dm(ED.week)}–${dm(addD(ED.week,6))} chưa có thực đơn ${N.ten.toLowerCase()}</b>Bấm “Chép tuần trước”, “Dán từ Excel” hoặc “+ Thêm món”.</div>`}
    <datalist id="dl-mon">${known.map(m=>`<option value="${esc(m)}">`).join('')}</datalist>
    ${W()?`<div class="toolbar"><span class="sp"></span><button class="btn" data-act="tt" data-k="td">${S.tt.td&&S.tt.td.ok?'Xác nhận lại':'Xác nhận đủ thực đơn tháng'}</button></div>`:''}`;

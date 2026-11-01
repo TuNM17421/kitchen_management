@@ -20,7 +20,7 @@
   --bad:#E8A49C; --bad-soft:#3F2826; --edit:#36301F; --wool:#5F86A6; --marigold:#C9922F; --sage:#6E9A7E; --chip:#23221F; --shadow:0 1px 2px rgba(0,0,0,.35),0 12px 30px -14px rgba(0,0,0,.6); color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);min-height:100vh;color:var(--ink);font-family:var(--f-body);font-size:14.5px;line-height:1.45}
-.wrap{max-width:1440px;margin:0 auto;padding-block:18px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:14px}
+body>.wrap{max-width:1440px;margin:0 auto;padding-block:18px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:14px}
 .num{font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}

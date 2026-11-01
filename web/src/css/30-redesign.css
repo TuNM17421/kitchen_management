@@ -5,7 +5,7 @@
 
 /* khung trang */
 body{font-size:14.5px}
-.wrap{gap:var(--s5);padding-block:var(--s6) 48px;padding-left:max(var(--s5),env(safe-area-inset-left,0px));padding-right:max(var(--s5),env(safe-area-inset-right,0px))}
+body>.wrap{gap:var(--s5);padding-block:var(--s6) 48px;padding-left:max(var(--s5),env(safe-area-inset-left,0px));padding-right:max(var(--s5),env(safe-area-inset-right,0px))}
 header{gap:var(--s3) var(--s5);padding-bottom:var(--s1)}
 .eyebrow{letter-spacing:.02em;margin-bottom:var(--s1)}
 .hctl{gap:var(--s2)}
@@ -78,7 +78,7 @@ details.foot{padding:0 var(--s1)}
   .log{max-height:none}
 }
 @media (max-width:700px){
-  .wrap{gap:var(--s4);padding-block:var(--s4) var(--s6);padding-left:max(var(--s4),env(safe-area-inset-left,0px));padding-right:max(var(--s4),env(safe-area-inset-right,0px))}
+  body>.wrap{gap:var(--s4);padding-block:var(--s4) var(--s6);padding-left:max(var(--s4),env(safe-area-inset-left,0px));padding-right:max(var(--s4),env(safe-area-inset-right,0px))}
   .nodes{gap:var(--s2);grid-auto-columns:128px}
   .node{min-height:96px;padding:var(--s3) var(--s3) var(--s3)}
   .node::before{margin:calc(-1 * var(--s3)) calc(-1 * var(--s3)) var(--s3)}
@@ -156,3 +156,53 @@ details.help>summary{display:inline-flex;align-items:center}
 details.lg[hidden]+details.lg{border-top:0;padding-top:0}
 .hctl{flex-wrap:wrap;row-gap:var(--s1)}
 .pill.stt{white-space:nowrap}
+
+/* ===== bảng có vùng cuộn: ẩn thanh cuộn (vẫn cuộn bằng chuột / chạm / bàn phím) ===== */
+.tbl-wrap,.dlist,.log,.track{scrollbar-width:none;-ms-overflow-style:none}
+.tbl-wrap::-webkit-scrollbar,.dlist::-webkit-scrollbar,.log::-webkit-scrollbar,.track::-webkit-scrollbar{display:none}
+
+/* ===== bảng thực đơn 1.1: cột cố định, ô nhập kiểu bảng tính ===== */
+table.td-tbl{table-layout:fixed;min-width:640px}
+table.td-tbl col.c-d{width:128px}table.td-tbl col.c-b{width:78px}table.td-tbl col.c-l{width:118px}
+table.td-tbl col.c-tl{width:60px}table.td-tbl col.c-dm{width:108px}table.td-tbl col.c-x{width:36px}
+
+table.td-tbl th,table.td-tbl td{padding:6px 8px}
+table.td-tbl th:first-child,table.td-tbl td:first-child{padding-left:var(--s4)}
+table.td-tbl td.wrap{min-width:0}
+table.td-tbl input[type=text],table.td-tbl select{width:100%;min-height:34px;padding:6px 8px;border-color:transparent;background-color:transparent;text-overflow:ellipsis}
+table.td-tbl select{padding-right:4px;cursor:pointer}
+table.td-tbl tbody tr:hover input[type=text],table.td-tbl tbody tr:hover select{border-color:var(--line);background-color:var(--surface)}
+table.td-tbl input[type=text]:focus,table.td-tbl select:focus{border-color:var(--accent);background-color:var(--surface)}
+table.td-tbl input:disabled,table.td-tbl select:disabled{opacity:1;color:var(--ink);cursor:default}
+table.td-tbl input.num-in{text-align:right;font-variant-numeric:tabular-nums}
+table.td-tbl input.num-in::placeholder{color:var(--muted)}
+table.td-tbl tr.day td{padding:10px var(--s4);font-size:12.5px;letter-spacing:.01em}
+table.td-tbl tr.out td{color:var(--muted)}
+table.td-tbl tr.out input,table.td-tbl tr.out select{color:var(--muted)}
+table.td-tbl tr:not(.day) td:last-child{text-align:center;padding-inline:4px}
+table.td-tbl .x{width:28px;height:28px;padding:0;font-size:16px;opacity:0;transition:opacity .12s}
+table.td-tbl tbody tr:hover .x,table.td-tbl .x:focus-visible{opacity:1}
+table.td-tbl .x:hover{background:color-mix(in srgb,var(--bad) 12%,transparent);color:var(--bad)}
+@media (hover:none){table.td-tbl .x{opacity:1}}
+table.td-tbl select{padding-left:8px}
+/* gợi ý còn nội dung khi cuộn ngang (thay cho thanh cuộn đã ẩn) */
+.tbl-wrap{background:
+  linear-gradient(90deg,var(--chip) 30%,transparent) left/32px 100% no-repeat local,
+  linear-gradient(270deg,var(--chip) 30%,transparent) right/32px 100% no-repeat local,
+  radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.14),transparent) left/12px 100% no-repeat scroll,
+  radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.14),transparent) right/12px 100% no-repeat scroll,
+  var(--chip)}
+/* điện thoại: mỗi món thành một thẻ nhỏ, không cuộn ngang */
+@media (max-width:700px){
+  table.td-tbl{min-width:0;table-layout:auto}
+  table.td-tbl colgroup,table.td-tbl thead{display:none}
+  table.td-tbl,table.td-tbl tbody{display:block}
+  table.td-tbl tr.day{display:block}table.td-tbl tr.day td{display:block;padding:10px var(--s3)}
+  table.td-tbl tr:not(.day){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 72px;grid-template-areas:"mon mon mon" "d b tl" "l dm x";gap:6px;padding:10px var(--s3);border-top:1px solid var(--line)}
+  table.td-tbl tr:not(.day) td{display:block;padding:0!important;border:0}
+  table.td-tbl td:nth-child(1){grid-area:d}table.td-tbl td:nth-child(2){grid-area:b}table.td-tbl td:nth-child(3){grid-area:l}
+  table.td-tbl td:nth-child(4){grid-area:mon}table.td-tbl td:nth-child(5){grid-area:tl}
+  table.td-tbl td:nth-child(6){grid-area:dm;align-self:center;justify-self:start}table.td-tbl td:nth-child(7){grid-area:x;justify-self:end;align-self:center}
+  table.td-tbl input[type=text],table.td-tbl select{border-color:var(--line);background-color:var(--surface)}
+  table.td-tbl td:nth-child(4) input{font-weight:600}
+}
