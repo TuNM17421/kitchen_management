@@ -1,6 +1,14 @@
 # Nhật ký thay đổi
 
 
+
+## Bước 5 Đối soát NCC – sửa theo review UI/UX
+
+- Thanh chọn NCC · Kỳ đưa lên trên KPI, dùng chung cho 5.1 và 5.2; có nút ‹ › chuyển NCC; danh sách NCC ghi số dòng nhận và đưa NCC có hàng lên trước.
+- 5.1: bảng kê 5 cột (Ngày · phiếu, Mặt hàng, Số lượng, Đơn giá, Thành tiền), mặc định chỉ xem, bấm “Sửa số lượng” mới hiện ô nhập kèm cảnh báo sửa thẳng vào phiếu nhận; Tạo nháp email là nút chính, khi chưa kết nối Gmail có tooltip giải thích.
+- 5.2: bảng chênh lệch dạng Bếp | NCC cạnh nhau (SL × giá = tiền, tô đỏ phần lệch), nút xử lý luôn thấy; “Sửa tất cả dòng lệch số lượng theo NCC”; “Cho phép chốt dù lệch” chữ đỏ và bấm 2 lần; chênh tiền có dấu và giải thích; khi chưa có file vẫn hiện số Bếp ghi nhận.
+- 5.3: mặc định chỉ hiện kỳ có hàng, lọc Có hàng / Đến hạn / Tất cả; ô chu kỳ đủ rộng dưới tên NCC; chốt khớp qua nút “Chốt khớp…” rồi chọn căn cứ và xác nhận; KPI dễ hiểu hơn, thêm “Đã gửi, chờ NCC”.
+- Điện thoại: cả 3 bảng hiện dạng thẻ. Tab 5.1/5.3 có dấu ✓ khi mọi kỳ đến hạn đã gửi/đã khớp, 5.2 ghi “theo dõi”. Không còn lỗi axe.
 ## Bước 4 Đặt & nhận hàng – sửa theo review UI/UX
 
 - Sửa lỗi 4.2: lưu phiếu nhận xong form vẫn giữ dòng cũ, bấm Lưu lần nữa báo lỗi. Giờ form về trạng thái sạch, hiện “Đã lưu phiếu …” kèm nút Xem ở 4.3, tự mở đơn chưa nhận tiếp theo; chặn bấm Lưu 2 lần.

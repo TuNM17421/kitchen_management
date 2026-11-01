@@ -21,10 +21,11 @@ function renderTrack(){
 }
 const curSub=()=>S.step===8?SUB8:S.step===7?SUB7:S.step===6?SUB6:S.step===5?SUB5:S.step===4?SUB4:S.step===3?SUB3:S.step===2?SUB2:SUB;
 function renderTabs(){
+  const tt5=k=>{const td=todayVN(),R=dsNccs().flatMap(n=>kyList(S.thang,n).map(ky=>({ky,d:dsDoc(n,ky.k),c:kyRows(n,ky).length}))).filter(r=>r.c&&td>=r.ky.to);if(!R.length)return false;return k==='bk'?R.every(r=>r.d&&r.d.tt!=='chua'):k==='dsk'?R.every(r=>r.d&&r.d.tt==='khop'):false;};
   const tt4=k=>{const D=dhOf(S.thang);return k==='dat'?D.length>0:k==='nhan'?D.length>0&&D.every(d=>d.pn):false;};
   const tt3=k=>{const m=poOf(S.thang);return k==='pocan'?m.length&&!poPending().length:k==='posap'?m.length&&m.every(p=>p.soPO):k==='pols'?m.length&&m.every(p=>p.soPO&&!p.sua):false;};
   const tt2=k=>k==='pb'?!!S.pb:k==='xuat'?prMain().length&&prMain().every(b=>b.tt!=='nhap'):k==='ls'?prMain().length&&prMain().every(b=>b.tt==='duyet'):false;
-  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const trk=(S.step===2&&k==='dc')||(S.step===3&&k==='podc')||(S.step===4&&k==='nls'), ok=S.step>=5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}" title="${trk?'Theo dõi, không bắt buộc':ok?'Đã xác nhận':'Chưa xác nhận'}"><b>${n}</b>${t}${trk?'<span class="ck-note">theo dõi</span>':`<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span>`}</button>`;}).join('');
+  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const trk=(S.step===2&&k==='dc')||(S.step===3&&k==='podc')||(S.step===4&&k==='nls')||(S.step===5&&k==='sofile'), ok=S.step===5?tt5(k):S.step>5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}" title="${trk?'Theo dõi, không bắt buộc':ok?'Đã xác nhận':'Chưa xác nhận'}"><b>${n}</b>${t}${trk?'<span class="ck-note">theo dõi</span>':`<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span>`}</button>`;}).join('');
 }
 function renderSteps(){
   $('#stHead').textContent=`Trạng thái bước ${S.step} · ${S.thang.slice(5)}/${S.thang.slice(0,4)}`;
@@ -62,7 +63,7 @@ function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();rend
   const fa=document.activeElement, fid=fa&&fa.id&&$('#view').contains(fa)&&/^(INPUT|TEXTAREA)$/.test(fa.tagName)?fa.id:'', fs=fid&&fa.selectionStart!=null?[fa.selectionStart,fa.selectionEnd]:null;
   $('#view').innerHTML=v();
   if(fid){ const nf=document.getElementById(fid); if(nf){ nf.focus({preventScroll:true}); if(fs) try{nf.setSelectionRange(fs[0],fs[1]);}catch(e){} } }
-  { const vw=$('#view'), sh=vw.querySelector(':scope > .sh'), k=vw.querySelector(':scope > .kpis'); if(sh&&k) sh.after(k); // kết quả lên ngay dưới tiêu đề
+  { const vw=$('#view'), sh=vw.querySelector(':scope > .sh'), k=vw.querySelector(':scope > .kpis'), cb=vw.querySelector(':scope > .ctxbar'); if(sh&&cb){ sh.after(cb); if(k) cb.after(k); } else if(sh&&k) sh.after(k); // kết quả lên ngay dưới tiêu đề
     const kb=vw.querySelector(':scope > #khoBox'); if(kb) vw.appendChild(kb); // tồn kho (ít dùng) xuống cuối
     const subs=curSub(), ix=subs.findIndex(x=>x[2]===S.tab), nx=subs[ix+1], ns=STEPS[S.step]; // nút đi tiếp
     if(nx||(S.step<8&&ns)){ const b=document.createElement('div'); b.className='nextbar';

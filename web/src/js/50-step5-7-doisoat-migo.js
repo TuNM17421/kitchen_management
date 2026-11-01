@@ -24,13 +24,16 @@ async function editRecv(src,sl,note){
   const p=S.pn[src.id]; const lines=p.lines.map((l,j)=>j===src.j?{...l,sl,gach:sl===0?l.gach:false,note:[l.note,note].filter(Boolean).join(' · ')}:l);
   await store.set('phieunhan/'+p.id,{...stripId(p),lines,tong:Math.round(lines.reduce((a,l)=>a+(+l.sl||0)*l.g,0)),hist:[...(p.hist||[]),{ts:Date.now(),tt:p.tt,ai:uid,note}]}); }
 async function addRecv(ncc,d,ma,sl,note){ const x=IT.get(ma)||{ten:ma,dvt:''}; const po=poOf(d.slice(0,7)).find(p=>p.ncc===ncc); const pid=d.slice(0,7)+'-'+Date.now().toString(36);
-  await store.set('phieunhan/'+pid,{thang:d.slice(0,7),ma:`DS${d.slice(8)}${d.slice(5,7)}-${slug(ncc).slice(0,8).toUpperCase()}`,d,ncc,poId:po?po.id:'',soPO:po?po.soPO:'',dh:'',lines:[{ma,ten:x.ten,dvt:x.dvt,g:priceFor(ncc,ma),slDat:null,sl,gach:false,note,alloc:[],over:0}],tong:Math.round(sl*priceFor(ncc,ma)),nguon:'Thêm khi đối soát NCC',tt:'nhan',migo:'',luc:Date.now(),ai:uid,hist:[{ts:Date.now(),tt:'nhan',ai:uid,note}]}); }
+  await store.set('phieunhan/'+pid,{thang:d.slice(0,7),ma:`DS${d.slice(8)}${d.slice(5,7)}-${slug(ncc).replace(/-/g,'').slice(0,10).toUpperCase()}`,d,ncc,poId:po?po.id:'',soPO:po?po.soPO:'',dh:'',lines:[{ma,ten:x.ten,dvt:x.dvt,g:priceFor(ncc,ma),slDat:null,sl,gach:false,note,alloc:[],over:0}],tong:Math.round(sl*priceFor(ncc,ma)),nguon:'Thêm khi đối soát NCC',tt:'nhan',migo:'',luc:Date.now(),ai:uid,hist:[{ts:Date.now(),tt:'nhan',ai:uid,note}]}); }
 async function setDS(ncc,ky,patch,note){ const id=dsId(S.thang,ncc,ky.k), o=(S.ds||{})[id]||{thang:S.thang,ncc,k:ky.k,from:ky.from,to:ky.to,tt:'chua',hist:[]};
   const rows=kyRows(ncc,ky); await store.set('doisoat/'+id,{...stripId(o),...patch,nDong:rows.length,tong:Math.round(rows.reduce((a,r)=>a+r.sl*r.g,0)),hist:[...(o.hist||[]),{ts:Date.now(),tt:patch.tt||o.tt,ai:uid,note:note||''}]}); }
-function dsSel(){ const N=dsNccs(); if(!ED.dsN||!N.includes(ED.dsN)) ED.dsN=N[0]||''; const K=ED.dsN?kyList(S.thang,ED.dsN):[]; let ky=K.find(k=>k.k===ED.dsK); if(!ky){ const td=todayVN(); ky=K.find(k=>td>=k.from&&td<=k.to)||K[0]; ED.dsK=ky?ky.k:0; } return {N,K,ky}; }
-function dsPicker(N,K,ky){ return `<div class="toolbar"><select id="ds-n">${N.map(n=>`<option ${n===ED.dsN?'selected':''}>${esc(n)}</option>`).join('')}</select>
-  <select id="ds-k">${K.map(k=>`<option value="${k.k}" ${ky&&k.k===ky.k?'selected':''}>${kyName(k)}</option>`).join('')}</select>
-  ${ky?`<span class="pill ${(TTDS[(dsDoc(ED.dsN,ky.k)||{}).tt||'chua'])[1]}">${(TTDS[(dsDoc(ED.dsN,ky.k)||{}).tt||'chua'])[0]}</span><span class="meta">Chu kỳ ${CKN[ckOf(ED.dsN)]}</span>`:''}</div>`; }
+function dsSel(){ const R=recvFull(), cn={}; R.forEach(r=>{ if(r.sl>0) cn[r.ncc]=(cn[r.ncc]||0)+1; });
+  const N=dsNccs().sort((a,b)=>(cn[b]?1:0)-(cn[a]?1:0)||a.localeCompare(b,'vi'));
+  if(!ED.dsN||!N.includes(ED.dsN)) ED.dsN=N[0]||''; const K=ED.dsN?kyList(S.thang,ED.dsN):[]; let ky=K.find(k=>k.k===ED.dsK); if(!ky){ const td=todayVN(); ky=K.find(k=>td>=k.from&&td<=k.to)||K[0]; ED.dsK=ky?ky.k:0; } return {N,K,ky,cn}; }
+function dsPicker(N,K,ky,cn){ const i=N.indexOf(ED.dsN), st=ky?((dsDoc(ED.dsN,ky.k)||{}).tt||'chua'):'chua';
+  return `<div class="toolbar ctxbar"><span class="fld"><label class="meta" for="ds-n">NCC</label><button class="btn sm nav" data-act5="ds-nav" data-d="-1" aria-label="NCC trước" ${i<=0?'disabled':''}>‹</button><select id="ds-n">${N.map(n=>`<option value="${esc(n)}" ${n===ED.dsN?'selected':''}>${esc(n)}${cn&&cn[n]?` · ${cn[n]} dòng`:' · không có hàng'}</option>`).join('')}</select><button class="btn sm nav" data-act5="ds-nav" data-d="1" aria-label="NCC sau" ${i>=N.length-1?'disabled':''}>›</button></span>
+  <span class="fld"><label class="meta" for="ds-k">Kỳ</label><select id="ds-k">${K.map(k=>`<option value="${k.k}" ${ky&&k.k===ky.k?'selected':''}>${kyName(k)}</option>`).join('')}</select></span>
+  ${ky?`<span class="pill ${TTDS[st][1]}">${TTDS[st][0]}</span><span class="meta">Chu kỳ ${CKN[ckOf(ED.dsN)]}</span>`:''}</div>`; }
 function bkEmail(ncc,ky,rows){ const tong=rows.reduce((a,r)=>a+r.sl*r.g,0), td='style="border:1px solid #ccc;padding:4px 8px"', tr='style="border:1px solid #ccc;padding:4px 8px;text-align:right"';
   const subj=`Báo cáo công nợ ${ncc} - ${kyName(ky)} - Bếp Vinmec Ocean Park 2`;
   const html=`<p>Kính gửi Quý nhà cung cấp <b>${esc(ncc)}</b>,</p><p>Bộ phận Bếp – Bệnh viện ĐKQT Vinmec Ocean Park 2 gửi bảng kê hàng đã nhận <b>${kyName(ky)}</b>, theo biên bản giao nhận hằng ngày. Tổng: <b>${VND(tong)} đ</b> (${rows.length} dòng).</p>
@@ -41,23 +44,23 @@ ${rows.map((r,i)=>`<tr><td ${td}>${i+1}</td><td ${td}>${r.d.split('-').reverse()
   return {subj,html,text:`${subj}\n`+rows.map((r,i)=>`${i+1}. ${r.d.split('-').reverse().join('/')} ${r.ma} ${r.ten}: ${Q(r.sl)} ${r.dvt} x ${VND(r.g)} = ${VND(r.sl*r.g)}`).join('\n')+`\nTổng: ${VND(tong)} đ`}; }
 
 /* ---- 5.1 ---- */
+const emptyDS5=t=>head2(t,'')+'<div class="empty"><b>Chưa có số nhận hàng tháng này</b>Ghi phiếu nhận ở bước 4.2 rồi quay lại đây.<div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="go-next" data-step="4">Mở bước 4</button></div></div>';
 function vBK(){
-  const {N,K,ky}=dsSel(); if(!N.length) return head2('5.1 Bảng kê & gửi NCC','')+'<div class="empty"><b>Chưa có số nhận hàng tháng này</b>Ghi phiếu nhận ở bước 4.2.</div>';
-  const rows=kyRows(ED.dsN,ky), doc=dsDoc(ED.dsN,ky.k), lock=doc&&doc.tt==='khop'; ED.bk=ED.bk||{};
+  const {N,K,ky,cn}=dsSel(); if(!N.length) return emptyDS5('5.1 Bảng kê & gửi NCC');
+  const rows=kyRows(ED.dsN,ky), doc=dsDoc(ED.dsN,ky.k), lock=doc&&doc.tt==='khop'; ED.bk=ED.bk||{}; const ed=ED.bkEdit&&!lock&&canWrite, nEd=Object.keys(ED.bk).length;
   const tong=rows.reduce((a,r)=>a+r.sl*r.g,0), em=(S.ck&&S.ck.email&&S.ck.email[ED.dsN])||((NCCINFO[ED.dsN]||{}).email||[]);
-  const body=rows.map((r,i)=>{const k=JSON.stringify(r.src); return `<tr class="${ED.bk[k]!=null?'edited':''}"><td>${dm(r.d)}</td><td class="num meta">${esc(r.phieu)}</td><td class="num">${r.ma}</td><td class="wrap">${esc(r.ten)}</td><td>${esc(r.dvt)}</td>
-    <td class="r">${lock||!canWrite?Q(r.sl):`<input class="q" type="text" inputmode="decimal" id="bk-${i}" data-bk='${esc(k)}' value="${QI(ED.bk[k]!=null?ED.bk[k]:r.sl)}">`}</td><td class="r num">${VND(r.g)}</td><td class="r num">${VND(r.sl*r.g)}</td><td class="num">${esc(r.po||'')}</td></tr>`;}).join('');
-  return head2('5.1 Bảng kê nhận hàng & gửi NCC','Số nhận hàng là dữ liệu chuẩn. Cuối mỗi chu kỳ (15 ngày hoặc tháng, theo từng NCC), gửi bảng kê cho NCC đối chiếu như dự án công nợ cũ: bảng nhúng trong email nháp, NCC xác nhận hoặc gửi file chốt. Sửa số ở đây là sửa thẳng vào phiếu nhận.')+
-  dsPicker(N,K,ky)+
-  `<div class="kpis"><div class="kv big"><b>${esc(ED.dsN)} · ${kyName(ky)}</b><div class="num">${TR(tong)}</div><small>${rows.length} dòng nhận</small></div>
+  const body=rows.map((r,i)=>{const k=JSON.stringify(r.src); return `<tr class="${ED.bk[k]!=null?'edited':''}"><td class="ph"><b>${dm(r.d)}</b><small class="num">${esc(r.phieu)}${r.po?' · PO '+esc(r.po):''}</small></td><td class="nm"><b>${esc(r.ten)}</b><small><span class="num">${r.ma}</span> · ${esc(r.dvt)}</small></td>
+    <td class="r sl">${ed?`<input class="q" type="text" inputmode="decimal" id="bk-${i}" data-bk='${esc(k)}' value="${QI(ED.bk[k]!=null?ED.bk[k]:r.sl)}" aria-label="Số lượng ${esc(r.ten)} ngày ${dm(r.d)}">`:`<span class="num">${Q(r.sl)}</span>`}</td><td class="r num g">${VND(r.g)}</td><td class="r num tien"><b>${VND(r.sl*r.g)}</b></td></tr>`;}).join('');
+  const noMail=!mcp?'Cần mở trang trên claude.ai và cho phép kết nối Gmail':!em.length?'NCC chưa có email':'';
+  return head2('5.1 Bảng kê nhận hàng & gửi NCC','Số nhận hàng là dữ liệu chuẩn. Cuối mỗi chu kỳ (15 ngày hoặc tháng, theo từng NCC), gửi bảng kê cho NCC đối chiếu như dự án công nợ cũ: bảng nhúng trong email nháp, NCC xác nhận hoặc gửi file chốt. Trang chỉ tạo nháp, người dùng tự bấm Gửi trong Gmail.')+
+  dsPicker(N,K,ky,cn)+
+  `<div class="kpis"><div class="kv big"><b>${kyName(ky)}</b><div class="num">${TR(tong)}</div><small>${rows.length} dòng nhận</small></div>
    <div class="kv"><b>Email NCC</b><div style="font-size:14px;word-break:break-all">${esc(em.join(', ')||'chưa có')}</div><small>${esc((NCCINFO[ED.dsN]||{}).note||'')}</small></div>
    <div class="kv"><b>Hạn đối soát</b><div class="num">${dm(ky.to)}</div><small>${todayVN()>=ky.to?'Đã đến hạn':'Chưa hết kỳ'}</small></div></div>
   ${lock?'<div class="warn ok">Kỳ này đã chốt khớp, số nhận bị khóa. Mở lại ở 5.3 nếu cần sửa.</div>':''}
-  <div class="toolbar">${canWrite&&!lock?`<button class="btn" data-act5="bk-save" ${Object.keys(ED.bk).length?'':'disabled'}>Lưu sửa (${Object.keys(ED.bk).length})</button>
-    <button class="btn primary" data-act5="bk-draft" ${rows.length&&em.length&&mcp&&!ED.drafting?'':'disabled'}>${ED.drafting?'Đang tạo nháp…':'Tạo nháp email bảng kê'}</button><button class="btn" data-act5="bk-copy" ${rows.length?'':'disabled'}>Copy bảng kê</button>
-    <button class="btn" data-act5="bk-sent" ${rows.length?'':'disabled'}>Đánh dấu đã gửi</button>`:''}${doc&&doc.draftUrl?`<a class="meta" href="${esc(doc.draftUrl)}" target="_blank" rel="noopener">Mở nháp Gmail</a>`:''}</div>
-  ${mcp?'':'<div class="meta">Tạo nháp Gmail cần mở trang trên claude.ai và cho phép kết nối Gmail. Trang chỉ tạo nháp, anh tự bấm Gửi.</div>'}
-  ${rows.length?`<div class="tbl-wrap"><table class="t"><thead><tr><th>Ngày</th><th>Phiếu</th><th>Mã</th><th>Tên hàng</th><th>ĐVT</th><th class="r">Số lượng</th><th class="r">Đơn giá</th><th class="r">Thành tiền</th><th>PO</th></tr></thead><tbody>${body}</tbody><tfoot><tr><td colspan="7">Tổng</td><td class="r num">${VND(tong)}</td><td></td></tr></tfoot></table></div>`:'<div class="empty"><b>Không có hàng nhận trong kỳ này</b></div>'}`;
+  ${canWrite&&!lock&&rows.length?`<div class="toolbar">${ed?`<button class="btn primary" data-act5="bk-save" ${nEd?'':'disabled'}>Lưu sửa (${nEd})</button><button class="btn" data-act5="bk-edit" data-v="">Hủy sửa</button><span class="meta">Sửa ở đây là sửa thẳng vào phiếu nhận của bước 4.</span>`
+    :`<button class="btn primary" data-act5="bk-draft" ${!noMail&&!ED.drafting?'':'disabled'} ${noMail?`title="${noMail}"`:''}>${ED.drafting?'Đang tạo nháp…':'Tạo nháp email bảng kê'}</button><button class="btn" data-act5="bk-copy">Copy bảng kê</button>${doc&&doc.tt!=='chua'?'':'<button class="btn" data-act5="bk-sent">Đánh dấu đã gửi</button>'}${doc&&doc.draftUrl?`<a class="meta" href="${esc(doc.draftUrl)}" target="_blank" rel="noopener">Mở nháp Gmail</a>`:''}<span class="sp"></span><button class="btn sm ghost" data-act5="bk-edit" data-v="1">✎ Sửa số lượng</button>`}</div>`:''}
+  ${rows.length?`<div class="tbl-wrap"><table class="t bk-tbl"><colgroup><col class="c-ph"><col><col class="c-sl"><col class="c-g"><col class="c-tien"></colgroup><thead><tr><th>Ngày · phiếu</th><th>Mặt hàng</th><th class="r">Số lượng</th><th class="r">Đơn giá</th><th class="r">Thành tiền</th></tr></thead><tbody>${body}</tbody><tfoot><tr><td colspan="4">Tổng ${rows.length} dòng</td><td class="r num">${VND(tong)}</td></tr></tfoot></table></div>`:'<div class="empty"><b>Không có hàng nhận trong kỳ này</b>Chọn NCC khác bằng nút ‹ › hoặc chọn kỳ khác.</div>'}`;
 }
 /* ---- 5.2 So file NCC ---- */
 function parseNccTable(aoa,ky){
@@ -84,38 +87,46 @@ function compareNcc(ours,theirs){
   A.forEach(a=>out.push({loai:'MÌNH CÓ – NCC KHÔNG TÍNH',a,b:null})); B.forEach(b=>out.push({loai:'NCC TÍNH – MÌNH KHÔNG CÓ',a:null,b}));
   return out.sort((x,y)=>(x.a||x.b).d.localeCompare((y.a||y.b).d)); }
 function vSoFile(){
-  const {N,K,ky}=dsSel(); if(!N.length) return head2('5.2 So file chốt của NCC','')+'<div class="empty"><b>Chưa có số nhận hàng</b></div>';
+  const {N,K,ky,cn}=dsSel(); if(!N.length) return emptyDS5('5.2 So file chốt của NCC');
   const doc=dsDoc(ED.dsN,ky.k), R=ED.sf&&ED.sf.key===ED.dsN+'|'+ky.k?ED.sf:null, lock=doc&&doc.tt==='khop';
   const ours=kyRows(ED.dsN,ky), tO=ours.reduce((a,r)=>a+r.sl*r.g,0);
-  let res=''; if(R){ if(R.err) res=`<div class="warn">${esc(R.err)}</div>`; else { const D=compareNcc(ours,R.rows), tN=R.rows.reduce((a,r)=>a+r.tt,0);
-    res=`<div class="kpis"><div class="kv ${D.length?'':'big'}"><b>Kết luận</b><div>${D.length?'<span class="pill bad">LỆCH</span>':'<span class="pill ok">KHỚP</span>'}</div><small>${D.length} chênh lệch</small></div>
-      <div class="kv"><b>Bếp ghi nhận</b><div class="num">${VND(tO)}</div><small>${ours.length} dòng</small></div><div class="kv"><b>NCC tính</b><div class="num">${VND(tN)}</div><small>${R.rows.length} dòng · ${esc(R.ten||'')}</small></div><div class="kv"><b>Chênh tiền</b><div class="num">${VND(tN-tO)}</div></div></div>
-    ${D.length?`<div class="tbl-wrap"><table class="t"><thead><tr><th>Loại</th><th>Ngày</th><th>Mã</th><th>Tên</th><th class="r">SL Bếp</th><th class="r">SL NCC</th><th class="r">Giá Bếp</th><th class="r">Giá NCC</th><th class="r">Tiền Bếp</th><th class="r">Tiền NCC</th><th></th></tr></thead><tbody>
-      ${D.map((x,i)=>{const a=x.a||{},b=x.b||{};const act=lock||!canWrite?'':x.loai==='LỆCH SỐ LƯỢNG'?`<button class="btn sm" data-act5="sf-fix" data-i="${i}">Sửa theo NCC</button>`:x.loai==='NCC TÍNH – MÌNH KHÔNG CÓ'?`<button class="btn sm" data-act5="sf-add" data-i="${i}">Thêm vào phiếu nhận</button>`:x.loai==='MÌNH CÓ – NCC KHÔNG TÍNH'?`<button class="btn sm warn" data-act5="sf-zero" data-i="${i}">Bỏ dòng của Bếp</button>`:'<span class="meta">trao đổi NCC</span>';
-        return `<tr><td><span class="pill ${x.loai.startsWith('LỆCH ĐƠN')||x.loai.startsWith('LỆCH NGÀY')?'run':'bad'}">${x.loai}</span></td><td>${dm((x.a||x.b).d)}${x.a&&x.b&&x.a.d!==x.b.d?' / '+dm(x.b.d):''}</td><td class="num">${a.ma||''}${x.a&&x.b&&a.ma!==b.ma?' / '+b.ma:(!x.a?b.ma:'')}</td><td class="wrap">${esc(a.ten||b.ten||'')}</td>
-          <td class="r num">${x.a?Q(a.sl):''}</td><td class="r num">${x.b?Q(b.sl):''}</td><td class="r num">${x.a?VND(a.g):''}</td><td class="r num">${x.b?VND(b.g):''}</td><td class="r num">${x.a?VND(a.tt):''}</td><td class="r num">${x.b?VND(b.tt):''}</td><td>${act}</td></tr>`;}).join('')}</tbody></table></div>`:''}
-    ${canWrite&&!lock?`<div class="toolbar"><span class="sp"></span>${D.length?'<button class="btn" data-act5="sf-mark-lech">Ghi nhận lệch</button><button class="btn warn" data-act5="sf-force">Cho phép chốt dù lệch</button>':'<button class="btn primary" data-act5="sf-khop">Chốt KHỚP theo file NCC</button>'}</div>`:''}`; ED.sfD=D; } }
+  let res='', kp=''; ED.sfD=null;
+  if(R){ if(R.err) res=`<div class="warn">${esc(R.err)}</div>`; else { const D=compareNcc(ours,R.rows), tN=R.rows.reduce((a,r)=>a+r.tt,0), dT=tN-tO, nFix=D.filter(x=>x.loai==='LỆCH SỐ LƯỢNG').length;
+    kp=`<div class="kpis"><div class="kv big"><b>Kết luận</b><div class="num">${D.length?'LỆCH':'KHỚP'}</div><small>${D.length?D.length+' chênh lệch cần xử lý':'Mọi dòng khớp với file NCC'}</small></div>
+      <div class="kv"><b>Bếp ghi nhận</b><div class="num">${VND(tO)}</div><small>${ours.length} dòng</small></div><div class="kv"><b>NCC tính</b><div class="num">${VND(tN)}</div><small>${R.rows.length} dòng · ${esc(R.ten||'')}</small></div>
+      <div class="kv"><b>Chênh tiền</b><div class="num">${Math.abs(dT)<1?'0':(dT>0?'+':'−')+VND(Math.abs(dT))}</div><small>${Math.abs(dT)<1?'':dT>0?'NCC tính nhiều hơn Bếp':'NCC tính ít hơn Bếp'}</small></div></div>`;
+    const side=(o,other)=>o?`<span class="num"><span class="${other&&Math.abs(o.sl-other.sl)>0.001?'diff':''}">${Q(o.sl)}</span> × <span class="${other&&Math.abs(o.g-other.g)>1?'diff':''}">${VND(o.g)}</span></span><small class="num">= ${VND(o.tt)}${other&&o.d!==other.d?' · ngày '+dm(o.d):''}${other&&o.ma!==other.ma?' · mã '+o.ma:''}</small>`:'<span class="meta">không có</span>';
+    res=`${D.length?`<div class="tbl-wrap" style="max-height:none"><table class="t sf-tbl"><colgroup><col class="c-loai"><col><col class="c-side"><col class="c-side"><col class="c-acts"></colgroup><thead><tr><th>Chênh lệch</th><th>Mặt hàng</th><th class="r">Bếp</th><th class="r">NCC</th><th><span class="sr">Xử lý</span></th></tr></thead><tbody>
+      ${D.map((x,i)=>{const a=x.a,b=x.b,m=a||b;const act=lock||!canWrite?'':x.loai==='LỆCH SỐ LƯỢNG'?`<button class="btn sm" data-act5="sf-fix" data-i="${i}">Sửa theo NCC</button>`:x.loai==='NCC TÍNH – MÌNH KHÔNG CÓ'?`<button class="btn sm" data-act5="sf-add" data-i="${i}">Thêm vào phiếu nhận</button>`:x.loai==='MÌNH CÓ – NCC KHÔNG TÍNH'?`<button class="btn sm danger-text" data-act5="sf-zero" data-i="${i}">Bỏ dòng của Bếp</button>`:'<span class="meta">Trao đổi với NCC</span>';
+        return `<tr><td class="loai"><span class="pill ${x.loai.startsWith('LỆCH ĐƠN')||x.loai.startsWith('LỆCH NGÀY')?'run':'bad'}">${x.loai}</span><small>${dm(m.d)}</small></td><td class="nm"><b>${esc((a&&a.ten)||(b&&b.ten)||'')}</b><small class="num">${m.ma}</small></td>
+          <td class="r side a"><span class="lbl">Bếp </span>${side(a,b)}</td><td class="r side b"><span class="lbl">NCC </span>${side(b,a)}</td><td class="acts"><div class="acts-in">${act}</div></td></tr>`;}).join('')}</tbody></table></div>`:''}
+    ${canWrite&&!lock?`<div class="toolbar">${D.length?`${nFix>1?`<button class="btn" data-act5="sf-fixall">Sửa tất cả ${nFix} dòng lệch số lượng theo NCC</button>`:''}<span class="sp"></span><button class="btn" data-act5="sf-mark-lech">Ghi nhận lệch</button><button class="btn danger-text" data-act5="sf-force">${ED.sfForce?'Bấm lần nữa để chốt dù lệch':'Cho phép chốt dù lệch'}</button>`:'<span class="sp"></span><button class="btn primary" data-act5="sf-khop">Chốt KHỚP theo file NCC</button>'}</div>`:''}`; ED.sfD=D; } }
   return head2('5.2 So file chốt của NCC','Tải file Excel NCC gửi (sổ chi tiết / bảng kê), trang tự nhận cột Ngày, Mã hàng, Tên, Số lượng, Đơn giá, Thành tiền trong 20 dòng đầu và so từng dòng theo (ngày, mã hàng): lệch số lượng, lệch đơn giá, khác mã hàng, lệch ngày (≤ 3 ngày), Bếp có – NCC không tính, NCC tính – Bếp không có. Sửa đến khi khớp thì chốt.')+
-  dsPicker(N,K,ky)+(lock?'<div class="warn ok">Kỳ này đã chốt khớp.</div>':'')+
-  `<div class="toolbar"><label class="btn" for="sf-file">Chọn file NCC (.xlsx, .xls, .csv)</label><input type="file" id="sf-file" accept=".xlsx,.xls,.csv" hidden>
-   <button class="btn sm" data-act5="sf-paste">Hoặc dán bảng</button>${R?'<button class="btn sm" data-act5="sf-clear">Bỏ file</button>':''}</div>
+  dsPicker(N,K,ky,cn)+kp+(lock?'<div class="warn ok">Kỳ này đã chốt khớp.</div>':'')+
+  `<div class="toolbar"><label class="btn${R?'':' primary'}" for="sf-file">Chọn file NCC (.xlsx, .xls, .csv)</label><input type="file" id="sf-file" accept=".xlsx,.xls,.csv" hidden>
+   <button class="btn sm" data-act5="sf-paste" aria-expanded="${!!ED.sfPaste}">Hoặc dán bảng</button>${R?'<button class="btn sm" data-act5="sf-clear">Bỏ file</button>':''}</div>
   ${ED.sfPaste?`<div class="box"><label class="meta" for="sf-txt">Dán bảng copy từ Excel, gồm cả dòng tiêu đề (Ngày, Mã hàng, Số lượng, Đơn giá, Thành tiền).</label><textarea class="paste" id="sf-txt"></textarea><div class="toolbar"><button class="btn sm primary" data-act5="sf-paste-ok">So sánh</button></div></div>`:''}
-  ${res||'<div class="empty"><b>Chưa có file NCC</b>Chọn file hoặc dán bảng NCC gửi để so.</div>'}`;
+  ${res||`<div class="empty"><b>Chưa có file NCC</b>Bếp ghi nhận kỳ này: <b class="num">${VND(tO)} đ</b> · ${ours.length} dòng. Chọn file hoặc dán bảng NCC gửi để so.</div>`}`;
 }
 /* ---- 5.3 Chốt khớp ---- */
+const CKS={15:'15 ngày',30:'Tháng',0:'Không báo'};
 function vDSK(){
-  const N=dsNccs(), td=todayVN();
-  const rows=N.flatMap(n=>kyList(S.thang,n).map(ky=>({n,ky,doc:dsDoc(n,ky.k),rows:kyRows(n,ky)})));
-  const due=rows.filter(r=>td>=r.ky.to&&r.rows.length&&(!r.doc||r.doc.tt!=='khop'));
-  return head2('5.3 Chốt khớp theo kỳ','Mỗi NCC mỗi kỳ chỉ được dùng cho bước 6 (chỉnh PO, PR bổ sung) và bước 7 (MIGO) khi đã chốt KHỚP: NCC xác nhận, file NCC khớp, hoặc anh cho phép. Chốt xong số nhận của kỳ bị khóa. Chu kỳ lấy theo Danh mục NCC, sửa được ở cột Chu kỳ.')+
-  `<div class="kpis"><div class="kv big"><b>Đến hạn chưa khớp</b><div class="num">${due.length}</div><small>NCC × kỳ</small></div>
-   <div class="kv"><b>Đã khớp</b><div class="num">${rows.filter(r=>r.doc&&r.doc.tt==='khop').length}/${rows.filter(r=>r.rows.length).length}</div><small>kỳ có hàng nhận</small></div></div>
-  <div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>NCC</th><th>Chu kỳ</th><th>Kỳ</th><th class="r">Dòng</th><th class="r">Tiền</th><th>Trạng thái</th><th>Căn cứ</th><th></th></tr></thead><tbody>
-  ${rows.map(r=>{const st=(r.doc&&r.doc.tt)||'chua', tien=r.rows.reduce((a,x)=>a+x.sl*x.g,0), due=td>=r.ky.to, ck=ckOf(r.n);
-    return `<tr><td><b>${esc(r.n)}</b></td><td>${r.ky.k<=1&&canWrite?`<select data-ck="${esc(r.n)}">${[15,30,0].map(v=>`<option value="${v}" ${v===ck?'selected':''}>${CKN[v]}</option>`).join('')}</select>`:''}</td><td>${kyName(r.ky)}${due?'':' <span class="pill">chưa hết kỳ</span>'}</td>
-    <td class="r num">${r.rows.length}</td><td class="r num">${VND(tien)}</td><td><span class="pill ${TTDS[st][1]}">${TTDS[st][0]}</span></td><td class="meta">${esc((r.doc&&r.doc.canCu)||'')}</td>
-    <td>${canWrite?(st==='khop'?`<button class="btn sm" data-act5="ds-open" data-n="${esc(r.n)}" data-k="${r.ky.k}">Mở lại</button>`:(r.rows.length?`<select id="cc-${slug(r.n)}-${r.ky.k}"><option>NCC xác nhận qua email</option><option>${ck===0?'Không báo NCC – Bếp tự xác nhận':'Người dùng cho phép'}</option></select> <button class="btn sm primary" data-act5="ds-khop" data-n="${esc(r.n)}" data-k="${r.ky.k}">Chốt khớp</button>`:'')):''}</td></tr>`;}).join('')}
-  </tbody></table></div>`;
+  const N=dsNccs(), td=todayVN(), f=ED.dskF||'co';
+  const all=N.flatMap(n=>kyList(S.thang,n).map(ky=>({n,ky,doc:dsDoc(n,ky.k),rows:kyRows(n,ky)})));
+  const st=r=>(r.doc&&r.doc.tt)||'chua', isDue=r=>td>=r.ky.to&&r.rows.length&&st(r)!=='khop';
+  const co=all.filter(r=>r.rows.length), due=all.filter(isDue), shown=f==='all'?all:f==='han'?due:co;
+  const body=shown.map(r=>{const s=st(r), tien=r.rows.reduce((a,x)=>a+x.sl*x.g,0), dn=td>=r.ky.to, ck=ckOf(r.n), key=r.n+'|'+r.ky.k;
+    const act=!canWrite?'':s==='khop'?`<button class="btn sm" data-act5="ds-open" data-n="${esc(r.n)}" data-k="${r.ky.k}">Mở lại</button>`:!r.rows.length?'':ED.dskAsk===key?`<select id="cc-${slug(r.n)}-${r.ky.k}" aria-label="Căn cứ chốt ${esc(r.n)}"><option>NCC xác nhận qua email</option><option>${ck===0?'Không báo NCC – Bếp tự xác nhận':'Người dùng cho phép'}</option></select><button class="btn sm primary" data-act5="ds-khop" data-n="${esc(r.n)}" data-k="${r.ky.k}">Xác nhận</button><button class="btn sm ghost" data-act5="dsk-ask" data-key="">Hủy</button>`:`<button class="btn sm${dn?' primary':''}" data-act5="dsk-ask" data-key="${esc(key)}">Chốt khớp…</button>`;
+    return `<tr><td class="ncc"><b>${esc(r.n)}</b>${r.ky.k<=1&&canWrite?`<select data-ck="${esc(r.n)}" aria-label="Chu kỳ đối soát ${esc(r.n)}">${[15,30,0].map(v=>`<option value="${v}" ${v===ck?'selected':''}>${CKS[v]}</option>`).join('')}</select>`:`<small>${CKS[ck]}</small>`}</td>
+    <td class="ky">${kyName(r.ky)}${dn?'':'<small>chưa hết kỳ</small>'}</td><td class="r tien"><b class="num">${VND(tien)}</b><small>${r.rows.length} dòng</small></td>
+    <td class="tt"><span class="pill ${TTDS[s][1]}">${TTDS[s][0]}</span>${r.doc&&r.doc.canCu?`<small>${esc(r.doc.canCu)}</small>`:''}</td><td class="acts"><div class="acts-in">${act}</div></td></tr>`;}).join('');
+  return head2('5.3 Chốt khớp theo kỳ','Mỗi NCC mỗi kỳ chỉ được dùng cho bước 6 (chỉnh PO, PR bổ sung) và bước 7 (MIGO) khi đã chốt KHỚP: NCC xác nhận, file NCC khớp, hoặc người dùng cho phép. Chốt xong số nhận của kỳ bị khóa. Chu kỳ lấy theo Danh mục NCC, sửa được ngay dưới tên NCC.')+
+  `<div class="kpis"><div class="kv big"><b>Kỳ đến hạn chưa khớp</b><div class="num">${due.length}</div><small>${due.length?'cần gửi bảng kê hoặc chốt':'không có kỳ nào trễ'}</small></div>
+   <div class="kv"><b>Đã khớp</b><div class="num">${co.filter(r=>st(r)==='khop').length} / ${co.length} kỳ</div><small>trong các kỳ có hàng nhận</small></div>
+   <div class="kv"><b>Đã gửi, chờ NCC</b><div class="num">${co.filter(r=>st(r)==='gui'||st(r)==='lech').length} kỳ</div><small>${co.filter(r=>st(r)==='lech').length} kỳ đang lệch</small></div></div>
+  <div class="toolbar"><div class="seg"><button data-act5="dsk-f" data-f="co" aria-pressed="${f==='co'}">Có hàng ${co.length}</button><button data-act5="dsk-f" data-f="han" aria-pressed="${f==='han'}">Đến hạn ${due.length}</button><button data-act5="dsk-f" data-f="all" aria-pressed="${f==='all'}">Tất cả ${all.length}</button></div></div>
+  ${shown.length?`<div class="tbl-wrap" style="max-height:none"><table class="t dsk-tbl"><colgroup><col><col class="c-ky"><col class="c-tien"><col class="c-tt"><col class="c-acts"></colgroup><thead><tr><th>NCC · chu kỳ</th><th>Kỳ</th><th class="r">Tiền</th><th>Trạng thái</th><th><span class="sr">Thao tác</span></th></tr></thead><tbody>${body}</tbody></table></div>`
+  :`<div class="empty"><b>${f==='han'?'Không có kỳ nào đến hạn mà chưa khớp':'Chưa có kỳ nào có hàng nhận'}</b>${f==='han'?'Mọi kỳ đã hết hạn đều đã chốt khớp.':'Ghi phiếu nhận ở bước 4.2.'}</div>`}`;
 }
 
 /* ================= BƯỚC 6 · CHỈNH PO & PR BỔ SUNG (CUỐI CHU KỲ) ================= */
@@ -217,12 +228,19 @@ function vMGls(){
    ${ED.mgOpen===m.id?`<tr><td></td><td colspan="9"><table class="t"><tbody>${m.lines.map(l=>`<tr><td class="num">Dòng ${l.item}</td><td class="num">${l.ma}</td><td>${esc((IT.get(l.ma)||{}).ten||'')}</td><td class="r num">${Q(l.sl)}</td></tr>`).join('')}</tbody></table></td></tr>`:''}`).join('')}</tbody></table></div>`:'<div class="empty"><b>Chưa có chứng từ MIGO</b>Lập ở 7.1.</div>');
 }
 
+async function sfApply(x,a){
+  if(a==='sf-add'){ await addRecv(ED.dsN,x.b.d,x.b.ma,x.b.sl,'Thêm theo file NCC'); return; }
+  const target=a==='sf-zero'?0:x.b.sl; const src=x.a.src; let rem=target; for(let i=0;i<src.length;i++){ const r=recvFull().find(z=>JSON.stringify(z.src)===JSON.stringify(src[i])); const v=i===src.length-1?rem:Math.min(rem,r?r.sl:0); await editRecv(src[i],+(+v).toFixed(3),a==='sf-zero'?'Bỏ theo file NCC':'Sửa theo file NCC'); rem-=v; } }
 /* ---- sự kiện 5–7 ---- */
 document.addEventListener('click',async e=>{
   const t=e.target.closest('[data-act5],[data-act6],[data-act7]'); if(!t) return; const a=t.dataset.act5||t.dataset.act6||t.dataset.act7;
   try{
   const {ky}=(t.dataset.act5?dsSel():{});
-  if(a==='bk-save'){ for(const [k,v] of Object.entries(ED.bk)) await editRecv(JSON.parse(k),v,'Sửa khi đối soát '+tstr(Date.now())); await log('5.1',`Sửa ${Object.keys(ED.bk).length} dòng nhận hàng ${ED.dsN} (${kyName(ky)})`); ED.bk={}; }
+  if(a==='bk-save'){ for(const [k,v] of Object.entries(ED.bk)) await editRecv(JSON.parse(k),v,'Sửa khi đối soát '+tstr(Date.now())); await log('5.1',`Sửa ${Object.keys(ED.bk).length} dòng nhận hàng ${ED.dsN} (${kyName(ky)})`); ED.bk={}; ED.bkEdit=false; render(); }
+  else if(a==='bk-edit'){ ED.bkEdit=!!t.dataset.v; ED.bk={}; render(); }
+  else if(a==='ds-nav'){ const {N}=dsSel(), i=N.indexOf(ED.dsN)+(+t.dataset.d); if(N[i]){ ED.dsN=N[i]; ED.dsK=null; ED.bk={}; ED.bkEdit=false; ED.sf=null; ED.sfForce=false; render(); } }
+  else if(a==='dsk-f'){ ED.dskF=t.dataset.f; render(); }
+  else if(a==='dsk-ask'){ ED.dskAsk=t.dataset.key||null; render(); }
   else if(a==='bk-copy'){ const E=bkEmail(ED.dsN,ky,kyRows(ED.dsN,ky)); try{ await navigator.clipboard.writeText(E.text); toast('Đã copy bảng kê.'); }catch(err){ toast('Không copy được.'); } }
   else if(a==='bk-draft'){ const rows=kyRows(ED.dsN,ky), E=bkEmail(ED.dsN,ky,rows), em=(NCCINFO[ED.dsN]||{}).email||[]; ED.drafting=true; render();
     try{ const r=await call('Gmail','create_draft',{to:em,subject:E.subj,htmlBody:E.html,body:E.text,includeSignature:true},'Tạo nháp Gmail bảng kê '+ED.dsN); const pl=(r&&r.payload)||{};
@@ -233,13 +251,13 @@ document.addEventListener('click',async e=>{
   else if(a==='sf-paste'){ ED.sfPaste=!ED.sfPaste; render(); }
   else if(a==='sf-clear'){ ED.sf=null; render(); }
   else if(a==='sf-paste-ok'){ const aoa=$('#sf-txt').value.split(/\r?\n/).filter(Boolean).map(l=>l.split('\t')); ED.sf={key:ED.dsN+'|'+ky.k,ten:'bảng dán',...parseNccTable(aoa,ky)}; ED.sfPaste=false; render(); }
-  else if(a==='sf-fix'||a==='sf-zero'||a==='sf-add'){ const x=ED.sfD[+t.dataset.i];
-    if(a==='sf-add'){ await addRecv(ED.dsN,x.b.d,x.b.ma,x.b.sl,'Thêm theo file NCC'); }
-    else { const target=a==='sf-zero'?0:x.b.sl; const src=x.a.src; let rem=target; for(let i=0;i<src.length;i++){ const r=recvFull().find(z=>JSON.stringify(z.src)===JSON.stringify(src[i])); const v=i===src.length-1?rem:Math.min(rem,r?r.sl:0); await editRecv(src[i],+(+v).toFixed(3),a==='sf-zero'?'Bỏ theo file NCC':'Sửa theo file NCC'); rem-=v; } }
+  else if(a==='sf-fixall'){ const L=(ED.sfD||[]).filter(x=>x.loai==='LỆCH SỐ LƯỢNG'); t.disabled=true; for(const x of L) await sfApply(x,'sf-fix'); await log('5.2',`Sửa ${L.length} dòng lệch số lượng theo file ${ED.dsN}`); toast(`Đã sửa ${L.length} dòng theo file NCC.`); }
+  else if(a==='sf-fix'||a==='sf-zero'||a==='sf-add'){ const x=ED.sfD[+t.dataset.i]; await sfApply(x,a);
     await log('5.2',`${a==='sf-add'?'Thêm':a==='sf-zero'?'Bỏ':'Sửa'} ${(x.a||x.b).ma} ngày ${dm((x.a||x.b).d)} theo file ${ED.dsN}`); }
-  else if(a==='sf-khop'||a==='sf-force'){ await setDS(ED.dsN,ky,{tt:'khop',khopLuc:Date.now(),canCu:a==='sf-khop'?'Khớp file NCC':'Người dùng cho phép dù lệch'},a==='sf-khop'?'Khớp file NCC':'Cho phép chốt dù lệch'); await log('5.2',`Chốt khớp ${ED.dsN} ${kyName(ky)} (${a==='sf-khop'?'file NCC khớp':'cho phép dù lệch'})`); }
+  else if(a==='sf-force'&&!ED.sfForce){ ED.sfForce=true; toast('Bấm lần nữa để chốt kỳ này dù còn lệch.'); render(); }
+  else if(a==='sf-khop'||a==='sf-force'){ ED.sfForce=false; await setDS(ED.dsN,ky,{tt:'khop',khopLuc:Date.now(),canCu:a==='sf-khop'?'Khớp file NCC':'Người dùng cho phép dù lệch'},a==='sf-khop'?'Khớp file NCC':'Cho phép chốt dù lệch'); await log('5.2',`Chốt khớp ${ED.dsN} ${kyName(ky)} (${a==='sf-khop'?'file NCC khớp':'cho phép dù lệch'})`); }
   else if(a==='sf-mark-lech'){ await setDS(ED.dsN,ky,{tt:'lech'},`Lệch ${ED.sfD.length} dòng so với file NCC`); }
-  else if(a==='ds-khop'){ const n=t.dataset.n, kk=kyList(S.thang,n).find(k=>k.k===+t.dataset.k), cc=$(`#cc-${slug(n)}-${kk.k}`).value; await setDS(n,kk,{tt:'khop',khopLuc:Date.now(),canCu:cc},'Chốt khớp: '+cc); await log('5.3',`Chốt khớp ${n} ${kyName(kk)} – ${cc}`); }
+  else if(a==='ds-khop'){ const n=t.dataset.n, kk=kyList(S.thang,n).find(k=>k.k===+t.dataset.k), cc=$(`#cc-${slug(n)}-${kk.k}`).value; ED.dskAsk=null; await setDS(n,kk,{tt:'khop',khopLuc:Date.now(),canCu:cc},'Chốt khớp: '+cc); await log('5.3',`Chốt khớp ${n} ${kyName(kk)} – ${cc}`); }
   else if(a==='ds-open'){ const n=t.dataset.n, kk=kyList(S.thang,n).find(k=>k.k===+t.dataset.k); if(migoAll().some(m=>m.ncc===n&&m.k===kk.k&&m.thang===S.thang)){toast('Kỳ này đã lập MIGO; hủy MIGO ở 7.2 trước.');return;} await setDS(n,kk,{tt:'lech'},'Mở lại để sửa'); await log('5.3',`Mở lại kỳ ${n} ${kyName(kk)}`); }
   else if(a==='moc'){ ED.moc=t.dataset.m; render(); }
   else if(a==='cpo-f'){ ED.cpoF=t.dataset.f; render(); }
@@ -279,8 +297,8 @@ document.addEventListener('click',async e=>{
 });
 document.addEventListener('input',e=>{ const t=e.target; if(t.dataset.bk){ ED.bk=ED.bk||{}; ED.bk[t.dataset.bk]=Math.max(0,pnum(t.value)); } });
 document.addEventListener('change',async e=>{ const t=e.target;
-  if(t.id==='ds-n'){ ED.dsN=t.value; ED.dsK=null; ED.bk={}; ED.sf=null; render(); }
-  else if(t.id==='ds-k'){ ED.dsK=+t.value; ED.bk={}; ED.sf=null; render(); }
+  if(t.id==='ds-n'){ ED.dsN=t.value; ED.dsK=null; ED.bk={}; ED.bkEdit=false; ED.sf=null; ED.sfForce=false; render(); }
+  else if(t.id==='ds-k'){ ED.dsK=+t.value; ED.bk={}; ED.sf=null; ED.sfForce=false; render(); }
   else if(t.dataset.ck){ const m={...((S.ck&&S.ck.map)||{})}; m[t.dataset.ck]=+t.value; await store.set('cauhinh/chuky',{...(S.ck||{}),map:m,luc:Date.now(),ai:uid}); await log('5.3',`Đổi chu kỳ ${t.dataset.ck}: ${CKN[+t.value]}`); }
   else if(t.dataset.mgsel){ ED.mgsel=ED.mgsel||new Set(); t.checked?ED.mgsel.add(t.dataset.mgsel):ED.mgsel.delete(t.dataset.mgsel); render(); }
   else if(t.id==='sf-file'&&t.files&&t.files[0]){ const {ky}=dsSel(); const f=t.files[0];
