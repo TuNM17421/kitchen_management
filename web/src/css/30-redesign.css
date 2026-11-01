@@ -518,3 +518,25 @@ table.mgc-tbl col.c-exp,table.mgw-tbl col.c-exp{width:44px}
 table.mgc-tbl col.c-tien{width:150px}table.mgc-tbl col.c-tt{width:300px}table.mgc-tbl col.c-acts{width:120px}
 table.mgw-tbl col.c-tien{width:150px}table.mgw-tbl col.c-when{width:210px}table.mgw-tbl col.c-tt{width:230px}
 ol.flow>li>.box,ol.flow>li>.tbl-wrap{min-width:0}
+/* ---- Bước 8 · ĐNTT ---- */
+table.hd-tbl col.c-exp{width:40px}table.hd-tbl col.c-tien{width:128px}table.hd-tbl col.c-tt{width:290px}table.hd-tbl col.c-when{width:210px}table.hd-tbl col.c-acts{width:84px}
+.hd-f{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 8px}
+.hd-f label{display:flex;flex-direction:column;gap:2px;min-width:0}
+.hd-f label>span:first-child{font-size:12px;color:color-mix(in srgb,var(--muted) 80%,var(--ink))}
+.hd-f label.w{grid-column:1/-1}
+.hd-f input{width:100%;min-width:0;box-sizing:border-box}
+.hd-f .hd-t{display:flex;gap:6px;align-items:center}.hd-f .hd-t input{flex:1;text-align:right}.hd-f .hd-t .btn{white-space:nowrap}
+table.hd-tbl td.when .pill{margin:0 4px 4px 0}
+table.hd-tbl .hd-go{justify-content:flex-start;margin-top:6px}
+table.hd-tbl>tbody>tr.dirty>td{background:color-mix(in srgb,var(--edit) 10%,transparent)}
+table.dnr-tbl col.c-exp,table.dnf-tbl col.c-exp{width:44px}
+table.dnr-tbl col.c-tien,table.dnf-tbl col.c-tien{width:140px}table.dnr-tbl col.c-tt{width:180px}table.dnr-tbl col.c-when{width:190px}table.dnf-tbl col.c-tt{width:260px}
+table.dnr-tbl td.when .pill{margin:0 4px 4px 0}
+table.dnls-tbl col.c-tien{width:124px}table.dnls-tbl col.c-tt{width:200px}table.dnls-tbl col.c-when{width:150px}table.dnls-tbl col.c-acts{width:230px}
+table.dnls-tbl>tbody>tr.qh>td.tt .pill{outline:2px solid color-mix(in srgb,var(--bad) 35%,transparent)}
+.dn-ask{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 12px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r2);background:var(--surface);margin-bottom:8px}
+.dn-ask>b{flex-basis:100%}.dn-ask .fld{display:flex;flex-direction:column;gap:2px;font-size:12px;text-align:left}.dn-ask .fld input{min-width:180px}
+.dn-det{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:4px 0 8px;font-size:13px}.dn-det dt{color:var(--muted);font-weight:600}.dn-det dd{margin:0}
+.dn-hist{margin:0;padding-left:18px;font-size:13px;display:grid;gap:2px}
+.dn-bulk .fld{display:flex;flex-direction:column;gap:2px;font-size:12px}
+@media (max-width:700px){.dn-ask .fld,.dn-ask .fld input{width:100%;min-width:0}.hd-f{grid-template-columns:minmax(0,1fr)}}

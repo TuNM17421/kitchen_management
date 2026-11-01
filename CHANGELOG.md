@@ -1,8 +1,11 @@
 # Nhật ký thay đổi
 
+## Bước 8 · ĐNTT theo PO – review UI/UX
 
-
-
+- 8.1: bảng hóa đơn thành dạng thẻ trên điện thoại, gọn 6 cột trên máy tính (không còn tràn ngang). Ô nhập có nhãn, nút "= Tiền PO", tiền tự định dạng. Lưu hóa đơn cần đủ số, ngày (không trước đầu kỳ) và tiền, có thông báo kết quả và chống bấm hai lần. Thêm KPI, lọc NCC / Chưa lập / Đã lập, điều kiện thiếu có nút Mở 5.2 / 7.1 / 3.4 / 6.1.
+- 8.2: luồng 3 bước (Lập ĐNTT → Tạo file ĐNTT → Trình ký & thanh toán). Chọn được kỳ cần lập (mặc định chọn hết), chọn tất cả ĐNTT để tạo file, trạm là nút chính, tải file / copy vào mục "Chạy bằng macro". Cảnh báo MIGO chưa có số hoặc chờ hết kỳ.
+- 8.3: không còn chuyển tay sang "Đã tạo file ĐNTT". Mỗi lần chuyển trạng thái cần xác nhận; thanh toán ghi ngày và số UNC. Hủy cần xác nhận, đã chuyển kế toán thì bắt buộc lý do; không hủy được khi đã thanh toán. Thêm lọc NCC và trạng thái, chuyển cả nhóm, xem chi tiết và lịch sử từng ĐNTT, KPI quá 15 ngày chưa trả, thông báo khi tháng đã thanh toán đủ.
+- Tab 8.1 / 8.2 có dấu ✓ khi xong, 8.3 là tab theo dõi. Sửa 6 lỗi trợ năng (axe 0 lỗi).
 
 ## Bước 7 MIGO cuối kỳ – sửa theo review UI/UX
 
