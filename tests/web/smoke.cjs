@@ -44,6 +44,25 @@ async function open(file) {
   check(errs.length === 0, 'demo: không lỗi JS ' + JSON.stringify(errs));
   await page.close();
 }
+{ // Responsive: không tràn ngang ở mọi bước / mục, trên điện thoại và máy tính bảng
+  for (const [name, w, h] of [['điện thoại', 390, 844], ['máy tính bảng', 820, 1180]]) {
+    const page = await browser.newPage({ viewport: { width: w, height: h } });
+    await page.route('https://cdnjs.cloudflare.com/**', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: '' }));
+    await page.goto(url('dieu-hanh-demo.html'));
+    await page.waitForFunction(() => /Lần tính gần nhất/.test(document.body.innerText), null, { timeout: 15000 });
+    const bad = [];
+    for (let st = 1; st <= 8; st++) {
+      await page.click(`[data-step="${st}"]`); await page.waitForTimeout(150);
+      for (const t of await page.$$eval('#tabs [data-tab]', x => x.map(e => e.dataset.tab))) {
+        await page.click(`#tabs [data-tab="${t}"]`); await page.waitForTimeout(100);
+        const sw = await page.evaluate(() => document.documentElement.scrollWidth);
+        if (sw > w + 1) bad.push(`${st}/${t}:${sw}px`);
+      }
+    }
+    check(bad.length === 0, `responsive ${name} ${w}px: không tràn ngang ${bad.join(', ')}`);
+    await page.close();
+  }
+}
 await browser.close();
 console.log(fail ? `\n${fail} kiểm tra lỗi` : '\nTất cả kiểm tra đạt');
 process.exit(fail ? 1 : 0);

@@ -1,3 +1,8 @@
+/* ---------- giao diện gọn: mục "Cách làm" thu gọn, nhật ký thu gọn trên màn hình nhỏ ---------- */
+let HELP_OPEN=false, OPTS_OPEN=false, LAST_VIEW='';
+document.addEventListener('toggle',e=>{ const d=e.target; if(d.matches&&d.matches('details.help')) HELP_OPEN=d.open; if(d.matches&&d.matches('details.opts')) OPTS_OPEN=d.open; },true);
+document.addEventListener('click',e=>{ if(e.target.closest('[data-act="ncc-all"]')){ ED.nccAll=!ED.nccAll; render(); } });
+if(window.matchMedia&&matchMedia('(max-width:1000px)').matches) document.querySelectorAll('details.lg[data-lg="log"]').forEach(d=>d.open=false);
 /* ---------- RENDER CHUNG ---------- */
 function renderTrack(){
   const m=prMain(), st2=m.length?(m.every(b=>b.tt==='duyet')?['ok','PR đã duyệt']:['run','Đang làm']):['','Chưa bắt đầu'];
@@ -7,7 +12,7 @@ function renderTrack(){
     const dns=Object.values(S.dn||{}).filter(d=>d.thang===S.thang&&d.tt!=='huy'), st8=dns.length?['run',dns.filter(d=>d.tt==='tt').length+'/'+dns.length+' đã thanh toán']:['','Chưa bắt đầu'];
     const pill=i===0?(done?['ok','Đã chốt']:['run','Đang làm']):[null,st2,st3,st4,st5,st6,st7,st8][i];
     const stc=(done||pill[0]==='ok')?'done':pill[0]==='run'?'run':'todo';
-    return `<div class="node ${stc}${sel?' cur':''}" ${i<8?`data-step="${i+1}" role="button" tabindex="0" aria-current="${sel?'step':'false'}" style="cursor:pointer"`:''}><div class="dot">${stc==='done'?'✓ ':''}${i+1}</div><div class="lbl">${s[0]}</div><div class="sub">${s[1]}</div><span class="pill ${pill[0]}">${pill[1]}</span></div>`;}).join('');
+    return `<div class="node ${stc}${sel?' cur':''}" ${i<8?`data-step="${i+1}" role="button" tabindex="0" aria-current="${sel?'step':'false'}" style="cursor:pointer" title="${esc(s[1])}"`:''}><div class="dot">${stc==='done'?'✓ ':''}${i+1}</div><div class="lbl">${s[0]}</div><span class="pill ${pill[0]}">${pill[1]}</span></div>`;}).join('');
 }
 const curSub=()=>S.step===8?SUB8:S.step===7?SUB7:S.step===6?SUB6:S.step===5?SUB5:S.step===4?SUB4:S.step===3?SUB3:S.step===2?SUB2:SUB;
 function renderTabs(){
@@ -50,8 +55,10 @@ document.addEventListener('click',e=>{ const b=e.target.closest('[data-mode]'); 
 function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();renderTabs();renderSteps();renderLog();
   const v={td:vTD,khach:vKhach,dm:vDM,tinh:vTinh,chot:vChot,pb:vPB,xuat:vXuat,ls:vLS,dc:vDC,pocan:vPOcan,posap:vPOsap,podc:vPOdc,pols:vPOls,dat:vDat,nhan:vNhan,nls:vNls,bk:vBK,sofile:vSoFile,dsk:vDSK,cpo:vCPO,gpo:vGPO,kpo:vKPO,mg:vMG,mgls:vMGls,hd:vHD,dn:vDN,dnls:vDNls}[S.tab]; const ae=document.activeElement, id=ae&&ae.id, pos=ae&&ae.selectionStart;
   $('#view').innerHTML=v();
+  $('#view').querySelectorAll('table.t').forEach(t=>{ if(!t.closest('.tbl-wrap')){ const w=document.createElement('div'); w.className='tbl-wrap'; t.before(w); w.appendChild(t); } });
+  const vk=S.step+'|'+S.tab; if(vk!==LAST_VIEW){ LAST_VIEW=vk; requestAnimationFrame(()=>{ for(const el of [document.querySelector('.node.cur'),document.querySelector('.tab[aria-selected="true"]')]){ const sc=el&&el.closest('.track,.tabs'); if(sc&&sc.scrollWidth>sc.clientWidth+4) sc.scrollTo({left:el.offsetLeft-(sc.clientWidth-el.offsetWidth)/2,behavior:'smooth'}); } }); }
   if(id){const el=document.getElementById(id); if(el){el.focus(); try{if(pos!=null)el.setSelectionRange(pos,pos);}catch(e){}}}
 }
 function head(title,desc,key){ const x=S.tt[key];
-  return `<div class="sh"><div><h2>${title}</h2><p>${desc}</p></div><div class="toolbar">${x&&x.ok?`<span class="pill ok">✓ Đã xác nhận ${tstr(x.luc)} · ${esc(nm(x.ai))}</span>`:'<span class="pill run">Chưa xác nhận</span>'}${locked()?'<span class="pill bad">Dự trù đã chốt · chỉ xem</span>':''}</div></div>`; }
+  return `<div class="sh"><div><h2>${title}</h2>${desc?`<details class="help"${HELP_OPEN?' open':''}><summary>Cách làm</summary><p>${desc}</p></details>`:''}</div><div class="toolbar">${x&&x.ok?`<span class="pill ok">✓ Đã xác nhận ${tstr(x.luc)} · ${esc(nm(x.ai))}</span>`:'<span class="pill run">Chưa xác nhận</span>'}${locked()?'<span class="pill bad">Dự trù đã chốt · chỉ xem</span>':''}</div></div>`; }
 

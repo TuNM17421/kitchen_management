@@ -141,3 +141,95 @@ textarea.paste{width:100%;min-height:110px;font-family:var(--f-mono);font-size:1
 @media (max-width:700px){.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.tab{white-space:nowrap}.hctl{gap:6px}}
 @media (max-width:1000px){.stage-row{grid-template-columns:1fr}.log{position:static;max-height:420px}.two{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ================= GIAO DIỆN GỌN + RESPONSIVE (01/11/2026) ================= */
+/* mô tả dài của từng mục: thu vào "Cách làm" */
+details.help{margin-top:4px;max-width:78ch}
+details.help>summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;list-style:none;font-size:13px;font-weight:600;color:var(--accent);padding:2px 0}
+details.help>summary::-webkit-details-marker{display:none}
+details.help>summary::before{content:"?";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1.5px solid currentColor;font-size:11px;font-weight:800}
+details.help[open]>summary::after{content:"Ẩn";font-weight:500;color:var(--muted)}
+details.help>p{margin:6px 0 2px;padding:10px 12px;background:var(--sunk);border-radius:var(--r1);font-size:13.5px;line-height:1.5;color:var(--ink)}
+/* khung nhật ký bên phải: từng nhóm thu gọn được */
+details.lg{border-top:1px solid var(--line);padding-top:8px}
+details.lg:first-child{border-top:0;padding-top:0}
+details.lg>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+details.lg>summary::-webkit-details-marker{display:none}
+details.lg>summary h3{margin:0}
+details.lg>summary::after{content:"▾";color:var(--muted);font-size:12px;transition:transform .15s}
+details.lg:not([open])>summary::after{transform:rotate(-90deg)}
+details.lg>ol,details.lg>.steps{margin-top:8px}
+.log{overflow:auto}
+/* chú thích nguồn dữ liệu cuối trang */
+details.foot>summary{cursor:pointer;font-size:12.5px;color:var(--muted);width:max-content}
+details.foot>p{margin-top:6px}
+/* dải 8 bước: gọn hơn, chi tiết nằm trong tooltip */
+.node{gap:2px;padding-bottom:10px}
+.node::before{height:6px;margin-bottom:8px}
+.node .lbl{font-weight:700;line-height:1.25}
+.node .pill{margin-top:4px;font-size:11.5px}
+.nodes{grid-template-columns:repeat(8,minmax(112px,1fr));min-width:0}
+/* bảng: không bao giờ tràn khung */
+#view{min-width:0}
+.tbl-wrap{max-width:100%}
+.stage{min-width:0}
+
+@media (max-width:1100px){
+  .nodes{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(118px,1fr);min-width:max-content}
+  .track{scroll-snap-type:x proximity;scrollbar-width:thin;mask-image:linear-gradient(90deg,#000 92%,transparent)}
+  .node{scroll-snap-align:start}
+}
+@media (max-width:1000px){
+  .log{max-height:none}
+}
+@media (max-width:700px){
+  .wrap{gap:10px;padding-block:10px 20px}
+  .eyebrow{display:none}
+  header{align-items:center;gap:8px}
+  h1{font-size:21px}
+  .hctl{width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .hctl::-webkit-scrollbar{display:none}
+  .hctl>*{flex:none}
+  .hctl label.meta{display:none}
+  .modebar .seg.mode{width:100%}
+  .modebar .seg.mode button{flex:1;padding:7px 8px;font-size:13.5px}
+  .banner{font-size:13px;padding:8px 12px}
+  .nodes{grid-auto-columns:104px;gap:6px}
+  .node{padding:0 9px 8px}
+  .node .lbl{font-size:13px}
+  .panel.stage{padding:12px}
+  .sh{flex-direction:column;align-items:flex-start;gap:6px}
+  .sh h2{font-size:18px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .kpis>*{padding:10px 12px}
+  .kv div{font-size:18px}
+  .kv small{font-size:11.5px}
+  .toolbar{flex-wrap:wrap;gap:6px}
+  .toolbar input[type=number]{width:72px}
+  table.t{font-size:12.5px}
+  table.t th,table.t td{padding:6px 8px}
+  .tbl-wrap{max-height:70vh}
+  .toast{left:12px;right:12px;bottom:12px;text-align:center}
+}
+@media (max-width:700px){
+  header{flex-direction:column;align-items:stretch}
+  header>*{min-width:0;max-width:100%}
+  .modebar{min-width:0;max-width:100%}
+  .modebar .seg.mode{display:flex}
+  .modebar .seg.mode button{min-width:0;white-space:normal;line-height:1.2}
+}
+.wrap{grid-template-columns:minmax(0,1fr)}
+@media (max-width:1000px){.stage-row{grid-template-columns:minmax(0,1fr)}}
+/* thẻ bước: số bước nhỏ phía trên, nhãn, trạng thái – không chồng chữ */
+.node{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.node .dot{position:static;font-size:11px;font-weight:700;color:var(--muted);opacity:1;line-height:1}
+.node.done .dot,.node.run .dot{color:var(--ink)}
+.node .pill{margin-top:auto;padding-top:2px}
+.node .lbl{margin-bottom:6px}
+/* tuỳ chọn tính dự trù: thu gọn */
+details.opts{flex-basis:100%}
+details.opts>summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);width:max-content}
+details.opts .optbody{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:8px;padding:10px 12px;background:var(--sunk);border-radius:var(--r1)}
+.morebtn{margin:4px 0 0}
+@media (max-width:700px){ .k12{display:none} }
+@media (max-width:1000px){.two{grid-template-columns:minmax(0,1fr)!important}.dlist{max-height:40vh}}

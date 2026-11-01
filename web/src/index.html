@@ -35,18 +35,14 @@
       <div class="tabs" role="tablist" id="tabs"></div>
       <div id="view"></div>
     </section>
-    <aside class="panel log">
-      <h3 id="stHead">Trạng thái bước 1</h3>
-      <div class="steps" id="steps"></div>
-      <h3>Lệnh gửi trạm SAP</h3>
-      <ol id="lenhList" style="max-height:260px"></ol>
-      <h3>Đọc, ghi file dữ liệu</h3>
-      <ol id="cmd" style="max-height:220px"></ol>
-      <h3>Nhật ký thao tác</h3>
-      <ol id="log"></ol>
+    <aside class="panel log" aria-label="Trạng thái và nhật ký">
+      <details class="lg" data-lg="st" open><summary><h3 id="stHead">Trạng thái bước 1</h3></summary><div class="steps" id="steps"></div></details>
+      <details class="lg" data-lg="lenh"><summary><h3>Lệnh gửi trạm SAP</h3></summary><ol id="lenhList" style="max-height:260px"></ol></details>
+      <details class="lg" data-lg="cmd"><summary><h3>Đọc, ghi file dữ liệu</h3></summary><ol id="cmd" style="max-height:220px"></ol></details>
+      <details class="lg" data-lg="log" open><summary><h3>Nhật ký thao tác</h3></summary><ol id="log"></ol></details>
     </aside>
   </div>
-  <p class="meta">Dữ liệu đọc/ghi trực tiếp vào file <b>PRTruoc_DuLieu</b> (Google Sheets) trong thư mục dự án; file xuất cho SAP lưu vào thư mục <b>XuatSAP</b>. Giá: Bảng giá tham chiếu + Giá riêng theo NCC trong Công nợ.xlsx, kỳ giá <b>tháng 10/2026</b> (tạm dùng cho tháng 11 đến khi có giá tươi T11). Mức tiêu thụ và ngân sách tham chiếu: thực nhận và thực chi tháng 9 (10.111 suất nhân viên + nội trú, gồm bữa phụ). Tồn đồ khô: app Kho khô, chỉ đọc.</p>
+  <details class="foot"><summary>Nguồn dữ liệu và bảng giá</summary><p class="meta">Dữ liệu đọc/ghi trực tiếp vào file <b>PRTruoc_DuLieu</b> (Google Sheets) trong thư mục dự án; file xuất cho SAP lưu vào thư mục <b>XuatSAP</b>. Giá: Bảng giá tham chiếu + Giá riêng theo NCC trong Công nợ.xlsx, kỳ giá <b>tháng 10/2026</b> (tạm dùng cho tháng 11 đến khi có giá tươi T11). Mức tiêu thụ và ngân sách tham chiếu: thực nhận và thực chi tháng 9 (10.111 suất nhân viên + nội trú, gồm bữa phụ). Tồn đồ khô: app Kho khô, chỉ đọc.</p></details>
 </div>
 <div class="toast" id="toast" hidden></div>
 <datalist id="dl-item"></datalist>

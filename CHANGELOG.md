@@ -1,6 +1,15 @@
 # Nhật ký thay đổi
 
-## [Chưa phát hành] – VBA, kiểm thử, bảo mật, triển khai (01/11/2026)
+## [Chưa phát hành] – Giao diện gọn + responsive (01/11/2026)
+
+- Mô tả dài đầu mỗi mục thu vào nút "Cách làm"; tuỳ chọn tính dự trù thu vào "Tuỳ chọn"; chú thích nguồn dữ liệu cuối trang thu gọn.
+- Dải 8 bước gọn (bỏ dòng mô tả phụ, đưa vào tooltip), cuộn ngang có snap trên màn hình nhỏ, tự cuộn tới bước / mục đang chọn.
+- Khung trạng thái / nhật ký bên phải chia nhóm thu gọn được; trên màn hình nhỏ nhật ký mặc định thu gọn.
+- Bảng NCC ở 1.4 hiện 6 NCC lớn nhất + "Xem cả N NCC"; điện thoại ẩn cột Kỳ 1 / Kỳ 2.
+- Sửa tràn ngang: lưới chính, `.stage-row`, `.two` dùng `minmax(0,1fr)`; mọi bảng nằm trong khung cuộn; header và thanh chế độ trên điện thoại.
+- Kiểm thử trình duyệt thêm kiểm tra không tràn ngang ở mọi bước / mục (390px, 820px).
+
+## VBA, kiểm thử, bảo mật, triển khai (01/11/2026)
 
 - VBA: `tools/vba/Import-Vba.ps1` / `Export-Vba.ps1` đồng bộ module giữa repo và file `.xlsm`; danh sách module ở `sap-station/vba/modules.json`.
 - Kiểm thử: `tests/unit` (build, gói test), `tests/web/smoke.cjs` (Playwright: số dự trù, phân bổ PR trên gói test), `tests/e2e/so_sanh.py`.

@@ -153,11 +153,11 @@ function vTinh(){
     <td><input type="text" id="lnn-${i}" data-ln="${i}" data-f="note" value="${esc(l.note)}" placeholder="ghi chú" ${W()?'':'disabled'} style="min-width:120px"></td></tr>`;}).join('');
   const nccs=[...new Set(lines.map(l=>l.ncc))].sort();
   return head('1.4 Dự trù tự động & ngân sách','Bấm “Tính dự trù” để cộng: (a) nguyên liệu theo thực đơn × số suất × định mức, (b) phần còn lại theo mức tiêu thụ/suất của tháng 9, rồi cộng dự phòng; đồ khô trừ thêm tồn kho thực tế từ app Kho khô. Cột <b>SL chốt</b> là số bếp quyết định, sửa trực tiếp; dòng đã sửa tay được giữ nguyên khi tính lại.','tinh')+
-  `<div class="toolbar">${W()?`<label class="meta" for="dpT">Dự phòng hàng tươi %</label><input class="n" type="number" id="dpT" value="${pr.dpT}" min="0" max="50" style="width:64px">
+  `<div class="toolbar">${W()?`<details class="opts"${OPTS_OPEN?' open':''}><summary>Tuỳ chọn · dự phòng ${pr.dpT}% / ${pr.dpK}%</summary><div class="optbody"><label class="meta" for="dpT">Dự phòng hàng tươi %</label><input class="n" type="number" id="dpT" value="${pr.dpT}" min="0" max="50" style="width:64px">
     <label class="meta" for="dpK">Đồ khô %</label><input class="n" type="number" id="dpK" value="${pr.dpK}" min="0" max="50" style="width:64px">
     <label class="meta" title="Suất chưa có thực đơn tính theo mức tiêu thụ/suất tháng 9"><input type="checkbox" id="wHist" ${pr.withHist!==false?'checked':''}> Suất chưa có thực đơn: theo T9</label>
     <label class="meta" title="Bỏ tích khi định mức đã gồm gia vị, dầu ăn… (vd thực đơn Excel tuần 1) để không cộng trùng"><input type="checkbox" id="wNgoai" ${(pr.histNgoai!=null?pr.histNgoai:!monthMenu().some(i=>i.nl&&i.nl.length))?'checked':''}> Cộng mặt hàng ngoài định mức theo T9</label>
-    <label class="meta"><input type="checkbox" id="uKho" ${S.kho?(pr.useKho!==false?'checked':''):'disabled'}> Trừ tồn kho đồ khô</label>
+    <label class="meta"><input type="checkbox" id="uKho" ${S.kho?(pr.useKho!==false?'checked':''):'disabled'}> Trừ tồn kho đồ khô</label></div></details>
     <button class="btn primary" data-act="calc">${dt?'Tính lại dự trù':'Tính dự trù tự động'}</button>`:''}
     <span class="meta">${dt?`Tính lúc ${tstr(dt.luc)} · ${esc(nm(dt.ai))}`:'Chưa tính.'} ${ED.lnDirty?'<span class="dirty">· Có số chốt chưa lưu</span>':''}</span><span class="sp"></span>
     ${W()?`<button class="btn primary" data-act="ln-save" ${ED.lnDirty?'':'disabled'}>Lưu số chốt</button>`:''}</div>
@@ -168,9 +168,10 @@ function vTinh(){
     <div class="kv"><b>Đề xuất tự động</b><div class="num">${TR(tx)}</div><small>chênh ${tc>=tx?'+':''}${TR(tc-tx)} do sửa tay</small></div>
     <div class="kv"><b>Tham chiếu theo lượng khách</b><div class="num">${TR(refB)}</div><small>${refB?'Dự tính '+(tc>=refB?'cao hơn ':'thấp hơn ')+Math.abs((tc/refB-1)*100).toFixed(1).replace('.',',')+'% · '+VND(totS)+' suất':'cần lưu lượng khách'}</small></div>
     <div class="kv"><b>Hàng tươi / Đồ khô</b><div class="num">${TR(byG['Thực phẩm tươi sống']||0)} / ${TR(byG['Đồ khô']||0)}</div><small>${lines.length} mã hàng · ${ncc.length} NCC</small></div></div>
-  <div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>Nhà cung cấp</th><th class="r">Số mã</th><th class="r">Kỳ 1 (01–15)</th><th class="r">Kỳ 2 (16–cuối)</th><th class="r">Cả tháng</th><th style="width:30%"></th></tr></thead><tbody>
-   ${ncc.map(([n,a])=>`<tr><td><button class="btn sm lnk" data-act="f-ncc" data-n="${esc(n)}" title="Lọc bảng dưới theo NCC này">${esc(n)}</button></td><td class="r num">${a.n}</td><td class="r num">${VND(a.k1)}</td><td class="r num">${VND(a.k2)}</td><td class="r num"><b>${VND(a.k1+a.k2)}</b></td><td><div class="bar" style="width:${((a.k1+a.k2)/mx*100).toFixed(1)}%"></div></td></tr>`).join('')}
+  <div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>Nhà cung cấp</th><th class="r">Số mã</th><th class="r k12">Kỳ 1 (01–15)</th><th class="r k12">Kỳ 2 (16–cuối)</th><th class="r">Cả tháng</th><th style="width:30%"></th></tr></thead><tbody>
+   ${(ED.nccAll?ncc:ncc.slice(0,6)).map(([n,a])=>`<tr><td><button class="btn sm lnk" data-act="f-ncc" data-n="${esc(n)}" title="Lọc bảng dưới theo NCC này">${esc(n)}</button></td><td class="r num">${a.n}</td><td class="r num k12">${VND(a.k1)}</td><td class="r num k12">${VND(a.k2)}</td><td class="r num"><b>${VND(a.k1+a.k2)}</b></td><td><div class="bar" style="width:${((a.k1+a.k2)/mx*100).toFixed(1)}%"></div></td></tr>`).join('')}
   </tbody></table></div>
+  ${ncc.length>6?`<button class="btn sm lnk morebtn" data-act="ncc-all">${ED.nccAll?'Thu gọn':'Xem cả '+ncc.length+' NCC'} </button>`:''}
   <div class="toolbar"><input type="text" id="f-q" placeholder="Tìm mã / tên hàng" value="${esc(f.q)}" style="width:200px">
     <select id="f-ncc"><option value="">Tất cả NCC</option>${nccs.map(n=>`<option ${n===f.ncc?'selected':''}>${esc(n)}</option>`).join('')}</select>
     <select id="f-n2"><option value="">Tất cả nhóm</option>${['Thực phẩm tươi sống','Đồ khô','(ngoài bảng giá T10)'].map(n=>`<option ${n===f.n2?'selected':''}>${n}</option>`).join('')}</select>
