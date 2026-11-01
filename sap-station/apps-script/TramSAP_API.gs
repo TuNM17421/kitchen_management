@@ -17,11 +17,22 @@ const XUAT_FOLDER = PROPS.getProperty('XUAT_FOLDER') || '';
 function doGet(e)  { return handle_(e && e.parameter || {}); }
 function doPost(e) { let b = {}; try { b = JSON.parse(e.postData.contents || '{}'); } catch (x) {} return handle_(b); }
 
+const MAX_FILE_B64 = 20 * 1024 * 1024; // giới hạn file ĐNTT tải lên (~15 MB)
+
+// So token theo thời gian không đổi: không lộ độ dài phần khớp qua thời gian phản hồi.
+function sameToken_(t) {
+  t = String(t || '');
+  let d = t.length ^ TOKEN.length;
+  for (let i = 0; i < TOKEN.length; i++) d |= TOKEN.charCodeAt(i) ^ (t.charCodeAt(i % (t.length || 1)) || 0);
+  return d === 0;
+}
+
 function out_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
 function handle_(p) {
-  if (!TOKEN || TOKEN === 'DAN_MA_BAO_MAT_CUA_BAN') return out_({ ok: false, loi: 'Cổng chưa cấu hình TOKEN (Thuộc tính tập lệnh)' });
-  if (p.token !== TOKEN) return out_({ ok: false, loi: 'Sai token' });
+  if (TOKEN.length < 32 || TOKEN === 'DAN_MA_BAO_MAT_CUA_BAN') return out_({ ok: false, loi: 'Cổng chưa cấu hình TOKEN đủ mạnh (≥ 32 ký tự, Thuộc tính tập lệnh)' });
+  if (!sameToken_(p.token)) return out_({ ok: false, loi: 'Sai token' });
+  if (p.a === 'file' && String(p.b64 || '').length > MAX_FILE_B64) return out_({ ok: false, loi: 'File quá lớn' });
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(20000)) return out_({ ok: false, loi: 'Bận, thử lại' });
   try {

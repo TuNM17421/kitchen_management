@@ -1,0 +1,16 @@
+{
+  "_ghichu": "Danh sách module VBA cho từng file Excel. Dùng bởi tools/vba/Import-Vba.ps1 và Export-Vba.ps1. Đường dẫn tính từ thư mục gốc repo.",
+  "Template_PR_Tram.xlsm": {
+    "modules": [
+      "sap-station/vba/SAP_Automation.bas",
+      "sap-station/vba/MIGO_TungPhan.bas",
+      "sap-station/vba/DNTT_Automation.bas"
+    ],
+    "simulator": [
+      "sap-simulator/SapGiaLap.bas",
+      "sap-simulator/SapGL_Ctl.cls",
+      "sap-simulator/SapGL_List.cls",
+      "sap-simulator/SapGL_Dong.cls"
+    ]
+  }
+}

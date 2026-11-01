@@ -1,6 +1,18 @@
 # Nhật ký thay đổi
 
-## [Chưa phát hành] – migrate sang cấu trúc Kitchen Management (01/11/2026)
+## [Chưa phát hành] – VBA, kiểm thử, bảo mật, triển khai (01/11/2026)
+
+- VBA: `tools/vba/Import-Vba.ps1` / `Export-Vba.ps1` đồng bộ module giữa repo và file `.xlsm`; danh sách module ở `sap-station/vba/modules.json`.
+- Kiểm thử: `tests/unit` (build, gói test), `tests/web/smoke.cjs` (Playwright: số dự trù, phân bổ PR trên gói test), `tests/e2e/so_sanh.py`.
+- CI GitHub Actions: build, unit, trình duyệt, kiểm tra SRI với cdnjs, cú pháp PowerShell (Windows), e2e LibreOffice.
+- Bảo mật:
+  - Thư viện `xlsx` từ CDN có `integrity` (SRI) + `crossorigin`.
+  - `TramSAP_API.gs`: bắt buộc TOKEN ≥ 32 ký tự, so token theo thời gian không đổi, giới hạn kích thước file tải lên.
+  - `ChayTramSAP.bat` chạy với `ExecutionPolicy RemoteSigned` thay cho `Bypass`; `install.ps1` bỏ chặn file tải về.
+- Triển khai: `sap-station/install.ps1` (cài / cập nhật C:\TramSAP, tạo cấu hình, nạp VBA), `tools/package_station.py` (gói zip có VERSION).
+- Tài liệu, thư viện: `requirements-dev.txt`, `package.json` + lock, `tests/README.md`; hướng dẫn cài trạm thêm cách cài nhanh.
+
+## Migrate sang cấu trúc Kitchen Management (01/11/2026)
 
 Hành vi trang và macro không đổi. Đã kiểm tra:
 - `web/dist/dieu-hanh.html` dựng ra giống hệt bản cũ, chỉ khác chỗ ID Google được đọc từ cấu hình.

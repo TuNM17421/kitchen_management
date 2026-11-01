@@ -13,3 +13,7 @@ Thumbs.db
 KetQua/
 TramSAP_log.txt
 DNTT_xuat/
+
+# Gói phát hành
+/dist/
+node_modules/

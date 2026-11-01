@@ -15,15 +15,17 @@ và trạm SAP chạy trên máy công ty. Trước đây là dự án **QuyTrin
 | `web/data/` | Bảng giá rút gọn, ghép mã kho, mã NCC SAP, thông tin NCC (ẩn danh) |
 | `web/config/` | `app.config.example.json`: mẫu cấu hình ID Google. File thật `app.config.json` không commit |
 | `web/build.py` | Ghép nguồn + dữ liệu + cấu hình thành `web/dist/dieu-hanh.html` |
-| `sap-station/` | Trạm SAP: `TramSAP.ps1`, `ChayTramSAP.bat`, `TramSAP.config.example.json` |
-| `sap-station/vba/` | 3 module VBA: `SAP_Automation.bas`, `MIGO_TungPhan.bas`, `DNTT_Automation.bas` |
+| `sap-station/` | Trạm SAP: `TramSAP.ps1`, `ChayTramSAP.bat`, `TramSAP.config.example.json`, `install.ps1` (cài / cập nhật) |
+| `sap-station/vba/` | 3 module VBA: `SAP_Automation.bas`, `MIGO_TungPhan.bas`, `DNTT_Automation.bas`; `modules.json` liệt kê module của từng file Excel |
 | `sap-station/apps-script/` | Cổng Google `TramSAP_API.gs` (token, thư mục đọc từ Thuộc tính tập lệnh) |
 | `sap-station/docs/` | Hướng dẫn cài trạm |
 | `sap-simulator/` | Giả lập SAP GUI v2 bằng VBA để chạy macro không cần SAP thật |
-| `tests/e2e/` | Chạy thử PR → PO → ME22N → MIGO trong LibreOffice qua giả lập |
+| `tests/` | `unit/` (Python), `web/` (Playwright), `e2e/` (macro qua giả lập SAP trong LibreOffice). Xem `tests/README.md` |
 | `samples/excel/` | File Excel mẫu (tối đa 30 dòng giả / sheet) |
 | `samples/test-pack/` | Gói dữ liệu test tháng 11/2026 (thực đơn, định mức, lượng khách) |
-| `tools/` | `fake_xl.py` (tạo dữ liệu giả cho Excel), `make_test_pack.py` (sinh gói test) |
+| `tools/` | `vba/Import-Vba.ps1`, `vba/Export-Vba.ps1` (đồng bộ VBA ↔ Excel), `package_station.py` (đóng gói trạm), `fake_xl.py`, `make_test_pack.py` |
+| `.github/workflows/ci.yml` | CI: build, unit, trình duyệt, SRI, cú pháp PowerShell, e2e |
+| `package.json`, `requirements-dev.txt` | Thư viện cho phát triển / kiểm thử |
 | `docs/history/` | Tài liệu lịch sử (diff macro trước khi có git) |
 
 Phiên bản không còn ghi trong tên file. Phiên bản macro nằm ở hằng `MACRO_VERSION` trong `SAP_Automation.bas`,
@@ -51,8 +53,24 @@ python3 build.py --demo     # -> dist/dieu-hanh-demo.html: nhúng gói test, t�
 Mở `dist/dieu-hanh.html` dưới dạng Artifact trên claude.ai có quyền Google Sheets / Drive / Gmail.
 Không có `app.config.json` thì build dùng file mẫu và trang chỉ chạy ở chế độ chạy thử.
 
-Trạm SAP: làm theo `sap-station/docs/HUONG_DAN_CAI_TRAM_SAP.txt`.
+Trạm SAP: làm theo `sap-station/docs/HUONG_DAN_CAI_TRAM_SAP.txt` (cách nhanh: `sap-station/install.ps1`).
 Giả lập SAP: `sap-simulator/HUONG_DAN_GIA_LAP.md`. Chạy thử: `tests/e2e/README.md`.
+
+## Phát triển
+
+```
+pip install -r requirements-dev.txt
+npm ci && npx playwright install chromium
+npm test                    # build + unit + kiểm thử trình duyệt
+```
+
+**VBA:** file `.bas`/`.cls` trong repo là nguồn gốc, file `.xlsm` chỉ là nơi chạy.
+- Nạp vào Excel: `tools\vba\Import-Vba.ps1 -Workbook <file.xlsm> [-WithSimulator]`
+- Sửa trong Excel rồi đưa về repo: `tools\vba\Export-Vba.ps1 -Workbook <file.xlsm>`, xem `git diff`, commit.
+- Cả hai cần Excel bật "Trust access to the VBA project object model".
+
+**Phát hành trạm SAP:** sửa `MACRO_VERSION` nếu đổi macro, ghi `CHANGELOG.md`, gắn tag git, rồi
+`python3 tools/package_station.py` → `dist/TramSAP-<tag>.zip`. Trên máy SAP: giải nén, chạy `sap-station\install.ps1`.
 
 ## Quy tắc nghiệp vụ
 

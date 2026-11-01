@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  web:
+    name: Build + unit + kiểm thử trình duyệt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20", cache: npm }
+      - run: pip install -r requirements-dev.txt
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run test:unit
+      - run: npm run test:web
+      - uses: actions/upload-artifact@v4
+        with: { name: dieu-hanh, path: web/dist/ }
+
+  sri:
+    name: Kiểm tra mã SRI thư viện CDN
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: So integrity trong web/src/index.html với file thật trên cdnjs
+        run: |
+          set -e
+          grep -o '<script src="https://cdnjs[^>]*>' web/src/index.html | while read -r tag; do
+            url=$(echo "$tag" | sed -E 's/.*src="([^"]+)".*/\1/')
+            want=$(echo "$tag" | sed -E 's/.*integrity="([^"]+)".*/\1/')
+            got="sha384-$(curl -fsSL "$url" | openssl dgst -sha384 -binary | openssl base64 -A)"
+            echo "$url"; echo "  khai báo: $want"; echo "  thực tế:  $got"
+            [ "$want" = "$got" ]
+          done
+
+  powershell:
+    name: Kiểm tra cú pháp PowerShell
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: pwsh
+        run: |
+          $bad = 0
+          Get-ChildItem -Recurse -Include *.ps1 | ForEach-Object {
+            $errs = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$null, [ref]$errs)
+            if ($errs) { $bad++; Write-Host "LỖI $($_.FullName)"; $errs | ForEach-Object { Write-Host "  $($_.Extent.StartLineNumber): $($_.Message)" } }
+            else { Write-Host "OK   $($_.FullName)" }
+          }
+          if ($bad) { exit 1 }
+
+  e2e:
+    name: Chạy thử macro qua giả lập SAP (LibreOffice)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libreoffice-calc python3-uno
+      - name: Chạy và so với kết quả chuẩn
+        working-directory: tests/e2e
+        run: |
+          /usr/bin/python3 chay_thu_e2e.py > ket_qua_moi.txt
+          /usr/bin/python3 so_sanh.py ket_qua_chay_thu.txt ket_qua_moi.txt
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with: { name: e2e, path: tests/e2e/ket_qua_moi.txt }

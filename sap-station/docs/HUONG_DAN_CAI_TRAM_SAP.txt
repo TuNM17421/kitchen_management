@@ -39,6 +39,20 @@ BƯỚC 1 – CỔNG GOOGLE (làm 1 lần, trên máy nào cũng được)
 ------------------------------------------------------------------
 BƯỚC 2 – MÁY SAP
 ------------------------------------------------------------------
+CÁCH NHANH (từ 01/11/2026): dùng script cài đặt thay cho các bước 2.1–2.3 bên dưới.
+  a. Giải nén gói TramSAP-<phiên bản>.zip (tạo bằng: python3 tools/package_station.py) hoặc dùng thư mục repo.
+  b. Excel: File > Options > Trust Center > Trust Center Settings > Macro Settings >
+     tích "Trust access to the VBA project object model" (để script nạp được module VBA).
+  c. Mở PowerShell tại thư mục vừa giải nén, chạy (một lần):
+       powershell -NoProfile -ExecutionPolicy Bypass -File sap-station\install.ps1 -TemplateXlsm "<đường dẫn Template_PR_v3.xlsm>"
+     Thêm -WithSimulator nếu muốn chạy thử với SAP giả lập. Script chép file vào C:\TramSAP, tạo TramSAP.config.json,
+     bỏ chặn file tải về và nạp 3 module VBA. Cập nhật bản mới: chạy lại lệnh này (không cần -TemplateXlsm).
+  d. Làm tiếp bước 2.4 – 2.6. Vẫn cần tự chép DNTT.xlsx, DNTT-CCDC.xlsx vào C:\TramSAP.
+  ChayTramSAP.bat nay chạy với ExecutionPolicy RemoteSigned (không còn Bypass). Nếu báo bị chặn: chạy lại install.ps1
+  (có bước Unblock-File) hoặc hỏi IT cho phép thư mục C:\TramSAP.
+  Sửa macro trong Excel rồi muốn đưa về repo: tools\vba\Export-Vba.ps1 -Workbook C:\TramSAP\Template_PR_Tram.xlsm, rồi git diff / commit.
+
+CÁCH LÀM TAY:
 1. Tạo thư mục C:\TramSAP và chép vào đó các file trong thư mục sap-station của repo Kitchen Management:
      TramSAP.ps1, TramSAP.config.example.json, ChayTramSAP.bat,
      vba\SAP_Automation.bas, vba\MIGO_TungPhan.bas, vba\DNTT_Automation.bas,
@@ -82,7 +96,7 @@ LỖI THƯỜNG GẶP
 - "Cổng chưa cấu hình TOKEN": chưa thêm Thuộc tính tập lệnh TOKEN (bước 1.3).
 - "Khong ket noi duoc cong Google": máy không ra Internet / proxy chặn script.google.com → hỏi IT mở.
 - "File Excel chua co macro v23-Tram": làm lại bước 2.3.
-- PowerShell báo không cho chạy script: dùng ChayTramSAP.bat (đã có -ExecutionPolicy Bypass);
+- PowerShell báo không cho chạy script: chạy lại sap-station\install.ps1 (bỏ chặn file tải về);
   nếu vẫn bị chặn do chính sách công ty → hỏi IT.
 
 ------------------------------------------------------------------

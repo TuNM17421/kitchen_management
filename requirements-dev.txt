@@ -1,0 +1,3 @@
+# Thư viện Python cho công cụ và kiểm thử (Python 3.10+). Cài: pip install -r requirements-dev.txt
+lxml>=4.9        # tools/fake_xl.py
+# tests/e2e cần thêm LibreOffice (đã thử 24.2) và module "uno" đi kèm (Ubuntu: apt install libreoffice-calc python3-uno)

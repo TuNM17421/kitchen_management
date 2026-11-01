@@ -1,0 +1,16 @@
+{
+  "name": "kitchen-management",
+  "version": "23.1.0",
+  "private": true,
+  "description": "Bảng điều hành mua hàng cho Bếp và trạm SAP",
+  "scripts": {
+    "build": "python3 web/build.py && python3 web/build.py --demo",
+    "test:unit": "python3 -m unittest discover -s tests/unit",
+    "test:web": "node tests/web/smoke.cjs",
+    "test": "npm run build && npm run test:unit && npm run test:web",
+    "package:station": "python3 tools/package_station.py"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}
