@@ -21,10 +21,10 @@ function renderTrack(){
 }
 const curSub=()=>S.step===8?SUB8:S.step===7?SUB7:S.step===6?SUB6:S.step===5?SUB5:S.step===4?SUB4:S.step===3?SUB3:S.step===2?SUB2:SUB;
 function renderTabs(){
-  const tt4=k=>false;
+  const tt4=k=>{const D=dhOf(S.thang);return k==='dat'?D.length>0:k==='nhan'?D.length>0&&D.every(d=>d.pn):false;};
   const tt3=k=>{const m=poOf(S.thang);return k==='pocan'?m.length&&!poPending().length:k==='posap'?m.length&&m.every(p=>p.soPO):k==='pols'?m.length&&m.every(p=>p.soPO&&!p.sua):false;};
   const tt2=k=>k==='pb'?!!S.pb:k==='xuat'?prMain().length&&prMain().every(b=>b.tt!=='nhap'):k==='ls'?prMain().length&&prMain().every(b=>b.tt==='duyet'):false;
-  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const trk=(S.step===2&&k==='dc')||(S.step===3&&k==='podc'), ok=S.step>=5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}" title="${trk?'Theo dõi, không bắt buộc':ok?'Đã xác nhận':'Chưa xác nhận'}"><b>${n}</b>${t}${trk?'<span class="ck-note">theo dõi</span>':`<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span>`}</button>`;}).join('');
+  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const trk=(S.step===2&&k==='dc')||(S.step===3&&k==='podc')||(S.step===4&&k==='nls'), ok=S.step>=5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}" title="${trk?'Theo dõi, không bắt buộc':ok?'Đã xác nhận':'Chưa xác nhận'}"><b>${n}</b>${t}${trk?'<span class="ck-note">theo dõi</span>':`<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span>`}</button>`;}).join('');
 }
 function renderSteps(){
   $('#stHead').textContent=`Trạng thái bước ${S.step} · ${S.thang.slice(5)}/${S.thang.slice(0,4)}`;

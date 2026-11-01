@@ -1,5 +1,15 @@
 # Nhật ký thay đổi
 
+
+## Bước 4 Đặt & nhận hàng – sửa theo review UI/UX
+
+- Sửa lỗi 4.2: lưu phiếu nhận xong form vẫn giữ dòng cũ, bấm Lưu lần nữa báo lỗi. Giờ form về trạng thái sạch, hiện “Đã lưu phiếu …” kèm nút Xem ở 4.3, tự mở đơn chưa nhận tiếp theo; chặn bấm Lưu 2 lần.
+- 4.1: ô tìm mã/tên, lọc “Đã nhập”, cột Mặt hàng gộp mã và dòng PO, cột Còn lại kèm “đặt · nhận”, thanh lưu hiện số mã và tổng tiền; danh sách đơn đã đặt có nút Copy lại.
+- 4.2: chọn sẵn đơn chưa nhận sớm nhất; chênh lệch so với đặt ngay dưới ô Thực nhận; phân bổ dòng PO chỉ hiện khi chia nhiều dòng; ghi chú thu gọn thành nút; nút Đọc ảnh có giải thích khi không dùng được; tổng phiếu và chênh so với đơn cạnh nút Lưu; mã phiếu gọn (NH0211-NCCMAU02-1).
+- 4.3: bảng 6 cột như 2.3/3.4, chuyển Phiếu nhận / Đơn đặt hàng, lọc NCC và trạng thái, Hủy chữ đỏ bấm 2 lần, KPI theo tiền.
+- Điện thoại: 4.1, 4.2, 4.3 hiện dạng thẻ; sửa bảng con trong dòng mở rộng (2.3, 3.4, 4.3) bị vỡ trên điện thoại.
+- Tab 4.1/4.2 có dấu ✓, 4.3 ghi “theo dõi”. Không còn lỗi axe.
+- Xóa phần “MIGO từng phần” cũ của bước 4 (không còn tab nào dùng, MIGO đã ở bước 7) cùng chuỗi macro nhúng.
 ## Bước 3 Tạo PO – sửa theo review UI/UX
 
 - 3.1: KPI “Chờ lập PO” chỉ hiện khi còn dòng chờ; nguồn PR rút gọn thành “N PR” (di chuột để xem); trạng thái trống có nút sang 3.2.

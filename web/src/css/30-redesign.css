@@ -346,14 +346,15 @@ table.ls-tbl td.tt input{display:block;width:100%;margin-top:6px}
 table.ls-tbl .acts-in{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
 table.ls-tbl tr.detail td{display:table-cell;background:var(--sunk)}
 @media (max-width:700px){
-  table.ls-tbl colgroup,table.ls-tbl thead{display:none}
-  table.ls-tbl,table.ls-tbl tbody{display:block}
-  table.ls-tbl tr:not(.detail){display:grid;grid-template-columns:32px minmax(0,1fr) auto;grid-template-areas:"exp dg tien" ". tt tt" ". when when" ". acts acts";gap:6px 8px;padding:10px var(--s3);border-top:1px solid var(--line)}
-  table.ls-tbl tr:first-child{border-top:0}
-  table.ls-tbl tr:not(.detail) td{display:block;padding:0!important;border:0}
-  table.ls-tbl td.exp{grid-area:exp}table.ls-tbl td.dg{grid-area:dg}table.ls-tbl td.tien{grid-area:tien}
-  table.ls-tbl td.tt{grid-area:tt}table.ls-tbl td.when{grid-area:when}table.ls-tbl td.acts{grid-area:acts}table.ls-tbl .acts-in{justify-content:flex-start}
-  table.ls-tbl tr.detail{display:block}table.ls-tbl tr.detail td{display:block}
+  table.ls-tbl>colgroup,table.ls-tbl>thead{display:none}
+  table.ls-tbl,table.ls-tbl>tbody{display:block}
+  table.ls-tbl>tbody>tr:not(.detail){display:grid;grid-template-columns:32px minmax(0,1fr) auto;grid-template-areas:"exp dg tien" ". tt tt" ". when when" ". acts acts";gap:6px 8px;padding:10px var(--s3);border-top:1px solid var(--line)}
+  table.ls-tbl>tbody>tr:first-child{border-top:0}
+  table.ls-tbl>tbody>tr:not(.detail)>td{display:block;padding:0!important;border:0}
+  table.ls-tbl>tbody>tr>td.exp{grid-area:exp}table.ls-tbl>tbody>tr>td.dg{grid-area:dg}table.ls-tbl>tbody>tr>td.tien{grid-area:tien}
+  table.ls-tbl>tbody>tr>td.tt{grid-area:tt}table.ls-tbl>tbody>tr>td.when{grid-area:when}table.ls-tbl>tbody>tr>td.acts{grid-area:acts}table.ls-tbl>tbody>tr>td>.acts-in{justify-content:flex-start}
+  table.t.ls-tbl>tbody>tr:not(.detail)>td{background:transparent}
+  table.ls-tbl>tbody>tr.detail{display:block}table.ls-tbl>tbody>tr.detail>td{display:block}
 }
 
 /* 2.1: bảng phân bổ */
@@ -410,4 +411,51 @@ table.po-tbl .acts-in{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-e
   table.po-tbl td.chk{grid-area:chk}table.po-tbl td.ncc{grid-area:ncc}table.po-tbl td.tien{grid-area:tien}
   table.po-tbl td.so{grid-area:so}table.po-tbl td.tt{grid-area:tt}table.po-tbl td.acts{grid-area:acts}
   table.po-tbl .so-in{grid-template-columns:1fr 1fr}table.po-tbl .acts-in{justify-content:flex-start}
+}
+
+/* ---- Bước 4: đặt hàng, nhận hàng ---- */
+.bad-t{color:var(--bad)}
+.okbox{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px var(--s3);border:1px solid color-mix(in oklab,var(--ok) 35%,var(--line));background:var(--ok-soft);border-radius:10px}
+.fld{display:inline-flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0}
+td.exp .x:hover{color:var(--accent);background:var(--accent-soft)}
+.okbox>span{flex:1;min-width:200px}
+.toolbar.savebar{border-top:1px solid var(--line);padding-top:var(--s3)}
+.toolbar.savebar select{max-width:320px}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--accent);padding-left:4px;padding-right:4px}
+input[type=search]#dat-find{min-width:240px}
+ul.dh-list{list-style:none;margin:var(--s2) 0 0;padding:0}
+ul.dh-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+ul.dh-list li:first-child{border-top:0}
+table.dat-tbl,table.nh-tbl{table-layout:fixed;min-width:0}
+table.dat-tbl td,table.nh-tbl td{white-space:normal;vertical-align:top}
+table.dat-tbl td small,table.nh-tbl td small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+table.dat-tbl td small.bad-t,table.nh-tbl td small.bad-t{color:var(--bad)}
+table.dat-tbl col.c-dvt,table.nh-tbl col.c-dvt{width:64px}
+table.dat-tbl col.c-n,table.nh-tbl col.c-n{width:84px}
+table.dat-tbl col.c-con{width:150px}
+table.dat-tbl col.c-q,table.nh-tbl col.c-q{width:150px}
+table.nh-tbl col.c-g{width:104px}table.nh-tbl col.c-note{width:170px}table.nh-tbl col.c-x{width:44px}
+table.dat-tbl input.q,table.nh-tbl input.q{width:100%;text-align:right}
+table.nh-tbl td.note input{width:100%}
+table.nh-tbl td.gch label{font-size:13px;color:var(--muted);white-space:nowrap}
+table.nh-tbl tr.gach td.nm b{text-decoration:line-through;color:var(--muted)}
+table.nh-tbl .lbl{display:none}
+@media (max-width:700px){
+  table.dat-tbl colgroup,table.dat-tbl thead,table.nh-tbl colgroup,table.nh-tbl thead{display:none}
+  table.dat-tbl,table.dat-tbl tbody,table.nh-tbl,table.nh-tbl tbody{display:block}
+  table.dat-tbl tr{display:grid;grid-template-columns:minmax(0,1fr) 120px;grid-template-areas:"nm nm" "con q";gap:6px 10px;padding:10px var(--s3);border-top:1px solid var(--line)}
+  table.dat-tbl tr[hidden],table.nh-tbl tr[hidden]{display:none}
+  table.dat-tbl tr.edited,table.nh-tbl tr.edited{background:var(--edit)}
+  table.t.dat-tbl tr.edited td,table.t.nh-tbl tr.edited td{background:transparent}
+  .fld{flex:1 1 100%}.fld select,.fld input{flex:1;min-width:0}
+  table.dat-tbl tr:first-child,table.nh-tbl tr:first-child{border-top:0}
+  table.dat-tbl td,table.nh-tbl td{display:block;padding:0!important;border:0}
+  table.dat-tbl td.nm{grid-area:nm}table.dat-tbl td.con{grid-area:con;text-align:left}table.dat-tbl td.q{grid-area:q}
+  table.dat-tbl td.dvt,table.dat-tbl td.slpo{display:none}
+  table.dat-tbl td.con b::after{content:" còn lại"}
+  table.nh-tbl tr{display:grid;grid-template-columns:minmax(0,1fr) 120px 32px;grid-template-areas:"nm nm del" "dat q q" "gch note note";gap:6px 10px;padding:10px var(--s3);border-top:1px solid var(--line);align-items:center}
+  table.nh-tbl td.nm{grid-area:nm}table.nh-tbl td.dat{grid-area:dat;text-align:left}table.nh-tbl td.q{grid-area:q}table.nh-tbl td.gch{grid-area:gch}table.nh-tbl td.note{grid-area:note;text-align:right}table.nh-tbl td.del{grid-area:del}
+  table.nh-tbl td.dvt{display:none}table.nh-tbl .lbl{display:inline;color:var(--muted)}
+  .toolbar.savebar select{max-width:none;width:100%}
+  input[type=search]#dat-find{min-width:0;width:100%}
 }
