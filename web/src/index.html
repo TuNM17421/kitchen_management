@@ -20,8 +20,8 @@
       <label class="meta" for="thang">Tháng dự trù</label>
       <select id="thang"></select>
       <span class="pill" id="who"></span>
-      <span class="pill" id="conn">Đang kết nối…</span>
-      <span class="pill" id="tramPill" title="Trạm SAP trên máy công ty">Trạm SAP: chưa rõ</span>
+      <span class="pill stt" id="conn">Đang kết nối…</span>
+      <span class="pill stt" id="tramPill" title="Trạm SAP trên máy công ty">Trạm SAP: chưa rõ</span>
       
       <button class="btn sm" id="reload" type="button">Tải lại dữ liệu</button>
       <a class="btn sm" id="openSheet" href="https://docs.google.com/spreadsheets/d/__DATA_SHEET_ID__/edit" target="_blank" rel="noopener" style="text-decoration:none">Mở file dữ liệu</a>
@@ -40,7 +40,7 @@
       <div id="view"></div>
     </section>
     <aside class="panel log" aria-label="Trạng thái và nhật ký">
-      <details class="lg" data-lg="st" open><summary><h3 id="stHead">Trạng thái bước 1</h3></summary><div class="steps" id="steps"></div></details>
+      <details class="lg" data-lg="st" open hidden><summary><h3 id="stHead">Trạng thái bước 1</h3></summary><div class="steps" id="steps"></div></details>
       <details class="lg" data-lg="lenh"><summary><h3>Lệnh gửi trạm SAP</h3></summary><ol id="lenhList" style="max-height:260px"></ol></details>
       <details class="lg" data-lg="cmd"><summary><h3>Đọc, ghi file dữ liệu</h3></summary><ol id="cmd" style="max-height:220px"></ol></details>
       <details class="lg" data-lg="log" open><summary><h3>Nhật ký thao tác</h3></summary><ol id="log"></ol></details>

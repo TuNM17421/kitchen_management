@@ -105,3 +105,50 @@ details.lg>summary{display:flex;align-items:center}
 details.help>summary{display:inline-flex;align-items:center}
 @media (max-width:700px){ .hctl label.meta{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)} }
 .node .dot{text-transform:none;letter-spacing:0}
+
+/* ===== bố cục theo review (01/11/2026) ===== */
+/* 2. dải bước thành thanh tiến trình một dòng: chấm số + nhãn + trạng thái, nối bằng đường kẻ */
+.nodes{display:flex;gap:0;min-width:0}
+.node{overflow:visible;flex:1 1 0;min-width:96px;min-height:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;
+  padding:10px 6px;background:transparent;border:0;box-shadow:none;border-radius:var(--r2);position:relative}
+.node::before{content:"";position:absolute;top:calc(10px + 13px);left:calc(50% + 18px);right:calc(-50% + 18px);height:2px;margin:0;background:var(--line);border:0;z-index:0}
+.node:last-child::before{display:none}
+.node.done::before{background:var(--sage)}
+.node .dot{flex:none;width:28px;height:28px;margin-bottom:2px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--line);font-size:12px;font-weight:700;color:var(--muted);position:relative;z-index:1}
+.node .dot::before{content:none}
+.node.run .dot{border-color:var(--marigold);color:var(--ink);background:var(--run-soft)}
+.node.done .dot{border-color:var(--sage);background:var(--sage);color:#22301F}
+.node.cur .dot{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.node .lbl{margin:0;font-size:13px;line-height:1.25;max-width:100%;text-wrap:balance}
+.node .pill{margin:0;padding:0;background:transparent;font-size:11.5px;font-weight:500;color:var(--muted);line-height:1.2}
+.node .pill.run{color:var(--run)}.node .pill.ok{color:var(--ok)}
+.node.cur{background:var(--surface);box-shadow:var(--shadow);border:0}
+.node:hover{transform:none;background:color-mix(in srgb,var(--surface) 70%,transparent)}
+.track{padding:0}
+
+/* 3. header: trạng thái là chấm màu + chữ, tách khỏi nút */
+.pill.stt{background:transparent;border:0;padding:4px 2px 4px 16px;position:relative;font-weight:600;color:var(--muted)}
+.pill.stt::before{content:"";position:absolute;left:2px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--line)}
+.pill.stt.run::before{background:var(--marigold)}.pill.stt.ok::before{background:var(--ok)}.pill.stt.bad::before{background:var(--bad)}
+.pill.stt.ok{color:var(--ok)}.pill.stt.bad{color:var(--bad)}
+#tramPill{margin-right:var(--s2)}
+#who:empty{display:none}
+
+/* 1+2. nút đi tiếp ở cuối mỗi mục */
+.nextbar{display:flex;justify-content:flex-end;padding-top:var(--s4);border-top:1px solid var(--line)}
+.nextbar .btn{border-color:var(--accent);color:var(--accent)}
+.nextbar .btn::after{content:"›";font-size:18px;line-height:1;margin-left:2px}
+
+@media (max-width:1100px){
+  .nodes{display:flex;min-width:max-content}
+  .node{flex:0 0 auto;width:118px}
+}
+@media (max-width:700px){
+  .node{width:104px;padding:8px 4px}
+  .node::before{top:calc(8px + 13px)}
+  .nextbar .btn{width:100%;justify-content:center;white-space:normal}
+}
+/* nhóm "Trạng thái" bị ẩn thì nhóm kế tiếp thành nhóm đầu: bỏ đường kẻ trên */
+details.lg[hidden]+details.lg{border-top:0;padding-top:0}
+.hctl{flex-wrap:wrap;row-gap:var(--s1)}
+.pill.stt{white-space:nowrap}

@@ -7,10 +7,10 @@ const TTL={cho:['Chờ trạm nhận','run'],dang:['Trạm đang chạy','run'],
 const lenhBusy=id=>!!(id&&S.lenh&&S.lenh[id]&&['cho','dang'].includes(S.lenh[id].tt));
 function tramOnline(){ return !!(S.tram&&S.tram.ts&&(Date.now()-S.tram.ts)<180000); }
 function renderTram(){ const el=$('#tramPill'); if(!el) return;
-  if(!SH){ el.textContent='Trạm SAP: chưa kết nối'; el.className='pill'; return; }
-  if(!S.tram||!S.tram.ts){ el.textContent='Trạm SAP: chưa cài'; el.className='pill bad'; return; }
+  if(!SH){ el.textContent='Trạm SAP: chưa kết nối'; el.className='pill stt'; return; }
+  if(!S.tram||!S.tram.ts){ el.textContent='Trạm SAP: chưa cài'; el.className='pill stt bad'; return; }
   const ago=Math.max(0,Math.round((Date.now()-S.tram.ts)/1000));
-  el.textContent=`Trạm SAP ${tramOnline()?'trực tuyến':'ngoại tuyến'} · ${S.tram.may||''} · ${ago<120?ago+' giây':Math.round(ago/60)+' phút'} trước`; el.className='pill '+(tramOnline()?'ok':'bad'); }
+  el.textContent=`Trạm SAP ${tramOnline()?'trực tuyến':'ngoại tuyến'} · ${S.tram.may||''} · ${ago<120?ago+' giây':Math.round(ago/60)+' phút'} trước`; el.className='pill stt '+(tramOnline()?'ok':'bad'); }
 function lenhPill(id){ if(!lenhBusy(id)) return ''; const L=S.lenh[id], t=TTL[L.tt]; return ` <span class="pill ${t[1]}">${t[0]}${L.tiendo?' · '+esc(L.tiendo):''}</span>`; }
 function tramBox(loai){ const lt=sapLuuThat(loai);
   if(loai==='DNTT') return `<div class="box"><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><b>Trạm SAP</b><span class="pill ${tramOnline()?'ok':'bad'}">${tramOnline()?'trực tuyến':'ngoại tuyến'}</span></div><div class="meta" style="margin-top:6px">Bấm <b>Tạo file ĐNTT</b>: máy công ty chạy TaoDNTT (không đụng SAP), lưu file ĐNTT + PDF ở C:\\TramSAP\\DNTT_xuat và chép lên thư mục XuatSAP của dự án; link hiện ngay trong bảng.${tramOnline()?'':' Trạm đang ngoại tuyến: lệnh chờ tới khi trạm chạy.'}</div></div>`;

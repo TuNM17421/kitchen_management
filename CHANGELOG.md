@@ -1,5 +1,12 @@
 # Nhật ký thay đổi
 
+## Bố cục theo review (01/11/2026)
+
+- Kết quả và thẻ số (KPI) nằm ngay dưới tiêu đề mỗi mục; khối kho chuyển xuống cuối.
+- Dải 8 bước thành thanh tiến trình: chấm số nối bằng đường kẻ, nhãn và trạng thái bên dưới. Bỏ nhóm "Trạng thái" trùng ở cột phải. Cuối mỗi mục có nút "Tiếp: …" / "Sang bước N: …".
+- Header: trạng thái kết nối và trạm SAP hiển thị dạng chấm màu + chữ, tách khỏi nút; bản demo ẩn "Tải lại dữ liệu" và "Mở file dữ liệu".
+- Bảng mã hàng ở 1.4 mặc định chỉ hiện dòng cần xem (có ghi chú, sửa tay, ngoài bảng giá hoặc chưa có giá), chuyển "Cần xem / Tất cả" bằng nút.
+
 ## [Chưa phát hành] – Sửa theo review UI/UX + accessibility (01/11/2026)
 
 - Thêm `<!DOCTYPE html>`, `<html lang="vi">`, `<meta charset>` và `<meta name="viewport">` (trước đây thiếu: điện thoại thật hiển thị thu nhỏ như máy tính).

@@ -142,7 +142,9 @@ function vTinh(){
   const ncc=Object.entries(byN).sort((a,b)=>(b[1].k1+b[1].k2)-(a[1].k1+a[1].k2)); const mx=ncc.length?ncc[0][1].k1+ncc[0][1].k2:1;
   const totS=Object.values((S.khach&&S.khach.days)||{}).flat().reduce((a,b)=>a+(+b||0),0), refB=totS*DM_SUAT;
   const f=ED.filt, q=f.q.toLowerCase();
-  const shown=lines.map((l,i)=>[l,i]).filter(([l])=>{const x=IT.get(l.ma);return x&&(!f.ncc||l.ncc===f.ncc)&&(!f.n2||x.n2===f.n2)&&(!q||(x.ma+' '+x.ten).toLowerCase().includes(q));});
+  const needX=(l,x)=>!!(l.e||l.note||/ngoài bảng giá/.test(x.n2||'')||!priceOf(x,l.ncc)); // dòng cần xem: sửa tay, có ghi chú, ngoài bảng giá, chưa có giá
+  const nNeed=lines.filter(l=>{const x=IT.get(l.ma);return x&&needX(l,x);}).length, showAll=f.all||!nNeed||!!(f.q||f.ncc||f.n2);
+  const shown=lines.map((l,i)=>[l,i]).filter(([l])=>{const x=IT.get(l.ma);return x&&(showAll||needX(l,x))&&(!f.ncc||l.ncc===f.ncc)&&(!f.n2||x.n2===f.n2)&&(!q||(x.ma+' '+x.ten).toLowerCase().includes(q));});
   const rowsH=shown.slice(0,400).map(([l,i])=>{const x=IT.get(l.ma),g=priceOf(x,l.ncc),h=x.h||[0,0,0];
     return `<tr class="${l.e?'edited':''}"><td class="num">${x.ma}</td><td class="wrap">${esc(x.ten)}<div class="muted" style="font-size:11.5px">${esc(x.n3||x.n2)}</div></td><td>${esc(x.dvt)}</td>
     <td>${x.ncc.length>1&&W()?`<select data-ln="${i}" data-f="ncc" aria-label="NCC cho ${esc(l.ma)}">${x.ncc.map(n=>`<option ${n.ncc===l.ncc?'selected':''}>${esc(n.ncc)}</option>`).join('')}</select>`:esc(l.ncc)}</td>
@@ -172,7 +174,7 @@ function vTinh(){
    ${(ED.nccAll?ncc:ncc.slice(0,6)).map(([n,a])=>`<tr><td><button class="btn sm lnk" data-act="f-ncc" data-n="${esc(n)}" title="Lọc bảng dưới theo NCC này">${esc(n)}</button></td><td class="r num">${a.n}</td><td class="r num k12">${VND(a.k1)}</td><td class="r num k12">${VND(a.k2)}</td><td class="r num"><b>${VND(a.k1+a.k2)}</b></td><td><div class="bar" style="width:${((a.k1+a.k2)/mx*100).toFixed(1)}%"></div></td></tr>`).join('')}
   </tbody></table></div>
   ${ncc.length>6?`<button class="btn sm lnk morebtn" data-act="ncc-all">${ED.nccAll?'Thu gọn':'Xem cả '+ncc.length+' NCC'} </button>`:''}
-  <div class="toolbar"><input type="text" id="f-q" aria-label="Tìm mã hoặc tên hàng" placeholder="Tìm mã / tên hàng" value="${esc(f.q)}" style="width:200px">
+  <div class="toolbar">${nNeed?`<div class="seg" role="group" aria-label="Dòng hiển thị"><button data-act="f-all" data-v="0" aria-pressed="${!f.all}" title="Dòng sửa tay, có ghi chú, ngoài bảng giá hoặc chưa có giá">Cần xem ${nNeed}</button><button data-act="f-all" data-v="1" aria-pressed="${!!f.all}">Tất cả ${lines.length}</button></div>`:''}<input type="text" id="f-q" aria-label="Tìm mã hoặc tên hàng" placeholder="Tìm mã / tên hàng" value="${esc(f.q)}" style="width:200px">
     <select id="f-ncc" aria-label="Lọc theo NCC"><option value="">Tất cả NCC</option>${nccs.map(n=>`<option ${n===f.ncc?'selected':''}>${esc(n)}</option>`).join('')}</select>
     <select id="f-n2" aria-label="Lọc theo nhóm hàng"><option value="">Tất cả nhóm</option>${['Thực phẩm tươi sống','Đồ khô','(ngoài bảng giá T10)'].map(n=>`<option ${n===f.n2?'selected':''}>${n}</option>`).join('')}</select>
     <span class="meta">${shown.length} dòng${shown.length>400?' (hiện 400 dòng đầu, lọc để xem thêm)':''}</span></div>

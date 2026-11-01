@@ -1,7 +1,10 @@
 /* ---------- giao diện gọn: mục "Cách làm" thu gọn, nhật ký thu gọn trên màn hình nhỏ ---------- */
 let HELP_OPEN=false, OPTS_OPEN=false, LAST_VIEW='';
 document.addEventListener('toggle',e=>{ const d=e.target; if(d.matches&&d.matches('details.help')) HELP_OPEN=d.open; if(d.matches&&d.matches('details.opts')) OPTS_OPEN=d.open; },true);
-document.addEventListener('click',e=>{ if(e.target.closest('[data-act="ncc-all"]')){ ED.nccAll=!ED.nccAll; render(); } });
+document.addEventListener('click',e=>{ const t=e.target.closest('[data-act]'); if(!t) return; const a=t.dataset.act;
+  if(a==='ncc-all'){ ED.nccAll=!ED.nccAll; render(); }
+  else if(a==='f-all'){ ED.filt.all=t.dataset.v==='1'; render(); }
+  else if(a==='go-next'){ e.stopPropagation(); const el=t.dataset.tab?document.querySelector(`#tabs [data-tab="${t.dataset.tab}"]`):document.querySelector(`.node[data-step="${t.dataset.step}"]`); if(el){ el.click(); window.scrollTo({top:Math.max(0,($('#trackSec').getBoundingClientRect().top+scrollY)-12),behavior:'smooth'}); } } },true);
 if(window.matchMedia&&matchMedia('(max-width:1000px)').matches) document.querySelectorAll('details.lg[data-lg="log"]').forEach(d=>d.open=false);
 /* ---------- RENDER CHUNG ---------- */
 function renderTrack(){
@@ -55,6 +58,11 @@ document.addEventListener('click',e=>{ const b=e.target.closest('[data-mode]'); 
 function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();renderTabs();renderSteps();renderLog();
   const v={td:vTD,khach:vKhach,dm:vDM,tinh:vTinh,chot:vChot,pb:vPB,xuat:vXuat,ls:vLS,dc:vDC,pocan:vPOcan,posap:vPOsap,podc:vPOdc,pols:vPOls,dat:vDat,nhan:vNhan,nls:vNls,bk:vBK,sofile:vSoFile,dsk:vDSK,cpo:vCPO,gpo:vGPO,kpo:vKPO,mg:vMG,mgls:vMGls,hd:vHD,dn:vDN,dnls:vDNls}[S.tab]; const ae=document.activeElement, id=ae&&ae.id, pos=ae&&ae.selectionStart;
   $('#view').innerHTML=v();
+  { const vw=$('#view'), sh=vw.querySelector(':scope > .sh'), k=vw.querySelector(':scope > .kpis'); if(sh&&k) sh.after(k); // kết quả lên ngay dưới tiêu đề
+    const kb=vw.querySelector(':scope > #khoBox'); if(kb) vw.appendChild(kb); // tồn kho (ít dùng) xuống cuối
+    const subs=curSub(), ix=subs.findIndex(x=>x[2]===S.tab), nx=subs[ix+1], ns=STEPS[S.step]; // nút đi tiếp
+    if(nx||(S.step<8&&ns)){ const b=document.createElement('div'); b.className='nextbar';
+      b.innerHTML=nx?`<button class="btn" data-act="go-next" data-tab="${nx[2]}">Tiếp: ${nx[0]} ${esc(nx[1])}</button>`:`<button class="btn" data-act="go-next" data-step="${S.step+1}">Sang bước ${S.step+1}: ${esc(ns[0])}</button>`; vw.appendChild(b); } }
   $('#view').querySelectorAll('table.t').forEach(t=>{ if(!t.closest('.tbl-wrap')){ const w=document.createElement('div'); w.className='tbl-wrap'; t.before(w); w.appendChild(t); } });
   const vk=S.step+'|'+S.tab; if(vk!==LAST_VIEW){ LAST_VIEW=vk; requestAnimationFrame(()=>{ for(const el of [document.querySelector('.node.cur'),document.querySelector('.tab[aria-selected="true"]')]){ const sc=el&&el.closest('.track,.tabs'); if(sc&&sc.scrollWidth>sc.clientWidth+4) sc.scrollTo({left:el.offsetLeft-(sc.clientWidth-el.offsetWidth)/2,behavior:'smooth'}); } }); }
   if(id){const el=document.getElementById(id); if(el){el.focus(); try{if(pos!=null)el.setSelectionRange(pos,pos);}catch(e){}}}
