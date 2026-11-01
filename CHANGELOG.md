@@ -1,6 +1,13 @@
 # Nhật ký thay đổi
 
-## [Chưa phát hành] – Redesign khoảng cách (01/11/2026)
+## [Chưa phát hành] – Sửa theo review UI/UX + accessibility (01/11/2026)
+
+- Thêm `<!DOCTYPE html>`, `<html lang="vi">`, `<meta charset>` và `<meta name="viewport">` (trước đây thiếu: điện thoại thật hiển thị thu nhỏ như máy tính).
+- axe-core (WCAG 2.1 AA): từ 7 loại lỗi (188 ô nhập không nhãn, select không tên, aria sai trên nút chế độ, thiếu lang, thiếu `<main>`, tương phản 3,9:1) về 0 ở mục 1.4, cả sáng / tối / điện thoại.
+- Nhãn bước viết thường "Bước N" (bỏ chữ in hoa), dấu ▸ của các mục thu gọn hiện lại, vùng bấm của mục thu gọn cao 32px.
+- Kiểm thử trình duyệt chặn Google Fonts để không treo khi mạng chậm.
+
+## Redesign khoảng cách (01/11/2026)
 
 - Hệ khoảng cách chung 4/8/12/16/24/32px (`--s1`…`--s6`); các khối trong khung làm việc cách nhau 24px (điện thoại 16px).
 - Thẻ bước, thẻ số, thẻ agent: padding rộng hơn, bo 14px, bóng nhẹ; thẻ bước ghi "Bước N", bước đang chọn tô nền nhạt.

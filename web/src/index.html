@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+<html lang="vi">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bảng điều hành</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,14 +27,14 @@
       <a class="btn sm" id="openSheet" href="https://docs.google.com/spreadsheets/d/__DATA_SHEET_ID__/edit" target="_blank" rel="noopener" style="text-decoration:none">Mở file dữ liệu</a>
     </div>
   </header>
-  <nav class="modebar"><div class="seg mode" role="tablist" aria-label="Chế độ xem"><button type="button" role="tab" data-mode="quytrinh" aria-pressed="true">Quy trình 8 bước</button><button type="button" role="tab" data-mode="agent" aria-pressed="false">Bảng điều phối agent <span class="pill" id="agCount" hidden></span></button></div></nav>
-  <div class="banner" id="previewNote" hidden>Chưa kết nối được file dữ liệu (cần mở trên claude.ai và cho phép Google Sheets, Google Drive). Đang chạy thử: dữ liệu chỉ nằm trên trang, không lưu.</div>
-  <div class="banner" id="seedNote" hidden>File dữ liệu PRTruoc_DuLieu đang trống. <button class="btn sm primary" id="seedBtn" type="button">Nạp dữ liệu khởi tạo</button> <span class="meta">Thực đơn T11, lượng khách T11, số nhận T10, giá khung T10, thông tin NCC – từ DuLieuApp/khoitao.json.</span></div>
+  <nav class="modebar"><div class="seg mode" role="group" aria-label="Chế độ xem"><button type="button" data-mode="quytrinh" aria-pressed="true">Quy trình 8 bước</button><button type="button" data-mode="agent" aria-pressed="false">Bảng điều phối agent <span class="pill" id="agCount" hidden></span></button></div></nav>
+  <div class="banner" id="previewNote" role="status" hidden>Chưa kết nối được file dữ liệu (cần mở trên claude.ai và cho phép Google Sheets, Google Drive). Đang chạy thử: dữ liệu chỉ nằm trên trang, không lưu.</div>
+  <div class="banner" id="seedNote" role="status" hidden>File dữ liệu PRTruoc_DuLieu đang trống. <button class="btn sm primary" id="seedBtn" type="button">Nạp dữ liệu khởi tạo</button> <span class="meta">Thực đơn T11, lượng khách T11, số nhận T10, giá khung T10, thông tin NCC – từ DuLieuApp/khoitao.json.</span></div>
 
   <section class="track" id="trackSec" aria-label="Các bước quy trình"><div class="nodes" id="nodes"></div></section>
   <section class="panel agpanel" id="agentPanel" aria-label="Bảng điều phối agent" hidden></section>
 
-  <div class="stage-row" id="stageRow">
+  <main class="stage-row" id="stageRow">
     <section class="panel stage">
       <div class="tabs" role="tablist" id="tabs"></div>
       <div id="view"></div>
@@ -41,10 +45,10 @@
       <details class="lg" data-lg="cmd"><summary><h3>Đọc, ghi file dữ liệu</h3></summary><ol id="cmd" style="max-height:220px"></ol></details>
       <details class="lg" data-lg="log" open><summary><h3>Nhật ký thao tác</h3></summary><ol id="log"></ol></details>
     </aside>
-  </div>
+  </main>
   <details class="foot"><summary>Nguồn dữ liệu và bảng giá</summary><p class="meta">Dữ liệu đọc/ghi trực tiếp vào file <b>PRTruoc_DuLieu</b> (Google Sheets) trong thư mục dự án; file xuất cho SAP lưu vào thư mục <b>XuatSAP</b>. Giá: Bảng giá tham chiếu + Giá riêng theo NCC trong Công nợ.xlsx, kỳ giá <b>tháng 10/2026</b> (tạm dùng cho tháng 11 đến khi có giá tươi T11). Mức tiêu thụ và ngân sách tham chiếu: thực nhận và thực chi tháng 9 (10.111 suất nhân viên + nội trú, gồm bữa phụ). Tồn đồ khô: app Kho khô, chỉ đọc.</p></details>
 </div>
-<div class="toast" id="toast" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-item"></datalist>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -16,6 +16,7 @@ async function open(file) {
   page.on('pageerror', e => errs.push(e.message));
   // Thư viện xlsx từ CDN không cần cho các bước này: chặn để test chạy được khi không có mạng.
   await page.route('https://cdnjs.cloudflare.com/**', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: '' }));
+  await page.route('https://fonts.googleapis.com/**', r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
   await page.goto(url(file));
   return { page, errs };
 }
@@ -48,6 +49,8 @@ async function open(file) {
   for (const [name, w, h] of [['điện thoại', 390, 844], ['máy tính bảng', 820, 1180]]) {
     const page = await browser.newPage({ viewport: { width: w, height: h } });
     await page.route('https://cdnjs.cloudflare.com/**', r => r.fulfill({ status: 200, contentType: 'text/javascript', body: '' }));
+    await page.route('https://fonts.googleapis.com/**', r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+  await page.route('https://fonts.googleapis.com/**', r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
     await page.goto(url('dieu-hanh-demo.html'));
     await page.waitForFunction(() => /Lần tính gần nhất/.test(document.body.innerText), null, { timeout: 15000 });
     const bad = [];

@@ -19,7 +19,7 @@ function renderTabs(){
   const tt4=k=>false;
   const tt3=k=>{const m=poOf(S.thang);return k==='pocan'?m.length&&!poPending().length:k==='posap'?m.length&&m.every(p=>p.soPO):false;};
   const tt2=k=>k==='pb'?!!S.pb:k==='xuat'?prMain().length&&prMain().every(b=>b.tt!=='nhap'):k==='ls'?prMain().length&&prMain().every(b=>b.tt==='duyet'):false;
-  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const ok=S.step>=5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}"><b>${n}</b>${t}<span class="ck ${ok?'ok':''}">${ok?'✓':''}</span></button>`;}).join('');
+  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const ok=S.step>=5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}"><b>${n}</b>${t}<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span></button>`;}).join('');
 }
 function renderSteps(){
   $('#stHead').textContent=`Trạng thái bước ${S.step} · ${S.thang.slice(5)}/${S.thang.slice(0,4)}`;

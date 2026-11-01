@@ -145,12 +145,12 @@ function vTinh(){
   const shown=lines.map((l,i)=>[l,i]).filter(([l])=>{const x=IT.get(l.ma);return x&&(!f.ncc||l.ncc===f.ncc)&&(!f.n2||x.n2===f.n2)&&(!q||(x.ma+' '+x.ten).toLowerCase().includes(q));});
   const rowsH=shown.slice(0,400).map(([l,i])=>{const x=IT.get(l.ma),g=priceOf(x,l.ncc),h=x.h||[0,0,0];
     return `<tr class="${l.e?'edited':''}"><td class="num">${x.ma}</td><td class="wrap">${esc(x.ten)}<div class="muted" style="font-size:11.5px">${esc(x.n3||x.n2)}</div></td><td>${esc(x.dvt)}</td>
-    <td>${x.ncc.length>1&&W()?`<select data-ln="${i}" data-f="ncc">${x.ncc.map(n=>`<option ${n.ncc===l.ncc?'selected':''}>${esc(n.ncc)}</option>`).join('')}</select>`:esc(l.ncc)}</td>
+    <td>${x.ncc.length>1&&W()?`<select data-ln="${i}" data-f="ncc" aria-label="NCC cho ${esc(l.ma)}">${x.ncc.map(n=>`<option ${n.ncc===l.ncc?'selected':''}>${esc(n.ncc)}</option>`).join('')}</select>`:esc(l.ncc)}</td>
     <td class="r num">${Q(l.tm)}</td><td class="r num">${Q(l.ls)}</td><td class="r num">${l.ton==null?'<span class="muted">–</span>':Q(l.ton)+(l.mn?`<div class="muted" style="font-size:11px">tối thiểu ${Q(l.mn)}</div>`:'')}</td><td class="r num">${Q(l.dx)}</td>
-    <td class="r"><input class="q" type="text" inputmode="decimal" id="ln-${i}" data-ln="${i}" data-f="chot" value="${QI(l.chot)}" ${W()?'':'disabled'}></td>
+    <td class="r"><input class="q" type="text" inputmode="decimal" id="ln-${i}" aria-label="SL chốt ${esc(l.ma)}" data-ln="${i}" data-f="chot" value="${QI(l.chot)}" ${W()?'':'disabled'}></td>
     <td class="r num">${Q(l.chot*l.k1r)} / ${Q(l.chot*(1-l.k1r))}</td>
     <td class="r num">${VND(g)}</td><td class="r num">${VND(g*l.chot)}</td><td class="r num muted">${Q(h[0])} / ${Q(h[1])}</td>
-    <td><input type="text" id="lnn-${i}" data-ln="${i}" data-f="note" value="${esc(l.note)}" placeholder="ghi chú" ${W()?'':'disabled'} style="min-width:120px"></td></tr>`;}).join('');
+    <td><input type="text" id="lnn-${i}" aria-label="Ghi chú ${esc(l.ma)}" data-ln="${i}" data-f="note" value="${esc(l.note)}" placeholder="ghi chú" ${W()?'':'disabled'} style="min-width:120px"></td></tr>`;}).join('');
   const nccs=[...new Set(lines.map(l=>l.ncc))].sort();
   return head('1.4 Dự trù tự động & ngân sách','Bấm “Tính dự trù” để cộng: (a) nguyên liệu theo thực đơn × số suất × định mức, (b) phần còn lại theo mức tiêu thụ/suất của tháng 9, rồi cộng dự phòng; đồ khô trừ thêm tồn kho thực tế từ app Kho khô. Cột <b>SL chốt</b> là số bếp quyết định, sửa trực tiếp; dòng đã sửa tay được giữ nguyên khi tính lại.','tinh')+
   `<div class="toolbar">${W()?`<details class="opts"${OPTS_OPEN?' open':''}><summary>Tuỳ chọn · dự phòng ${pr.dpT}% / ${pr.dpK}%</summary><div class="optbody"><label class="meta" for="dpT">Dự phòng hàng tươi %</label><input class="n" type="number" id="dpT" value="${pr.dpT}" min="0" max="50" style="width:64px">
@@ -168,13 +168,13 @@ function vTinh(){
     <div class="kv"><b>Đề xuất tự động</b><div class="num">${TR(tx)}</div><small>chênh ${tc>=tx?'+':''}${TR(tc-tx)} do sửa tay</small></div>
     <div class="kv"><b>Tham chiếu theo lượng khách</b><div class="num">${TR(refB)}</div><small>${refB?'Dự tính '+(tc>=refB?'cao hơn ':'thấp hơn ')+Math.abs((tc/refB-1)*100).toFixed(1).replace('.',',')+'% · '+VND(totS)+' suất':'cần lưu lượng khách'}</small></div>
     <div class="kv"><b>Hàng tươi / Đồ khô</b><div class="num">${TR(byG['Thực phẩm tươi sống']||0)} / ${TR(byG['Đồ khô']||0)}</div><small>${lines.length} mã hàng · ${ncc.length} NCC</small></div></div>
-  <div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>Nhà cung cấp</th><th class="r">Số mã</th><th class="r k12">Kỳ 1 (01–15)</th><th class="r k12">Kỳ 2 (16–cuối)</th><th class="r">Cả tháng</th><th style="width:30%"></th></tr></thead><tbody>
+  <div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>Nhà cung cấp</th><th class="r">Số mã</th><th class="r k12">Kỳ 1 (01–15)</th><th class="r k12">Kỳ 2 (16–cuối)</th><th class="r">Cả tháng</th><th style="width:30%"><span class="sr">Tỷ trọng</span></th></tr></thead><tbody>
    ${(ED.nccAll?ncc:ncc.slice(0,6)).map(([n,a])=>`<tr><td><button class="btn sm lnk" data-act="f-ncc" data-n="${esc(n)}" title="Lọc bảng dưới theo NCC này">${esc(n)}</button></td><td class="r num">${a.n}</td><td class="r num k12">${VND(a.k1)}</td><td class="r num k12">${VND(a.k2)}</td><td class="r num"><b>${VND(a.k1+a.k2)}</b></td><td><div class="bar" style="width:${((a.k1+a.k2)/mx*100).toFixed(1)}%"></div></td></tr>`).join('')}
   </tbody></table></div>
   ${ncc.length>6?`<button class="btn sm lnk morebtn" data-act="ncc-all">${ED.nccAll?'Thu gọn':'Xem cả '+ncc.length+' NCC'} </button>`:''}
-  <div class="toolbar"><input type="text" id="f-q" placeholder="Tìm mã / tên hàng" value="${esc(f.q)}" style="width:200px">
-    <select id="f-ncc"><option value="">Tất cả NCC</option>${nccs.map(n=>`<option ${n===f.ncc?'selected':''}>${esc(n)}</option>`).join('')}</select>
-    <select id="f-n2"><option value="">Tất cả nhóm</option>${['Thực phẩm tươi sống','Đồ khô','(ngoài bảng giá T10)'].map(n=>`<option ${n===f.n2?'selected':''}>${n}</option>`).join('')}</select>
+  <div class="toolbar"><input type="text" id="f-q" aria-label="Tìm mã hoặc tên hàng" placeholder="Tìm mã / tên hàng" value="${esc(f.q)}" style="width:200px">
+    <select id="f-ncc" aria-label="Lọc theo NCC"><option value="">Tất cả NCC</option>${nccs.map(n=>`<option ${n===f.ncc?'selected':''}>${esc(n)}</option>`).join('')}</select>
+    <select id="f-n2" aria-label="Lọc theo nhóm hàng"><option value="">Tất cả nhóm</option>${['Thực phẩm tươi sống','Đồ khô','(ngoài bảng giá T10)'].map(n=>`<option ${n===f.n2?'selected':''}>${n}</option>`).join('')}</select>
     <span class="meta">${shown.length} dòng${shown.length>400?' (hiện 400 dòng đầu, lọc để xem thêm)':''}</span></div>
   <div class="tbl-wrap"><table class="t"><thead><tr><th>Mã</th><th>Tên hàng</th><th>ĐVT</th><th>NCC</th><th class="r">Theo thực đơn</th><th class="r">Theo lịch sử</th><th class="r">Tồn kho</th><th class="r">Đề xuất</th><th class="r">SL chốt</th><th class="r">Giao K1 / K2</th><th class="r">Đơn giá</th><th class="r">Thành tiền</th><th class="r">Thực nhận T9 / K1 T10</th><th>Ghi chú</th></tr></thead><tbody>${rowsH}</tbody></table></div>`
   :'<div class="empty"><b>Chưa có số dự trù</b>Bấm “Tính dự trù tự động”. Có thể tính ngay cả khi thực đơn chưa đủ: phần thiếu lấy theo lịch sử.</div>'}`;

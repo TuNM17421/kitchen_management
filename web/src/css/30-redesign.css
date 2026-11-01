@@ -93,3 +93,15 @@ details.foot{padding:0 var(--s1)}
 }
 details.box:not([open]){display:block}
 details.box>summary{cursor:pointer}
+
+/* ===== sửa theo review a11y (WCAG 2.1 AA) ===== */
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.tab b{opacity:1}
+.kv.big b,.kv.big small{opacity:1}
+details>summary{min-height:32px}
+details.opts>summary,details.box>summary,details.foot>summary{display:list-item;padding:6px 0;line-height:20px}
+details.box>summary .meta{margin-left:6px}
+details.lg>summary{display:flex;align-items:center}
+details.help>summary{display:inline-flex;align-items:center}
+@media (max-width:700px){ .hctl label.meta{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)} }
+.node .dot{text-transform:none;letter-spacing:0}
