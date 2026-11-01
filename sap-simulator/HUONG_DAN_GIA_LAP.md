@@ -10,8 +10,8 @@ Chạy được không cần SAP: `CreatePR` (ME51N), `CreatePO` (ME21N), `SuaPO
 ## 1. Cài đặt (một lần)
 
 1. Mở `Template_PR_Tram.xlsm` (bản dành cho trạm), nhấn Alt+F11.
-2. Thay module `SAP_Automation` bằng `tram-sap/SAP_Automation_v23_Tram.bas` của dự án này
-   (bản **v23.1-Tram-gl.2**, đã có móc nối giả lập và các sửa lỗi của CCN v24). Import `tram-sap/MIGO_TungPhan_v2_Tram.bas` nếu chưa có.
+2. Thay module `SAP_Automation` bằng `sap-station/vba/SAP_Automation.bas` của dự án này
+   (bản **v23.1-Tram-gl.2**, đã có móc nối giả lập và các sửa lỗi của CCN v24). Import `sap-station/vba/MIGO_TungPhan.bas` nếu chưa có.
 3. File > Import File: 4 file trong thư mục này: `SapGiaLap.bas`, `SapGL_Ctl.cls`, `SapGL_List.cls`, `SapGL_Dong.cls`.
 4. Alt+F8 > `SapGiaLap_CaiDat` > Run. Macro tạo 3 sheet `SAP_GiaLap`, `SAP_GiaLap_Log`, `SAP_GiaLap_DB` và **BẬT** giả lập.
 5. **Nếu chạy qua trạm:** gõ tên file vào ô **B15** của sheet `SAP_GiaLap`, ví dụ `SAP_GiaLap_DB.xlsx`
@@ -34,7 +34,7 @@ Khi B15 có tên file, giả lập làm như sau:
 
 Để trống B15 thì giả lập dùng sheet như bản v1. Cách này phù hợp khi chạy tay bằng Alt+F8 trong cùng một file.
 
-## 2. Macro gốc được sửa những gì (`sap_automation_v23_tram.diff`)
+## 2. Macro gốc được sửa những gì (`docs/history/sap_automation_v23_tram.diff`)
 
 - `MACRO_VERSION` đổi thành `v23.1-Tram-gl.2 (31/10/2026)`.
 
@@ -59,7 +59,7 @@ Khi chạy qua trạm, hộp hỏi "vẫn lưu khi còn dòng lỗi" được tr
   nên 5 chỗ được đổi: 3 chỗ `tabAcc.Select`, 1 chỗ `tabC.Select` và 1 chỗ `ch.Type`.
   Với SAP thật, các hàm này vẫn gọi đúng `.Select` và `.Type`.
 
-`MIGO_TungPhan_v2_Tram.bas` và `DNTT_Automation_v6_Tram.bas` **không sửa**.
+`MIGO_TungPhan.bas` và `DNTT_Automation.bas` **không sửa**.
 
 ## 3. Có gì mới ở v2
 
@@ -77,10 +77,10 @@ Bảng kịch bản và ý nghĩa từng cột vẫn nằm ở sheet `SAP_GiaLap
 
 ## 4. Đã chạy thử những gì
 
-Đã chạy **trong LibreOffice ở chế độ VBA**, **chưa chạy trong Excel thật**. Chạy lại bằng `kiem-thu/chay_thu_e2e.py`.
-Kết quả lần chạy cuối: `kiem-thu/ket_qua_chay_thu.txt`.
+Đã chạy **trong LibreOffice ở chế độ VBA**, **chưa chạy trong Excel thật**. Chạy lại bằng `tests/e2e/chay_thu_e2e.py`.
+Kết quả lần chạy cuối: `tests/e2e/ket_qua_chay_thu.txt`.
 
-Mỗi lệnh mở một bản sao **mới** của `excel-mau/Template_PR_Tram.xlsm` rồi đóng mà không lưu, giống trạm.
+Mỗi lệnh mở một bản sao **mới** của `samples/excel/Template_PR_Tram.xlsm` rồi đóng mà không lưu, giống trạm.
 Các lệnh dùng chung một file DB (B15).
 
 | # | Lệnh | Kết quả |

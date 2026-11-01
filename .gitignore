@@ -1,0 +1,15 @@
+# Cấu hình thật, có ID / token: chỉ commit file *.example.json
+web/config/app.config.json
+sap-station/TramSAP.config.json
+# Sản phẩm build
+web/dist/
+# Python, hệ điều hành, Office
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+~$*
+# Kết quả chạy của trạm SAP
+KetQua/
+TramSAP_log.txt
+DNTT_xuat/

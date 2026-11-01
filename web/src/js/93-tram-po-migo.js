@@ -33,3 +33,5 @@ async function applyLenh2(L,K,note){
   else if(L.loai==='MIGO'){ const mid=L.ref&&L.ref.migo, m=mid&&S.migo[mid]; if(!m) return; const so=[...new Set(K.map(k=>k.soMIGO).filter(Boolean))];
     if(L.tt==='xong'&&L.luuThat&&so.length===1){ await store.set('migo/'+mid,{...stripId(m),tt:'migo',soMIGO:so[0],migoLuc:Date.now(),lenh:''}); note.push(`${m.ma} → MIGO ${so[0]}`); }
     else { await store.set('migo/'+mid,{...stripId(m),lenh:'',ghichu:(K.find(k=>k.tt)||{}).tt||''}); note.push(`${m.ma}: ${L.luuThat?'chưa nhập kho được':'chạy thử xong, chưa Post'}`); } } }
+
+

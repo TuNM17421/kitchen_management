@@ -14,3 +14,6 @@ async function applyLenh3(L,K,note){
       note.push(`${d.ncc}: đã tạo file`); }
     else { await store.set('dntt/'+d.id,{...stripId(d),lenh:''}); note.push(`${d.ncc}: chưa tạo được (${k.tt||'xem nhật ký'})`); } } }
 const dnLinks=d=>(d.linkPdf||d.linkXlsx)?` <span class="meta">${d.linkPdf?`<a href="${esc(d.linkPdf)}" target="_blank" rel="noopener">PDF</a>`:''}${d.linkPdf&&d.linkXlsx?' · ':''}${d.linkXlsx?`<a href="${esc(d.linkXlsx)}" target="_blank" rel="noopener">Excel</a>`:''}</span>`:'';
+
+window.__tram={pollTram:()=>pollTram(),S:()=>S,ED:()=>ED};
+

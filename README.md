@@ -1,77 +1,68 @@
-# Dự án Quy trình PR trước (tách từ CCN)
+# Kitchen Management
 
-Dự án riêng cho Bảng điều hành mua hàng và trạm SAP v23.1-Tram. Mã nguồn gốc lấy từ gói `QuyTrinhPRTruoc_source.zip` (31/10/2026).
-Dự án dùng lại bộ **giả lập SAP GUI** của dự án CCN (`XLCongNo_refactor/sap_vba/gia_lap`), đã nâng lên v2.
+Bảng điều hành mua hàng cho Bếp (dự trù → PR → PO → nhận hàng → đối soát → MIGO → ĐNTT)
+và trạm SAP chạy trên máy công ty. Trước đây là dự án **QuyTrinhPRTruoc** (bản 31/10/2026, macro `v23.1-Tram-gl.2`).
 
-| Thư mục mới | Nội dung |
-|---|---|
-| `gia_lap/` | Giả lập SAP v2: ME22N, MIGO từng phần, nhiều cửa sổ, DB dùng chung giữa các lệnh trạm. Đọc `gia_lap/HUONG_DAN_GIA_LAP.md` |
-| `kiem-thu/` | Bộ chạy thử trong LibreOffice (PR → PO → ME22N → MIGO qua các hàm `Tram*`) và kết quả lần chạy cuối |
-
-Thay đổi so với gói gốc: `tram-sap/SAP_Automation_v23_Tram.bas` thành bản **v23.1-Tram-gl.2**: có móc nối giả lập, các sửa lỗi của macro CCN v24
-(CNRow, chặn SL/giá 0, Save xử lý hộp thoại, PBXX, gPOWarn) và sửa `SuaPO_ME22N` ghi "DA LUU" khi chưa lưu
-(chi tiết trong `gia_lap/HUONG_DAN_GIA_LAP.md` mục 2 và `gia_lap/sap_automation_v23_tram.diff`). Khi không cài giả lập, macro vẫn chạy với SAP thật như cũ.
-Các file còn lại giữ nguyên, kể cả dữ liệu đã ẩn danh.
-
----
-
-# Quy trình PR trước – Bếp: mã nguồn
-
-Bộ mã nguồn của Bảng điều hành mua hàng (dự trù → PR → PO → nhận hàng → đối soát → MIGO → ĐNTT)
-và trạm SAP chạy trên máy công ty. Phiên bản 31/10/2026.
-
-**Toàn bộ dữ liệu trong gói này là dữ liệu giả.** Tên nhà cung cấp, mã NCC SAP, email, số điện thoại,
-mã bảo mật đã được thay. Dữ liệu thật nằm trong file PRTruoc_DuLieu (Google Sheets) và thư mục dự án trên Drive,
-không có trong gói.
+**Toàn bộ dữ liệu trong repo là dữ liệu giả.** Dữ liệu thật nằm trong Google Sheets `PRTruoc_DuLieu` và thư mục dự án trên Drive.
 
 ## Cấu trúc
 
 | Thư mục | Nội dung |
 |---|---|
-| `giao-dien/tpl.html` | Mã nguồn trang Bảng điều hành (HTML + CSS + JS trong một file) |
-| `giao-dien/build.py` | Dựng trang: `python3 build.py` → `dieu-hanh.html` (ghép dữ liệu bảng giá vào mẫu) |
-| `giao-dien/du-lieu/` | Bảng giá rút gọn, mã NCC SAP, thông tin NCC, ghép mã kho – đều đã ẩn danh |
-| `giao-dien/module/` | Các phần JS đã được ghép vào `tpl.html` (trạm SAP, agent, nạp gói) – để tham khảo, sửa riêng |
-| `tram-sap/` | Trạm SAP: `TramSAP.ps1`, `ChayTramSAP.bat`, cổng Google `TramSAP_API.gs`, 3 module VBA `.bas`, hướng dẫn cài |
-| `excel-mau/` | Các file Excel giữ nguyên cấu trúc (sheet, tiêu đề, định dạng, công thức, nút bấm, macro) với tối đa 30 dòng dữ liệu giả mỗi sheet |
-| `cong-cu/fake_xl.py` | Công cụ tạo dữ liệu giả cho file Excel: `python3 fake_xl.py vao.xlsx ra.xlsx` |
+| `web/src/index.html` | Khung trang (HTML) |
+| `web/src/css/app.css` | Toàn bộ CSS |
+| `web/src/js/*.js` | JS chia theo phần, ghép theo thứ tự tên file: lõi, tính dự trù, từng bước 1–8, trạm SAP, agent, nạp gói, khởi động |
+| `web/data/` | Bảng giá rút gọn, ghép mã kho, mã NCC SAP, thông tin NCC (ẩn danh) |
+| `web/config/` | `app.config.example.json`: mẫu cấu hình ID Google. File thật `app.config.json` không commit |
+| `web/build.py` | Ghép nguồn + dữ liệu + cấu hình thành `web/dist/dieu-hanh.html` |
+| `sap-station/` | Trạm SAP: `TramSAP.ps1`, `ChayTramSAP.bat`, `TramSAP.config.example.json` |
+| `sap-station/vba/` | 3 module VBA: `SAP_Automation.bas`, `MIGO_TungPhan.bas`, `DNTT_Automation.bas` |
+| `sap-station/apps-script/` | Cổng Google `TramSAP_API.gs` (token, thư mục đọc từ Thuộc tính tập lệnh) |
+| `sap-station/docs/` | Hướng dẫn cài trạm |
+| `sap-simulator/` | Giả lập SAP GUI v2 bằng VBA để chạy macro không cần SAP thật |
+| `tests/e2e/` | Chạy thử PR → PO → ME22N → MIGO trong LibreOffice qua giả lập |
+| `samples/excel/` | File Excel mẫu (tối đa 30 dòng giả / sheet) |
+| `samples/test-pack/` | Gói dữ liệu test tháng 11/2026 (thực đơn, định mức, lượng khách) |
+| `tools/` | `fake_xl.py` (tạo dữ liệu giả cho Excel), `make_test_pack.py` (sinh gói test) |
+| `docs/history/` | Tài liệu lịch sử (diff macro trước khi có git) |
 
-## Dữ liệu giả trong `excel-mau/`
+Phiên bản không còn ghi trong tên file. Phiên bản macro nằm ở hằng `MACRO_VERSION` trong `SAP_Automation.bas`,
+phiên bản phát hành là tag git (xem `CHANGELOG.md`).
 
-Mỗi sheet giữ dòng tiêu đề và mọi dòng phía trên nó; từ dòng dữ liệu đầu tiên giữ tối đa 30 dòng, phần còn lại xoá trống
-(giữ định dạng ô). Sheet ít hơn 30 dòng thì giữ đúng số dòng gốc. Giá trị giả theo đúng mẫu của cột:
+## Cấu hình
 
-| Loại giá trị gốc | Giá trị giả |
-|---|---|
-| Số, ngày (số seri Excel) | Ngẫu nhiên trong khoảng nhỏ nhất – lớn nhất của cột, cùng số chữ số thập phân |
-| Mã có chữ số (`THP00146`, `PR-T11-NV`, `2001234`) | Giữ chữ cái và ký tự nối, thay từng chữ số |
-| Email | `nccNN@example.com` |
-| Điện thoại, số tài khoản | Thay từng chữ số, giữ số 0 đầu và độ dài |
-| Danh mục ít giá trị | Đơn vị tính, ký hiệu ngắn giữ nguyên; giá trị dài hơn đổi 1–1 sang giá trị giả cố định |
-| Văn bản tự do | Từ giả, cùng số từ, cùng kiểu chữ hoa / thường |
-| Công thức | Giữ nguyên; Excel tính lại khi mở |
+| Thành phần | File cấu hình (không commit) | Lấy từ mẫu |
+|---|---|---|
+| Trang web | `web/config/app.config.json`: `dataSheetId`, `khoSheetId`, `seedFolderId`, `xuatFolderId`, `packTuan1Id` | `web/config/app.config.example.json` |
+| Trạm SAP | `sap-station/TramSAP.config.json` (đặt cạnh `TramSAP.ps1` trên máy SAP): `url`, `token`, `fileExcel`… | `sap-station/TramSAP.config.example.json` |
+| Cổng Google | Apps Script → Cài đặt dự án → Thuộc tính tập lệnh: `TOKEN`, `XUAT_FOLDER` | – |
 
-Không thay: sheet hướng dẫn (`HƯỚNG DẪN`, `HuongDan`), tên cột khoá của sheet cấu hình (`…CauHinh`).
-Link email trong ô đã bỏ.
-
-| File | Nguồn |
-|---|---|
-| `Template_PR_Tram.xlsm` | File trạm SAP (VBA bản v23-Tram – import lại 3 file `.bas` trong `tram-sap/` để có bản v23.1) |
-| `CongNo.xlsx` | Công nợ.xlsx |
-| `GiaKhung.xlsx` | Giá khung thực phẩm.xlsx |
-| `LuuMau.xlsx` | Lưu mẫu.xlsx |
-| `SoluongSANoiTruT9.xlsx` | Số lượng suất ăn nội trú tháng 9 |
-| `Bao_cao_Tuan1.xlsx` | Báo cáo tuần 1 – thực đơn, định lượng, đơn hàng |
+`token` của trạm và `TOKEN` của Apps Script phải giống nhau. Nên dùng chuỗi ngẫu nhiên ≥ 32 ký tự.
 
 ## Chạy
 
-1. `cd giao-dien && python3 build.py`, mở `dieu-hanh.html` dưới dạng Artifact có quyền Google Sheets / Drive / Gmail.
-2. Cài trạm SAP theo `tram-sap/HUONG_DAN_CAI_TRAM_SAP.txt`. Mã bảo mật trong `TramSAP.config.json` và
-   `TramSAP_API.gs` đang là `DAN_MA_BAO_MAT_CUA_BAN` – đặt cùng một mã mới ở cả hai file.
-3. ID file Google Sheets / thư mục Drive trong `tpl.html` (hằng `FILE`, `KHO`) là của dự án gốc; đổi sang file của bạn.
+```
+cd web
+cp config/app.config.example.json config/app.config.json   # rồi điền ID Google
+python3 build.py            # -> dist/dieu-hanh.html
+python3 build.py --demo     # -> dist/dieu-hanh-demo.html: nhúng gói test, tự nạp khi chạy thử
+```
+
+Mở `dist/dieu-hanh.html` dưới dạng Artifact trên claude.ai có quyền Google Sheets / Drive / Gmail.
+Không có `app.config.json` thì build dùng file mẫu và trang chỉ chạy ở chế độ chạy thử.
+
+Trạm SAP: làm theo `sap-station/docs/HUONG_DAN_CAI_TRAM_SAP.txt`.
+Giả lập SAP: `sap-simulator/HUONG_DAN_GIA_LAP.md`. Chạy thử: `tests/e2e/README.md`.
 
 ## Quy tắc nghiệp vụ
 
 - Hàng tươi giá khung theo tháng, đồ khô theo quý; một PO không vượt qua hai kỳ giá.
 - Phần nhận vượt PO làm PR bổ sung mới; PR được duyệt trong ngày.
 - Mọi bước chạm SAP mặc định chạy thử (không lưu) cho tới khi người dùng chuyển sang lưu thật.
+
+## Dữ liệu giả trong `samples/excel/`
+
+Mỗi sheet giữ dòng tiêu đề và mọi dòng phía trên nó; từ dòng dữ liệu đầu tiên giữ tối đa 30 dòng. Giá trị giả theo đúng mẫu của cột:
+số/ngày ngẫu nhiên trong khoảng của cột; mã có chữ số (`THP00146`, `PR-T11-NV`, `2001234`) giữ chữ, thay từng chữ số;
+email `nccNN@example.com`; điện thoại, số tài khoản thay từng chữ số; văn bản tự do thành từ giả; công thức giữ nguyên.
+Tạo lại bằng `python3 tools/fake_xl.py vao.xlsx ra.xlsx`.

@@ -4,10 +4,15 @@
  * Triển khai: Triển khai → Tùy chọn triển khai mới → Loại: Ứng dụng web
  *             Thực thi với tư cách: Tôi · Người có quyền truy cập: Bất kỳ ai → Triển khai → chép URL /exec.
  * Chỉ máy có đúng TOKEN mới gọi được. Không chia sẻ TOKEN.
+ *
+ * Cấu hình (không viết vào code): Apps Script → Cài đặt dự án (bánh răng) → Thuộc tính tập lệnh → thêm
+ *   TOKEN        = mã bảo mật, giống "token" trong TramSAP.config.json (nên dài ≥ 32 ký tự ngẫu nhiên)
+ *   XUAT_FOLDER  = ID thư mục XuatSAP trên Drive (file ĐNTT trạm tạo được chép lên đây)
  */
-const TOKEN = 'DAN_MA_BAO_MAT_CUA_BAN';
+const PROPS = PropertiesService.getScriptProperties();
+const TOKEN = PROPS.getProperty('TOKEN') || '';
 const CH = 45000; // độ dài tối đa mỗi ô JSON (giống giao diện)
-const XUAT_FOLDER = '1EUf-O4drs1z2U_RtJpvM16ODTnOW3kJ3'; // thư mục XuatSAP của dự án (file ĐNTT trạm tạo được chép lên đây)
+const XUAT_FOLDER = PROPS.getProperty('XUAT_FOLDER') || '';
 
 function doGet(e)  { return handle_(e && e.parameter || {}); }
 function doPost(e) { let b = {}; try { b = JSON.parse(e.postData.contents || '{}'); } catch (x) {} return handle_(b); }
@@ -15,6 +20,7 @@ function doPost(e) { let b = {}; try { b = JSON.parse(e.postData.contents || '{}
 function out_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
 function handle_(p) {
+  if (!TOKEN || TOKEN === 'DAN_MA_BAO_MAT_CUA_BAN') return out_({ ok: false, loi: 'Cổng chưa cấu hình TOKEN (Thuộc tính tập lệnh)' });
   if (p.token !== TOKEN) return out_({ ok: false, loi: 'Sai token' });
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(20000)) return out_({ ok: false, loi: 'Bận, thử lại' });
@@ -23,6 +29,7 @@ function handle_(p) {
     if (p.a === 'ping') return out_({ ok: true });
     if (p.a === 'poll') return out_({ ok: true, lenh: takeNext_(p) });
     if (p.a === 'file') {
+      if (!XUAT_FOLDER) return out_({ ok: false, loi: 'Cổng chưa cấu hình XUAT_FOLDER (Thuộc tính tập lệnh)' });
       const blob = Utilities.newBlob(Utilities.base64Decode(String(p.b64 || '')), String(p.mime || 'application/octet-stream'), String(p.name || 'file'));
       const f = DriveApp.getFolderById(XUAT_FOLDER).createFile(blob);
       return out_({ ok: true, id: f.getId(), url: f.getUrl() });

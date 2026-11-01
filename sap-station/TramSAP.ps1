@@ -9,7 +9,10 @@ $ErrorActionPreference = 'Stop'
 $Ver = 'TramSAP v4.2 (31/10/2026)'
 $script:GhiChuLenh = ''
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$cfg = Get-Content (Join-Path $Root 'TramSAP.config.json') -Raw | ConvertFrom-Json
+$cfgPath = Join-Path $Root 'TramSAP.config.json'
+if (-not (Test-Path $cfgPath)) { Write-Host 'Chua co TramSAP.config.json. Chep TramSAP.config.example.json thanh TramSAP.config.json roi dien url, token.'; Read-Host 'Enter de thoat'; exit 1 }
+$cfg = Get-Content $cfgPath -Raw | ConvertFrom-Json
+if (-not $cfg.token -or $cfg.token -eq 'DAN_MA_BAO_MAT_CUA_BAN') { Write-Host 'Chua dat token trong TramSAP.config.json (phai giong TOKEN trong Thuoc tinh tap lenh cua Apps Script).'; Read-Host 'Enter de thoat'; exit 1 }
 $LogFile = Join-Path $Root 'TramSAP_log.txt'
 $KqDir = Join-Path $Root 'KetQua'
 if (-not (Test-Path $KqDir)) { New-Item -ItemType Directory -Path $KqDir | Out-Null }
@@ -140,7 +143,7 @@ function ChayPRSongSong($L) {
   try {
     $wb = $xl.Workbooks.Open([string]$cfg.fileExcel, 0, $true)
     $ver = [string]$xl.Run('TramPhienBan')
-    if (-not $ver.StartsWith('v23.1')) { $wb.Close($false); throw ("MACRO_CU:File Excel tram dang co macro $ver - chua co chay song song. Import lai SAP_Automation_v23_Tram.bas ban 31/10 (PhienBan phai la v23.1-Tram)") }
+    if (-not $ver.StartsWith('v23.1')) { $wb.Close($false); throw ("MACRO_CU:File Excel tram dang co macro $ver - chua co chay song song. Import lai sap-station\vba\SAP_Automation.bas (PhienBan phai la v23.1-Tram)") }
     $have = [int]$xl.Run('TramDamBaoPhien', [int]$nP, [bool]$AnSap)
     $wb.Close($false)
   } finally { DongExcel $xl $xpid }
@@ -206,7 +209,7 @@ function ChayLenh($L) {
   $wb = $null
   try {
     $wb = $xl.Workbooks.Open([string]$cfg.fileExcel)
-    try { [void]$xl.Run('TramCauHinh', 0, $AnSap) } catch { Ghi '  (macro cu: chua co che do chay ngam cho SAP - import lai SAP_Automation_v23_Tram.bas ban 31/10)' }
+    try { [void]$xl.Run('TramCauHinh', 0, $AnSap) } catch { Ghi '  (macro cu: chua co che do chay ngam cho SAP - import lai sap-station\vba\SAP_Automation.bas)' }
     $ver = $xl.Run('TramPhienBan')
     if (-not ([string]$ver).StartsWith('v23')) { throw "File Excel chua co macro v23-Tram (dang la: $ver)" }
     $kqRows = @(); $kqPO = @()

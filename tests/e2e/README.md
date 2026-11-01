@@ -1,10 +1,10 @@
 # Chạy thử giả lập SAP trong LibreOffice
 
-Bộ chạy thử mô phỏng `TramSAP.ps1`. Mỗi lệnh mở một bản sao mới của `excel-mau/Template_PR_Tram.xlsm`,
-thay các module VBA bằng bản trong `tram-sap/` và `gia_lap/`, gọi các hàm `Tram*`, rồi đóng file mà không lưu.
+Bộ chạy thử mô phỏng `TramSAP.ps1`. Mỗi lệnh mở một bản sao mới của `samples/excel/Template_PR_Tram.xlsm`,
+thay các module VBA bằng bản trong `sap-station/vba/` và `sap-simulator/`, gọi các hàm `Tram*`, rồi đóng file mà không lưu.
 
 ```
-cd kiem-thu
+cd tests/e2e
 /usr/bin/python3 chay_thu_e2e.py > ket_qua_chay_thu.txt
 ```
 

@@ -1,0 +1,57 @@
+/* ---------- RENDER CHUNG ---------- */
+function renderTrack(){
+  const m=prMain(), st2=m.length?(m.every(b=>b.tt==='duyet')?['ok','PR đã duyệt']:['run','Đang làm']):['','Chưa bắt đầu'];
+  $('#nodes').innerHTML=STEPS.map((s,i)=>{const sel=S.step===i+1, done=i===0&&locked();
+    const pm=poOf(S.thang), st3=pm.length?(pm.every(p=>p.soPO)?['ok','Đã có số PO']:['run','Đang làm']):['','Chưa bắt đầu'];
+    const dsAll=Object.values(S.ds||{}).filter(d=>d.thang===S.thang), st4=pnOf(S.thang).length?['run',pnOf(S.thang).length+' phiếu nhận']:['','Chưa có phiếu nhận'], st5=dsAll.length?['run',dsAll.filter(d=>d.tt==='khop').length+' kỳ đã khớp']:['','Chưa bắt đầu'], st6=['','Làm cuối chu kỳ'], mgs=migoAll().filter(m=>m.thang===S.thang), st7=mgs.length?['run',mgs.filter(m=>m.tt==='migo').length+'/'+mgs.length+' đã MIGO']:['','Chưa bắt đầu'];
+    const dns=Object.values(S.dn||{}).filter(d=>d.thang===S.thang&&d.tt!=='huy'), st8=dns.length?['run',dns.filter(d=>d.tt==='tt').length+'/'+dns.length+' đã thanh toán']:['','Chưa bắt đầu'];
+    const pill=i===0?(done?['ok','Đã chốt']:['run','Đang làm']):[null,st2,st3,st4,st5,st6,st7,st8][i];
+    const stc=(done||pill[0]==='ok')?'done':pill[0]==='run'?'run':'todo';
+    return `<div class="node ${stc}${sel?' cur':''}" ${i<8?`data-step="${i+1}" role="button" tabindex="0" aria-current="${sel?'step':'false'}" style="cursor:pointer"`:''}><div class="dot">${stc==='done'?'✓ ':''}${i+1}</div><div class="lbl">${s[0]}</div><div class="sub">${s[1]}</div><span class="pill ${pill[0]}">${pill[1]}</span></div>`;}).join('');
+}
+const curSub=()=>S.step===8?SUB8:S.step===7?SUB7:S.step===6?SUB6:S.step===5?SUB5:S.step===4?SUB4:S.step===3?SUB3:S.step===2?SUB2:SUB;
+function renderTabs(){
+  const tt4=k=>false;
+  const tt3=k=>{const m=poOf(S.thang);return k==='pocan'?m.length&&!poPending().length:k==='posap'?m.length&&m.every(p=>p.soPO):false;};
+  const tt2=k=>k==='pb'?!!S.pb:k==='xuat'?prMain().length&&prMain().every(b=>b.tt!=='nhap'):k==='ls'?prMain().length&&prMain().every(b=>b.tt==='duyet'):false;
+  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const ok=S.step>=5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}"><b>${n}</b>${t}<span class="ck ${ok?'ok':''}">${ok?'✓':''}</span></button>`;}).join('');
+}
+function renderSteps(){
+  $('#stHead').textContent=`Trạng thái bước ${S.step} · ${S.thang.slice(5)}/${S.thang.slice(0,4)}`;
+  if(S.step===2){ const m=batchesOf(S.thang).filter(b=>b.tt!=='huy'), C=dcCompute();
+    const it=[['2.1 Phân bổ ngân sách',S.pb?`<span class="pill ok">✓ ${tstr(S.pb.luc).split(' ')[0]}</span>`:'<span class="pill">Chưa</span>'],
+      ['2.2 Đợt PR chờ xuất',`<span class="pill ${m.some(b=>b.tt==='nhap')?'run':''}">${m.filter(b=>b.tt==='nhap').length}</span>`],
+      ['2.3 Đã duyệt',`<span class="pill ${m.length&&m.every(b=>b.tt==='duyet')?'ok':''}">${m.filter(b=>b.tt==='duyet').length}/${m.length}</span>`],
+      ['2.4 Cần PR bổ sung',`<span class="pill ${C.rows.some(r=>r.need>0)?'bad':''}">${C.rows.filter(r=>r.need>0).length} mã</span>`]];
+    $('#steps').innerHTML=it.map(x=>`<div><span>${x[0]}</span>${x[1]}</div>`).join(''); return; }
+  if(S.step===4){ const L=pnOf(S.thang), D=dhOf(S.thang);
+    const it=[['4.1 Đơn hàng chưa nhận',`<span class="pill ${D.some(d=>!d.pn)?'run':''}">${D.filter(d=>!d.pn).length}</span>`],['4.2 Phiếu nhận tháng',`<span class="pill">${L.length}</span>`],['4.3 Phiếu chưa chốt khớp NCC',`<span class="pill">${L.filter(p=>!lockedDay(p.ncc,p.d)).length}</span>`]];
+    $('#steps').innerHTML=it.map(x=>`<div><span>${x[0]}</span>${x[1]}</div>`).join(''); return; }
+  if(S.step>=5){ const td=todayVN(), N=dsNccs(), rows=N.flatMap(n=>kyList(S.thang,n).map(k=>({n,k,d:dsDoc(n,k.k),c:kyRows(n,k).length}))).filter(r=>r.c);
+    const mg=migoAll().filter(m=>m.thang===S.thang);
+    const it=[['Kỳ đến hạn chưa khớp',`<span class="pill ${rows.some(r=>td>=r.k.to&&!(r.d&&r.d.tt==='khop'))?'bad':''}">${rows.filter(r=>td>=r.k.to&&!(r.d&&r.d.tt==='khop')).length}</span>`],['Kỳ đã khớp',`<span class="pill ok">${rows.filter(r=>r.d&&r.d.tt==='khop').length}/${rows.length}</span>`],
+      ['PO đã sửa chờ ME22N',`<span class="pill ${poOf(S.thang).some(p=>p.sua)?'run':''}">${poOf(S.thang).filter(p=>p.sua).length}</span>`],['Chứng từ MIGO đã có số',`<span class="pill">${mg.filter(m=>m.tt==='migo').length}/${mg.length}</span>`],
+      ['ĐNTT đã lập / thanh toán',`<span class="pill">${Object.values(S.dn||{}).filter(d=>d.thang===S.thang&&d.tt!=='huy').length} / ${Object.values(S.dn||{}).filter(d=>d.thang===S.thang&&d.tt==='tt').length}</span>`]];
+    $('#steps').innerHTML=it.map(x=>`<div><span>${x[0]}</span>${x[1]}</div>`).join(''); return; }
+  if(S.step===3){ const m=poOf(S.thang), pend=poPending(), C3=poRecvCompute();
+    const it=[['3.1 NCC chờ lập PO',`<span class="pill ${pend.length?'run':''}">${pend.length}</span>`],['3.2 Đã có số PO',`<span class="pill ${m.length&&m.every(p=>p.soPO)?'ok':''}">${m.filter(p=>p.soPO).length}/${m.length}</span>`],
+      ['3.3 Dòng vượt / ngoài PO',`<span class="pill ${C3.rows.some(r=>r.need>0)?'bad':''}">${C3.rows.filter(r=>r.need>0).length}</span>`],['3.4 PO sửa chờ cập nhật SAP',`<span class="pill ${m.some(p=>p.sua)?'run':''}">${m.filter(p=>p.sua).length}</span>`]];
+    $('#steps').innerHTML=it.map(x=>`<div><span>${x[0]}</span>${x[1]}</div>`).join(''); return; }
+  $('#steps').innerHTML=SUB.map(([n,t,k])=>{const x=S.tt[k];return `<div><span>${n} ${t}</span>${x&&x.ok?`<span class="pill ok" title="${esc(tstr(x.luc)+' · '+nm(x.ai))}">✓ ${tstr(x.luc).split(' ')[0]}</span>`:'<span class="pill">Chưa</span>'}</div>`;}).join('');
+}
+function renderLog(){
+  const a=S.log.filter(l=>!l.thang||l.thang===S.thang);
+  $('#log').innerHTML=a.length?a.map(l=>`<li><div class="h"><time>${tstr(l.ts)}</time><span class="pill">${esc(l.buoc)}</span><span>${esc(l.nguoi||nm(l.ai))}</span></div><div>${esc(l.viec)}</div></li>`).join(''):'<li class="muted">Chưa có thao tác nào trong tháng này. Mỗi lần lưu, tính, chốt sẽ được ghi lại ở đây.</li>';
+}
+function applyMode(){ const ag=ED.mode==='agent'; $('#agentPanel').hidden=!ag; $('#trackSec').hidden=ag; $('#stageRow').hidden=ag;
+  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.mode==='agent')===ag)));
+  const n=Object.values(S.dx||{}).filter(d=>d.thang===S.thang&&d.tt==='cho').length, c=$('#agCount'); if(c){ c.hidden=!n; c.textContent=n; c.className='pill '+(n?'bad':''); } }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-mode]'); if(!b) return; ED.mode=b.dataset.mode; applyMode(); renderAgents(); window.scrollTo({top:0}); });
+function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();renderTabs();renderSteps();renderLog();
+  const v={td:vTD,khach:vKhach,dm:vDM,tinh:vTinh,chot:vChot,pb:vPB,xuat:vXuat,ls:vLS,dc:vDC,pocan:vPOcan,posap:vPOsap,podc:vPOdc,pols:vPOls,dat:vDat,nhan:vNhan,nls:vNls,bk:vBK,sofile:vSoFile,dsk:vDSK,cpo:vCPO,gpo:vGPO,kpo:vKPO,mg:vMG,mgls:vMGls,hd:vHD,dn:vDN,dnls:vDNls}[S.tab]; const ae=document.activeElement, id=ae&&ae.id, pos=ae&&ae.selectionStart;
+  $('#view').innerHTML=v();
+  if(id){const el=document.getElementById(id); if(el){el.focus(); try{if(pos!=null)el.setSelectionRange(pos,pos);}catch(e){}}}
+}
+function head(title,desc,key){ const x=S.tt[key];
+  return `<div class="sh"><div><h2>${title}</h2><p>${desc}</p></div><div class="toolbar">${x&&x.ok?`<span class="pill ok">✓ Đã xác nhận ${tstr(x.luc)} · ${esc(nm(x.ai))}</span>`:'<span class="pill run">Chưa xác nhận</span>'}${locked()?'<span class="pill bad">Dự trù đã chốt · chỉ xem</span>':''}</div></div>`; }
+

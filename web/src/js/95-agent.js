@@ -133,3 +133,5 @@ document.addEventListener('click',async e=>{ const t=e.target.closest('[data-ag]
   else if(a==='all'){ for(const x of AGENTS.slice(1)) await chayAgent(x); await chayAgent(AGENTS[0]); }
   else if(a==='ok'){ t.disabled=true; await duyetDX(t.dataset.id); }
   else if(a==='bo'){ const d=S.dx[t.dataset.id]; if(d) await store.set('dexuat/'+d.id,{...stripId(d),tt:'bo',xuLyLuc:Date.now(),nguoiXuLy:uname}); } });
+
+window.__ag={AGENTS,agCtx,chayAgent,duyetDX,S:()=>S};

@@ -1,0 +1,60 @@
+<title>Bảng điều hành</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+<!--@CSS-->
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Vinmec Ocean Park 2 – Bộ phận Bếp, mua hàng</div>
+      <h1>Bảng điều hành</h1>
+    </div>
+    <div class="hctl">
+      <label class="meta" for="thang">Tháng dự trù</label>
+      <select id="thang"></select>
+      <span class="pill" id="who"></span>
+      <span class="pill" id="conn">Đang kết nối…</span>
+      <span class="pill" id="tramPill" title="Trạm SAP trên máy công ty">Trạm SAP: chưa rõ</span>
+      
+      <button class="btn sm" id="reload" type="button">Tải lại dữ liệu</button>
+      <a class="btn sm" id="openSheet" href="https://docs.google.com/spreadsheets/d/__DATA_SHEET_ID__/edit" target="_blank" rel="noopener" style="text-decoration:none">Mở file dữ liệu</a>
+    </div>
+  </header>
+  <nav class="modebar"><div class="seg mode" role="tablist" aria-label="Chế độ xem"><button type="button" role="tab" data-mode="quytrinh" aria-pressed="true">Quy trình 8 bước</button><button type="button" role="tab" data-mode="agent" aria-pressed="false">Bảng điều phối agent <span class="pill" id="agCount" hidden></span></button></div></nav>
+  <div class="banner" id="previewNote" hidden>Chưa kết nối được file dữ liệu (cần mở trên claude.ai và cho phép Google Sheets, Google Drive). Đang chạy thử: dữ liệu chỉ nằm trên trang, không lưu.</div>
+  <div class="banner" id="seedNote" hidden>File dữ liệu PRTruoc_DuLieu đang trống. <button class="btn sm primary" id="seedBtn" type="button">Nạp dữ liệu khởi tạo</button> <span class="meta">Thực đơn T11, lượng khách T11, số nhận T10, giá khung T10, thông tin NCC – từ DuLieuApp/khoitao.json.</span></div>
+
+  <section class="track" id="trackSec" aria-label="Các bước quy trình"><div class="nodes" id="nodes"></div></section>
+  <section class="panel agpanel" id="agentPanel" aria-label="Bảng điều phối agent" hidden></section>
+
+  <div class="stage-row" id="stageRow">
+    <section class="panel stage">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div id="view"></div>
+    </section>
+    <aside class="panel log">
+      <h3 id="stHead">Trạng thái bước 1</h3>
+      <div class="steps" id="steps"></div>
+      <h3>Lệnh gửi trạm SAP</h3>
+      <ol id="lenhList" style="max-height:260px"></ol>
+      <h3>Đọc, ghi file dữ liệu</h3>
+      <ol id="cmd" style="max-height:220px"></ol>
+      <h3>Nhật ký thao tác</h3>
+      <ol id="log"></ol>
+    </aside>
+  </div>
+  <p class="meta">Dữ liệu đọc/ghi trực tiếp vào file <b>PRTruoc_DuLieu</b> (Google Sheets) trong thư mục dự án; file xuất cho SAP lưu vào thư mục <b>XuatSAP</b>. Giá: Bảng giá tham chiếu + Giá riêng theo NCC trong Công nợ.xlsx, kỳ giá <b>tháng 10/2026</b> (tạm dùng cho tháng 11 đến khi có giá tươi T11). Mức tiêu thụ và ngân sách tham chiếu: thực nhận và thực chi tháng 9 (10.111 suất nhân viên + nội trú, gồm bữa phụ). Tồn đồ khô: app Kho khô, chỉ đọc.</p>
+</div>
+<div class="toast" id="toast" hidden></div>
+<datalist id="dl-item"></datalist>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script type="application/json" id="data">__DATA__</script>
+<script>
+(function(){
+<!--@JS-->
+})();
+</script>

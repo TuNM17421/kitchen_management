@@ -1,0 +1,7391 @@
+{
+ "ten": "Gói test tháng 11/2026 (dữ liệu giả)",
+ "docs": {
+  "thucdon/NV_2026-10-26": {
+   "nhom": "NV",
+   "tuan": "2026-10-26",
+   "items": [
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NTC_2026-10-26": {
+   "nhom": "NTC",
+   "tuan": "2026-10-26",
+   "items": [
+    {
+     "d": "2026-10-26",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-10-26",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-10-27",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-10-28",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-10-29",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-10-30",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-10-31",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-01",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NV_2026-11-02": {
+   "nhom": "NV",
+   "tuan": "2026-11-02",
+   "items": [
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NTC_2026-11-02": {
+   "nhom": "NTC",
+   "tuan": "2026-11-02",
+   "items": [
+    {
+     "d": "2026-11-02",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-02",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-03",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-04",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-05",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-06",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-07",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-08",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NV_2026-11-09": {
+   "nhom": "NV",
+   "tuan": "2026-11-09",
+   "items": [
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NTC_2026-11-09": {
+   "nhom": "NTC",
+   "tuan": "2026-11-09",
+   "items": [
+    {
+     "d": "2026-11-09",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-09",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-10",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-11",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-12",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-13",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-14",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-15",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NV_2026-11-16": {
+   "nhom": "NV",
+   "tuan": "2026-11-16",
+   "items": [
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NTC_2026-11-16": {
+   "nhom": "NTC",
+   "tuan": "2026-11-16",
+   "items": [
+    {
+     "d": "2026-11-16",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-16",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-17",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-18",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-19",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-20",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-21",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-22",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NV_2026-11-23": {
+   "nhom": "NV",
+   "tuan": "2026-11-23",
+   "items": [
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NTC_2026-11-23": {
+   "nhom": "NTC",
+   "tuan": "2026-11-23",
+   "items": [
+    {
+     "d": "2026-11-23",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-23",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-24",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-25",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-26",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-27",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-28",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-29",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NV_2026-11-30": {
+   "nhom": "NV",
+   "tuan": "2026-11-30",
+   "items": [
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt",
+     "tl": 67
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  },
+  "thucdon/NTC_2026-11-30": {
+   "nhom": "NTC",
+   "tuan": "2026-11-30",
+   "items": [
+    {
+     "d": "2026-11-30",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-11-30",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Đậu phụ sốt cà chua"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Tôm rim thịt"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-12-01",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Cá diêu hồng chiên xù"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Chả lá lốt"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-12-02",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Mực xào cần tỏi"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Gà luộc lá chanh"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-12-03",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Cháo thịt bằm"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Phở bò"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Trứng đúc thịt"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Thịt kho trứng"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh khoai tây cà rốt"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Rau muống xào tỏi"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-12-04",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh cuốn chả"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bún gà"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Gà rang gừng"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh bí đao nấu tôm"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Bắp cải luộc"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Dưa hấu"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Cá basa sốt cà chua"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh cải ngọt thịt băm"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Cải chíp xào nấm"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-12-05",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Súp gà ngô"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Sáng",
+     "loai": "Chọn 1",
+     "mon": "Bánh mì trứng"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Sáng",
+     "loai": "Tráng miệng",
+     "mon": "Thanh long"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Mặn",
+     "mon": "Sườn ram mặn ngọt"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Canh",
+     "mon": "Canh chua cá"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Rau",
+     "mon": "Su su xào"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Trưa",
+     "loai": "Tráng miệng",
+     "mon": "Cam sành"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Mặn",
+     "mon": "Bò xào súp lơ"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Canh",
+     "mon": "Canh rau ngót"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Rau",
+     "mon": "Bí ngồi xào"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Tối",
+     "loai": "Tráng miệng",
+     "mon": "Chuối tiêu"
+    },
+    {
+     "d": "2026-12-06",
+     "b": "Phụ",
+     "loai": "",
+     "mon": "Sữa chua không đường"
+    }
+   ],
+   "nguon": "Gói test 11/2026"
+  }
+ },
+ "dinhmuc": {
+  "thit-kho-trung": {
+   "mon": "Thịt kho trứng",
+   "nl": [
+    {
+     "ma": "THP00423",
+     "q": 0.08
+    },
+    {
+     "ma": "THP07943",
+     "q": 1
+    },
+    {
+     "ma": "THP01229",
+     "q": 0.004
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "ga-rang-gung": {
+   "mon": "Gà rang gừng",
+   "nl": [
+    {
+     "ma": "THP00332",
+     "q": 0.12
+    },
+    {
+     "ma": "THP01821",
+     "q": 0.005
+    },
+    {
+     "ma": "THP01229",
+     "q": 0.003
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "ca-basa-sot-ca-chua": {
+   "mon": "Cá basa sốt cà chua",
+   "nl": [
+    {
+     "ma": "THP03146",
+     "q": 0.1
+    },
+    {
+     "ma": "THP00155",
+     "q": 0.04
+    },
+    {
+     "ma": "THP06600",
+     "q": 0.003
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "suon-ram-man-ngot": {
+   "mon": "Sườn ram mặn ngọt",
+   "nl": [
+    {
+     "ma": "THP00399",
+     "q": 0.12
+    },
+    {
+     "ma": "THP01821",
+     "q": 0.005
+    },
+    {
+     "ma": "THP01229",
+     "q": 0.003
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "bo-xao-sup-lo": {
+   "mon": "Bò xào súp lơ",
+   "nl": [
+    {
+     "ma": "THP00374",
+     "q": 0.06
+    },
+    {
+     "ma": "THP02912",
+     "q": 0.06
+    },
+    {
+     "ma": "THP01829",
+     "q": 0.003
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "dau-phu-sot-ca-chua": {
+   "mon": "Đậu phụ sốt cà chua",
+   "nl": [
+    {
+     "ma": "THP02258",
+     "q": 0.12
+    },
+    {
+     "ma": "THP00155",
+     "q": 0.05
+    },
+    {
+     "ma": "THP06600",
+     "q": 0.003
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "tom-rim-thit": {
+   "mon": "Tôm rim thịt",
+   "nl": [
+    {
+     "ma": "THP01901",
+     "q": 0.05
+    },
+    {
+     "ma": "THP00423",
+     "q": 0.04
+    },
+    {
+     "ma": "THP01229",
+     "q": 0.003
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "ca-dieu-hong-chien-xu": {
+   "mon": "Cá diêu hồng chiên xù",
+   "nl": [
+    {
+     "ma": "THP00493",
+     "q": 0.1
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "cha-la-lot": {
+   "mon": "Chả lá lốt",
+   "nl": [
+    {
+     "ma": "THP02654",
+     "q": 0.08
+    },
+    {
+     "ma": "THP01821",
+     "q": 0.004
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "muc-xao-can-toi": {
+   "mon": "Mực xào cần tỏi",
+   "nl": [
+    {
+     "ma": "THP00547",
+     "q": 0.07
+    },
+    {
+     "ma": "THP01829",
+     "q": 0.004
+    },
+    {
+     "ma": "THP02052",
+     "q": 0.03
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "ga-luoc-la-chanh": {
+   "mon": "Gà luộc lá chanh",
+   "nl": [
+    {
+     "ma": "THP02965",
+     "q": 0.12
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "trung-duc-thit": {
+   "mon": "Trứng đúc thịt",
+   "nl": [
+    {
+     "ma": "THP07943",
+     "q": 2
+    },
+    {
+     "ma": "THP02654",
+     "q": 0.03
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "canh-bi-dao-nau-tom": {
+   "mon": "Canh bí đao nấu tôm",
+   "nl": [
+    {
+     "ma": "THP00149",
+     "q": 0.08
+    },
+    {
+     "ma": "THP06722",
+     "q": 0.01
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "canh-cai-ngot-thit-bam": {
+   "mon": "Canh cải ngọt thịt băm",
+   "nl": [
+    {
+     "ma": "THP00225",
+     "q": 0.06
+    },
+    {
+     "ma": "THP02654",
+     "q": 0.015
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "canh-chua-ca": {
+   "mon": "Canh chua cá",
+   "nl": [
+    {
+     "ma": "THP03860",
+     "q": 0.05
+    },
+    {
+     "ma": "THP00155",
+     "q": 0.03
+    },
+    {
+     "ma": "THP00301",
+     "q": 0.01
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "canh-rau-ngot": {
+   "mon": "Canh rau ngót",
+   "nl": [
+    {
+     "ma": "THP00230",
+     "q": 0.06
+    },
+    {
+     "ma": "THP02654",
+     "q": 0.01
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "canh-khoai-tay-ca-rot": {
+   "mon": "Canh khoai tây cà rốt",
+   "nl": [
+    {
+     "ma": "THP00195",
+     "q": 0.05
+    },
+    {
+     "ma": "THP00159",
+     "q": 0.03
+    },
+    {
+     "ma": "THP00352",
+     "q": 0.03
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "rau-muong-xao-toi": {
+   "mon": "Rau muống xào tỏi",
+   "nl": [
+    {
+     "ma": "THP00242",
+     "q": 0.1
+    },
+    {
+     "ma": "THP01829",
+     "q": 0.004
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "bap-cai-luoc": {
+   "mon": "Bắp cải luộc",
+   "nl": [
+    {
+     "ma": "THP00213",
+     "q": 0.1
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "cai-chip-xao-nam": {
+   "mon": "Cải chíp xào nấm",
+   "nl": [
+    {
+     "ma": "THP00218",
+     "q": 0.08
+    },
+    {
+     "ma": "THP00132",
+     "q": 0.02
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "su-su-xao": {
+   "mon": "Su su xào",
+   "nl": [
+    {
+     "ma": "THP03644",
+     "q": 0.1
+    },
+    {
+     "ma": "THP01829",
+     "q": 0.003
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "bi-ngoi-xao": {
+   "mon": "Bí ngồi xào",
+   "nl": [
+    {
+     "ma": "THP00146",
+     "q": 0.1
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "chuoi-tieu": {
+   "mon": "Chuối tiêu",
+   "nl": [
+    {
+     "ma": "THP00626",
+     "q": 1
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "dua-hau": {
+   "mon": "Dưa hấu",
+   "nl": [
+    {
+     "ma": "THP00660",
+     "q": 0.15
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "thanh-long": {
+   "mon": "Thanh long",
+   "nl": [
+    {
+     "ma": "THP00693",
+     "q": 0.15
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "cam-sanh": {
+   "mon": "Cam sành",
+   "nl": [
+    {
+     "ma": "THP00637",
+     "q": 0.15
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "sua-chua-khong-duong": {
+   "mon": "Sữa chua không đường",
+   "nl": [
+    {
+     "ma": "THP01122",
+     "q": 1
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "pho-bo": {
+   "mon": "Phở bò",
+   "nl": [
+    {
+     "ma": "THP03014",
+     "q": 0.15
+    },
+    {
+     "ma": "THP00374",
+     "q": 0.05
+    },
+    {
+     "ma": "THP06600",
+     "q": 0.005
+    },
+    {
+     "ma": "THP00381",
+     "q": 0.05
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "bun-ga": {
+   "mon": "Bún gà",
+   "nl": [
+    {
+     "ma": "THP00102",
+     "q": 0.15
+    },
+    {
+     "ma": "THP02965",
+     "q": 0.06
+    },
+    {
+     "ma": "THP06600",
+     "q": 0.005
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "banh-mi-trung": {
+   "mon": "Bánh mì trứng",
+   "nl": [
+    {
+     "ma": "THP00066",
+     "q": 1
+    },
+    {
+     "ma": "THP07943",
+     "q": 1
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "chao-thit-bam": {
+   "mon": "Cháo thịt bằm",
+   "nl": [
+    {
+     "ma": "THP08254",
+     "q": 0.04
+    },
+    {
+     "ma": "THP02654",
+     "q": 0.04
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "banh-cuon-cha": {
+   "mon": "Bánh cuốn chả",
+   "nl": [
+    {
+     "ma": "THP00088",
+     "q": 0.2
+    },
+    {
+     "ma": "THP00114",
+     "q": 0.03
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  },
+  "sup-ga-ngo": {
+   "mon": "Súp gà ngô",
+   "nl": [
+    {
+     "ma": "THP02036",
+     "q": 0.05
+    },
+    {
+     "ma": "THP00159",
+     "q": 0.02
+    },
+    {
+     "ma": "THP07943",
+     "q": 0.5
+    }
+   ],
+   "nguon": "Excel tuần 1",
+   "ghichu": "gói test 11/2026"
+  }
+ },
+ "khach": {
+  "thang": "2026-11",
+  "days": {
+   "2026-11-01": [
+    41,
+    22,
+    25,
+    31,
+    21,
+    20,
+    1,
+    2,
+    2,
+    3,
+    11,
+    10,
+    12,
+    19
+   ],
+   "2026-11-02": [
+    155,
+    29,
+    26,
+    33,
+    25,
+    24,
+    1,
+    2,
+    2,
+    3,
+    9,
+    9,
+    12,
+    21
+   ],
+   "2026-11-03": [
+    152,
+    27,
+    29,
+    29,
+    25,
+    22,
+    1,
+    2,
+    2,
+    3,
+    10,
+    11,
+    10,
+    22
+   ],
+   "2026-11-04": [
+    170,
+    30,
+    27,
+    32,
+    26,
+    19,
+    1,
+    2,
+    2,
+    3,
+    11,
+    11,
+    11,
+    20
+   ],
+   "2026-11-05": [
+    173,
+    27,
+    23,
+    32,
+    23,
+    22,
+    1,
+    2,
+    2,
+    3,
+    9,
+    12,
+    10,
+    22
+   ],
+   "2026-11-06": [
+    176,
+    29,
+    29,
+    28,
+    27,
+    21,
+    1,
+    2,
+    2,
+    3,
+    10,
+    11,
+    11,
+    24
+   ],
+   "2026-11-07": [
+    112,
+    26,
+    23,
+    32,
+    25,
+    23,
+    1,
+    2,
+    2,
+    3,
+    10,
+    12,
+    10,
+    22
+   ],
+   "2026-11-08": [
+    39,
+    23,
+    24,
+    33,
+    27,
+    21,
+    1,
+    2,
+    2,
+    3,
+    11,
+    13,
+    11,
+    23
+   ],
+   "2026-11-09": [
+    177,
+    30,
+    29,
+    29,
+    21,
+    23,
+    1,
+    2,
+    2,
+    3,
+    9,
+    12,
+    12,
+    19
+   ],
+   "2026-11-10": [
+    167,
+    27,
+    29,
+    30,
+    25,
+    23,
+    1,
+    2,
+    2,
+    3,
+    10,
+    10,
+    10,
+    24
+   ],
+   "2026-11-11": [
+    155,
+    26,
+    24,
+    26,
+    21,
+    24,
+    1,
+    2,
+    2,
+    3,
+    10,
+    11,
+    10,
+    22
+   ],
+   "2026-11-12": [
+    216,
+    26,
+    27,
+    31,
+    22,
+    23,
+    1,
+    2,
+    2,
+    3,
+    11,
+    11,
+    9,
+    19
+   ],
+   "2026-11-13": [
+    166,
+    33,
+    27,
+    32,
+    21,
+    22,
+    1,
+    2,
+    2,
+    3,
+    9,
+    13,
+    13,
+    21
+   ],
+   "2026-11-14": [
+    110,
+    28,
+    29,
+    33,
+    24,
+    24,
+    1,
+    2,
+    2,
+    3,
+    9,
+    12,
+    10,
+    22
+   ],
+   "2026-11-15": [
+    37,
+    24,
+    23,
+    25,
+    26,
+    23,
+    1,
+    2,
+    2,
+    3,
+    9,
+    10,
+    11,
+    25
+   ],
+   "2026-11-16": [
+    172,
+    26,
+    27,
+    25,
+    26,
+    24,
+    1,
+    2,
+    2,
+    3,
+    11,
+    11,
+    11,
+    25
+   ],
+   "2026-11-17": [
+    170,
+    26,
+    28,
+    28,
+    26,
+    25,
+    1,
+    2,
+    2,
+    3,
+    11,
+    11,
+    11,
+    20
+   ],
+   "2026-11-18": [
+    167,
+    33,
+    22,
+    32,
+    23,
+    23,
+    1,
+    2,
+    2,
+    3,
+    11,
+    10,
+    12,
+    21
+   ],
+   "2026-11-19": [
+    180,
+    24,
+    26,
+    32,
+    24,
+    22,
+    1,
+    2,
+    2,
+    3,
+    9,
+    10,
+    12,
+    19
+   ],
+   "2026-11-20": [
+    203,
+    34,
+    26,
+    26,
+    27,
+    24,
+    1,
+    2,
+    2,
+    3,
+    10,
+    12,
+    12,
+    20
+   ],
+   "2026-11-21": [
+    111,
+    28,
+    25,
+    28,
+    22,
+    19,
+    1,
+    2,
+    2,
+    3,
+    9,
+    11,
+    10,
+    22
+   ],
+   "2026-11-22": [
+    35,
+    27,
+    27,
+    28,
+    25,
+    22,
+    1,
+    2,
+    2,
+    3,
+    9,
+    12,
+    13,
+    21
+   ],
+   "2026-11-23": [
+    198,
+    27,
+    23,
+    27,
+    22,
+    19,
+    1,
+    2,
+    2,
+    3,
+    11,
+    11,
+    12,
+    22
+   ],
+   "2026-11-24": [
+    171,
+    30,
+    24,
+    30,
+    21,
+    22,
+    1,
+    2,
+    2,
+    3,
+    9,
+    12,
+    9,
+    25
+   ],
+   "2026-11-25": [
+    163,
+    33,
+    27,
+    32,
+    26,
+    25,
+    1,
+    2,
+    2,
+    3,
+    11,
+    12,
+    11,
+    19
+   ],
+   "2026-11-26": [
+    162,
+    25,
+    29,
+    28,
+    23,
+    22,
+    1,
+    2,
+    2,
+    3,
+    11,
+    11,
+    11,
+    21
+   ],
+   "2026-11-27": [
+    197,
+    34,
+    22,
+    26,
+    23,
+    25,
+    1,
+    2,
+    2,
+    3,
+    11,
+    12,
+    10,
+    21
+   ],
+   "2026-11-28": [
+    100,
+    24,
+    28,
+    30,
+    21,
+    24,
+    1,
+    2,
+    2,
+    3,
+    11,
+    12,
+    12,
+    23
+   ],
+   "2026-11-29": [
+    41,
+    27,
+    28,
+    32,
+    21,
+    19,
+    1,
+    2,
+    2,
+    3,
+    10,
+    11,
+    11,
+    21
+   ],
+   "2026-11-30": [
+    182,
+    33,
+    25,
+    29,
+    21,
+    20,
+    1,
+    2,
+    2,
+    3,
+    9,
+    12,
+    10,
+    24
+   ]
+  }
+ }
+}

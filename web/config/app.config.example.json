@@ -1,0 +1,8 @@
+{
+  "_ghichu": "Chép file này thành app.config.json (không commit) rồi điền ID Google của bạn. Thiếu app.config.json thì build.py dùng file mẫu này và trang chỉ chạy được ở chế độ chạy thử.",
+  "dataSheetId": "DAN_ID_FILE_GOOGLE_SHEETS_PRTruoc_DuLieu",
+  "khoSheetId": "DAN_ID_FILE_GOOGLE_SHEETS_KHO_KHO",
+  "seedFolderId": "DAN_ID_THU_MUC_DRIVE_DU_LIEU_KHOI_TAO",
+  "xuatFolderId": "DAN_ID_THU_MUC_DRIVE_XuatSAP",
+  "packTuan1Id": "DAN_ID_FILE_GOI_DU_LIEU_TUAN_1"
+}

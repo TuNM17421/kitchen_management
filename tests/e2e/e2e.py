@@ -4,9 +4,9 @@ import sys, os, shutil, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lo import *
 from xform import xform, GLDICT
-PRJ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+PRJ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 RUN = '/tmp/gltest/run'
-TPL = PRJ + '/excel-mau/Template_PR_Tram.xlsm'
+TPL = PRJ + '/samples/excel/Template_PR_Tram.xlsm'
 
 TESTGL = '''Option VBASupport 1
 Function Setup(ByVal dbFile As String, ByVal kb As String) As String
@@ -88,12 +88,12 @@ def fresh(name='Template_PR_Tram.xlsm'):
         if not (n.startswith('Sheet') or n == 'ThisWorkbook'):
             lib.removeByName(n)
     mods = [
-        ('SAP_Automation', xform(vba_src(PRJ + '/tram-sap/SAP_Automation_v23_Tram.bas')), False),
-        ('MIGO_TungPhan', xform(vba_src(PRJ + '/tram-sap/MIGO_TungPhan_v2_Tram.bas')), False),
-        ('SapGiaLap', xform(vba_src(PRJ + '/gia_lap/SapGiaLap.bas')), False),
-        ('SapGL_Ctl', vba_src(PRJ + '/gia_lap/SapGL_Ctl.cls', True), True),
-        ('SapGL_Dong', vba_src(PRJ + '/gia_lap/SapGL_Dong.cls', True), True),
-        ('SapGL_List', vba_src(PRJ + '/gia_lap/SapGL_List.cls', True), True),
+        ('SAP_Automation', xform(vba_src(PRJ + '/sap-station/vba/SAP_Automation.bas')), False),
+        ('MIGO_TungPhan', xform(vba_src(PRJ + '/sap-station/vba/MIGO_TungPhan.bas')), False),
+        ('SapGiaLap', xform(vba_src(PRJ + '/sap-simulator/SapGiaLap.bas')), False),
+        ('SapGL_Ctl', vba_src(PRJ + '/sap-simulator/SapGL_Ctl.cls', True), True),
+        ('SapGL_Dong', vba_src(PRJ + '/sap-simulator/SapGL_Dong.cls', True), True),
+        ('SapGL_List', vba_src(PRJ + '/sap-simulator/SapGL_List.cls', True), True),
         ('GLDict', GLDICT, True),
         ('TestGL', TESTGL, False),
     ]

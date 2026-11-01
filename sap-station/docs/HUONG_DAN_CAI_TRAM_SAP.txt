@@ -24,7 +24,11 @@ BƯỚC 1 – CỔNG GOOGLE (làm 1 lần, trên máy nào cũng được)
 ------------------------------------------------------------------
 1. Mở file PRTruoc_DuLieu (Google Sheets) trong thư mục dự án.
 2. Menu Tiện ích mở rộng → Apps Script.
-3. Xóa hết nội dung Code.gs, dán toàn bộ nội dung file TramSAP_API.gs (cùng thư mục này). Bấm Lưu.
+3. Xóa hết nội dung Code.gs, dán toàn bộ nội dung file sap-station\apps-script\TramSAP_API.gs. Bấm Lưu.
+   Cài đặt dự án (bánh răng) → Thuộc tính tập lệnh → thêm 2 thuộc tính:
+     TOKEN       = mã bảo mật dài, ngẫu nhiên (≥ 32 ký tự). Dùng đúng mã này ở bước 2.4.
+     XUAT_FOLDER = ID thư mục XuatSAP trên Drive.
+   (Token và ID không còn viết trong code; thiếu TOKEN thì cổng từ chối mọi lệnh.)
 4. Bấm Triển khai → Tùy chọn triển khai mới → bánh răng chọn "Ứng dụng web":
      - Thực thi với tư cách: Tôi
      - Người có quyền truy cập: Bất kỳ ai
@@ -35,20 +39,21 @@ BƯỚC 1 – CỔNG GOOGLE (làm 1 lần, trên máy nào cũng được)
 ------------------------------------------------------------------
 BƯỚC 2 – MÁY SAP
 ------------------------------------------------------------------
-1. Tạo thư mục C:\TramSAP và chép vào đó TOÀN BỘ file trong scripts\TramSAP (trừ TramSAP_API.gs và file hướng dẫn):
-     TramSAP.ps1, TramSAP.config.json, ChayTramSAP.bat,
-     SAP_Automation_v23_Tram.bas, MIGO_TungPhan_v2_Tram.bas, DNTT_Automation_v6_Tram.bas,
+1. Tạo thư mục C:\TramSAP và chép vào đó các file trong thư mục sap-station của repo Kitchen Management:
+     TramSAP.ps1, TramSAP.config.example.json, ChayTramSAP.bat,
+     vba\SAP_Automation.bas, vba\MIGO_TungPhan.bas, vba\DNTT_Automation.bas,
      DNTT.xlsx, DNTT-CCDC.xlsx (file mẫu ĐNTT, chép từ bản dự án cũ – macro chỉ mở chỉ đọc)
 2. Chép file Template_PR_v3.xlsm đang dùng thành C:\TramSAP\Template_PR_Tram.xlsm
    (bản riêng cho trạm – KHÔNG dùng chung file đang làm hằng ngày, vì trạm xóa CongNo mỗi lần chạy).
 3. Mở Template_PR_Tram.xlsm → Alt+F11 → chuột phải module SAP_Automation → Remove (No khi hỏi xuất)
-   → File → Import File → chọn SAP_Automation_v23_Tram.bas.
-   Nếu đã có module MIGO_TungPhan thì Remove nó; rồi Import File → MIGO_TungPhan_v2_Tram.bas.
-   Nếu đã có module DNTT_Automation thì Remove nó; rồi Import File → DNTT_Automation_v6_Tram.bas → Ctrl+S → đóng Excel.
+   → File → Import File → chọn SAP_Automation.bas.
+   Nếu đã có module MIGO_TungPhan thì Remove nó; rồi Import File → MIGO_TungPhan.bas.
+   Nếu đã có module DNTT_Automation thì Remove nó; rồi Import File → DNTT_Automation.bas → Ctrl+S → đóng Excel.
    (Trạm tự sửa sheet DNTT_CauHinh của file trạm để lấy file mẫu và thư mục xuất trong C:\TramSAP,
     không đọc/ghi gì vào thư mục dự án cũ.)
-   Kiểm tra: Alt+F8 → PhienBan → phải hiện "v23-Tram (30/10/2026)".
-4. Mở TramSAP.config.json bằng Notepad, dán URL /exec vào "url" (giữ nguyên dấu ngoặc kép), lưu.
+   Kiểm tra: Alt+F8 → PhienBan → phải hiện bản bắt đầu bằng "v23.1" (hiện tại: "v23.1-Tram-gl.2 (31/10/2026)").
+4. Chép TramSAP.config.example.json thành TramSAP.config.json, mở bằng Notepad: dán URL /exec vào "url",
+   đặt "token" giống thuộc tính TOKEN ở bước 1.3 (giữ nguyên dấu ngoặc kép), lưu. Không đưa file này lên git.
    Nếu để file Excel ở chỗ khác thì sửa "fileExcel" (dùng \\ thay cho \).
 5. Mở SAP Logon, ĐĂNG NHẬP. Cửa sổ SAP đầu tiên sẽ do trạm điều khiển.
 6. Nháy đúp ChayTramSAP.bat. Cửa sổ đen hiện "Ket noi cong Google: OK. Dang cho lenh..." là xong.
@@ -73,7 +78,8 @@ KHI DÙNG
 - Dừng trạm: đóng cửa sổ ChayTramSAP.bat.
 
 LỖI THƯỜNG GẶP
-- "Sai token": TOKEN trong TramSAP.config.json khác TramSAP_API.gs → chép lại cho giống.
+- "Sai token": token trong TramSAP.config.json khác thuộc tính TOKEN của Apps Script → chép lại cho giống.
+- "Cổng chưa cấu hình TOKEN": chưa thêm Thuộc tính tập lệnh TOKEN (bước 1.3).
 - "Khong ket noi duoc cong Google": máy không ra Internet / proxy chặn script.google.com → hỏi IT mở.
 - "File Excel chua co macro v23-Tram": làm lại bước 2.3.
 - PowerShell báo không cho chạy script: dùng ChayTramSAP.bat (đã có -ExecutionPolicy Bypass);
@@ -89,5 +95,5 @@ CẬP NHẬT 31/10/2026 – CHẠY NGẦM + 2 CỬA SỔ SAP SONG SONG
 - Tuỳ chọn trong TramSAP.config.json (không có thì dùng mặc định):
     "soPhienSAP": 2       (1 = nhập lần lượt như cũ)
     "anCuaSoSAP": true    (false = giữ nguyên cửa sổ SAP, dùng khi SAP báo lỗi không cuộn được bảng lúc thu nhỏ)
-- Cần import lại 2 module: SAP_Automation_v23_Tram.bas và MIGO_TungPhan_v2_Tram.bas (bản 31/10), chép TramSAP.ps1 và ChayTramSAP.bat mới.
+- Cần import lại 2 module: SAP_Automation.bas và MIGO_TungPhan.bas (bản 31/10), chép TramSAP.ps1 và ChayTramSAP.bat mới.
 - Không thao tác trên các cửa sổ SAP đang thu nhỏ của trạm khi trạm đang chạy lệnh.
