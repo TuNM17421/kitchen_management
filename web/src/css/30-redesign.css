@@ -108,22 +108,26 @@ details.help>summary{display:inline-flex;align-items:center}
 
 /* ===== bố cục theo review (01/11/2026) ===== */
 /* 2. dải bước thành thanh tiến trình một dòng: chấm số + nhãn + trạng thái, nối bằng đường kẻ */
-.nodes{display:flex;gap:0;min-width:0}
-.node{overflow:visible;flex:1 1 0;min-width:96px;min-height:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;
+.nodes{display:flex;gap:0;min-width:0;padding-block:4px}
+.node{overflow:visible;flex:1 1 0;min-width:96px;min-height:0;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;gap:4px;
   padding:10px 6px;background:transparent;border:0;box-shadow:none;border-radius:var(--r2);position:relative}
 .node::before{content:"";position:absolute;top:calc(10px + 13px);left:calc(50% + 18px);right:calc(-50% + 18px);height:2px;margin:0;background:var(--line);border:0;z-index:0}
 .node:last-child::before{display:none}
 .node.done::before{background:var(--sage)}
-.node .dot{flex:none;width:28px;height:28px;margin-bottom:2px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--line);font-size:12px;font-weight:700;color:var(--muted);position:relative;z-index:1}
+.node .dot{flex:none;width:28px;height:28px;margin-bottom:2px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--line);font-size:12px;font-weight:700;color:var(--muted);position:relative;top:auto;left:auto;opacity:1;z-index:1}
 .node .dot::before{content:none}
 .node.run .dot{border-color:var(--marigold);color:var(--ink);background:var(--run-soft)}
 .node.done .dot{border-color:var(--sage);background:var(--sage);color:#22301F}
 .node.cur .dot{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
 .node .lbl{margin:0;font-size:13px;line-height:1.25;max-width:100%;text-wrap:balance}
-.node .pill{margin:0;padding:0;background:transparent;font-size:11.5px;font-weight:500;color:var(--muted);line-height:1.2}
+.node .pill{margin:0 !important;padding:0;background:transparent;font-size:11.5px;font-weight:500;color:var(--muted);line-height:1.2}
 .node .pill.run{color:var(--run)}.node .pill.ok{color:var(--ok)}
-.node.cur{background:var(--surface);box-shadow:var(--shadow);border:0}
-.node:hover{transform:none;background:color-mix(in srgb,var(--surface) 70%,transparent)}
+.node.cur{background:transparent;box-shadow:none;border:0}
+.node.cur .dot{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+.node.cur .lbl{color:color-mix(in srgb,var(--accent) 70%,var(--ink));font-weight:700}
+.node:hover{transform:none;background:transparent}
+.node:hover .lbl{text-decoration:underline;text-underline-offset:3px}
+.node:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .track{padding:0}
 
 /* 3. header: trạng thái là chấm màu + chữ, tách khỏi nút */

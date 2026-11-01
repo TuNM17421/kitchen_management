@@ -3,7 +3,7 @@
 ## Bố cục theo review (01/11/2026)
 
 - Kết quả và thẻ số (KPI) nằm ngay dưới tiêu đề mỗi mục; khối kho chuyển xuống cuối.
-- Dải 8 bước thành thanh tiến trình: chấm số nối bằng đường kẻ, nhãn và trạng thái bên dưới. Bỏ nhóm "Trạng thái" trùng ở cột phải. Cuối mỗi mục có nút "Tiếp: …" / "Sang bước N: …".
+- Dải 8 bước thành thanh tiến trình: chấm số nối bằng đường kẻ đi qua tâm chấm, nhãn và trạng thái bên dưới; bước đang chọn đánh dấu bằng vòng sáng quanh chấm và nhãn đậm (không còn khung thẻ). Bỏ nhóm "Trạng thái" trùng ở cột phải. Cuối mỗi mục có nút "Tiếp: …" / "Sang bước N: …".
 - Header: trạng thái kết nối và trạm SAP hiển thị dạng chấm màu + chữ, tách khỏi nút; bản demo ẩn "Tải lại dữ liệu" và "Mở file dữ liệu".
 - Bảng mã hàng ở 1.4 mặc định chỉ hiện dòng cần xem (có ghi chú, sửa tay, ngoài bảng giá hoặc chưa có giá), chuyển "Cần xem / Tất cả" bằng nút.
 
