@@ -313,3 +313,79 @@ table.td-tbl input.num-in::placeholder{font-style:italic;font-size:12px}
 .calc-note{margin:0}
 .bar{background:color-mix(in srgb,var(--wool) 75%,var(--ink))}
 .morebtn{font-weight:600;color:var(--accent)}
+
+/* ===== review Lập PR ===== */
+.tab .ck-note{font-size:10.5px;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 6px;margin-left:6px}
+details.more{border:1px solid var(--line);border-radius:var(--r2);padding:var(--s2) var(--s4);background:var(--chip)}
+details.more>summary{cursor:pointer;font-weight:600;font-size:13.5px;padding:var(--s1) 0;display:list-item}
+details.more[open]>summary{margin-bottom:var(--s2)}
+details.more .tbl-wrap{margin-top:var(--s2)}
+details.tram-more>summary{cursor:pointer;font-size:12.5px;color:var(--accent);margin-top:var(--s2);display:list-item}
+details.tram-more .meta{margin-top:var(--s1)}
+/* 2.2: ba bước có số */
+ol.flow{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:none}
+ol.flow>li{position:relative;padding:0 0 var(--s5) 44px;display:grid;gap:var(--s3);min-width:0}
+ol.flow>li::before{content:"";position:absolute;left:13px;top:30px;bottom:4px;width:2px;background:var(--line)}
+ol.flow>li:last-child::before{display:none}
+ol.flow>li.done::before{background:var(--sage)}
+ol.flow .fh{display:flex;align-items:center;gap:var(--s3);margin-left:-44px;min-height:28px}
+ol.flow .fn{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:700;border:2px solid var(--line);background:var(--surface);color:var(--muted);flex:none}
+ol.flow li.cur .fn{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+ol.flow li.done .fn{border-color:var(--sage);background:var(--sage);color:#22301F}
+ol.flow .fh b{font-size:15px}
+ol.flow .fdone{margin:0;font-size:13.5px}
+ol.flow .box{margin:0}
+@media (max-width:700px){ol.flow>li{padding-left:36px}ol.flow .fh{margin-left:-36px}ol.flow>li::before{left:13px}}
+
+/* 2.3: bảng đợt PR gọn, thao tác một cột */
+table.ls-tbl{table-layout:fixed;min-width:0}
+table.ls-tbl col.c-exp{width:40px}table.ls-tbl col.c-tien{width:132px}table.ls-tbl col.c-tt{width:170px}table.ls-tbl col.c-when{width:150px}table.ls-tbl col.c-acts{width:200px}
+table.ls-tbl td{white-space:normal;vertical-align:top}
+table.ls-tbl td small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+table.ls-tbl td.tt input{display:block;width:100%;margin-top:6px}
+table.ls-tbl .acts-in{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+table.ls-tbl tr.detail td{display:table-cell;background:var(--sunk)}
+@media (max-width:700px){
+  table.ls-tbl colgroup,table.ls-tbl thead{display:none}
+  table.ls-tbl,table.ls-tbl tbody{display:block}
+  table.ls-tbl tr:not(.detail){display:grid;grid-template-columns:32px minmax(0,1fr) auto;grid-template-areas:"exp dg tien" ". tt tt" ". when when" ". acts acts";gap:6px 8px;padding:10px var(--s3);border-top:1px solid var(--line)}
+  table.ls-tbl tr:first-child{border-top:0}
+  table.ls-tbl tr:not(.detail) td{display:block;padding:0!important;border:0}
+  table.ls-tbl td.exp{grid-area:exp}table.ls-tbl td.dg{grid-area:dg}table.ls-tbl td.tien{grid-area:tien}
+  table.ls-tbl td.tt{grid-area:tt}table.ls-tbl td.when{grid-area:when}table.ls-tbl td.acts{grid-area:acts}table.ls-tbl .acts-in{justify-content:flex-start}
+  table.ls-tbl tr.detail{display:block}table.ls-tbl tr.detail td{display:block}
+}
+
+/* 2.1: bảng phân bổ */
+table.pb-tbl{table-layout:fixed;min-width:900px}
+table.pb-tbl col.c-ma{width:96px}table.pb-tbl col.c-ncc{width:110px}table.pb-tbl col.c-dvt{width:56px}table.pb-tbl col.c-n{width:76px}
+table.pb-tbl col.c-g{width:84px}table.pb-tbl col.c-nv{width:96px}table.pb-tbl col.c-t{width:104px}
+table.pb-tbl th{white-space:normal;line-height:1.25}
+table.pb-tbl td.nm,table.pb-tbl td.ncc{white-space:normal;line-height:1.35}
+table.pb-tbl input.q{width:100%;text-align:right}
+@media (max-width:700px){
+  table.pb-tbl{min-width:0}
+  table.pb-tbl colgroup,table.pb-tbl thead{display:none}
+  table.pb-tbl,table.pb-tbl tbody,table.pb-tbl tfoot{display:block}
+  table.pb-tbl tbody tr{display:grid;grid-template-columns:minmax(0,1fr) 104px;grid-template-areas:"nm nm" "meta meta" "slc nv" "bn tnv";gap:4px 10px;padding:10px var(--s3);border-top:1px solid var(--line)}
+  table.pb-tbl tbody tr:first-child{border-top:0}
+  table.pb-tbl tbody td{display:block;padding:0!important;border:0;text-align:left}
+  table.pb-tbl td.nm{grid-area:nm;font-weight:600}
+  table.pb-tbl td.ma,table.pb-tbl td.dvt,table.pb-tbl td.gia,table.pb-tbl td.tbn{display:none!important}
+  table.pb-tbl td.ncc{grid-area:meta;color:var(--muted);font-size:12px}
+  table.pb-tbl td.slc{grid-area:slc;align-self:center;font-size:12.5px}table.pb-tbl td.slc::before{content:"SL chốt: ";color:var(--muted)}
+  table.pb-tbl td.nv{grid-area:nv}
+  table.pb-tbl td.bn{grid-area:bn;font-size:12.5px}table.pb-tbl td.bn::before{content:"Bệnh nhân: ";color:var(--muted)}
+  table.pb-tbl td.tnv{grid-area:tnv;font-size:12.5px;text-align:right}table.pb-tbl td.tnv::after{content:" đ NV";color:var(--muted)}
+  table.pb-tbl input[type=text]{border-color:var(--line);background-color:var(--surface)}
+  table.pb-tbl tfoot tr{display:flex;justify-content:space-between;gap:8px;padding:10px var(--s3)}
+  table.pb-tbl tfoot td{display:block;padding:0!important}
+  table.pb-tbl tfoot td[colspan]{flex:1}
+}
+[data-act2="pb-save"]:disabled{display:none}
+details.tram-more>summary{color:color-mix(in srgb,var(--accent) 70%,var(--ink))}
+table.ls-tbl td small{color:color-mix(in srgb,var(--muted) 80%,var(--ink))}
+@media (max-width:700px){
+  table.pb-tbl td.slc,table.pb-tbl td.bn{text-align:left!important}
+  table.bt-tbl th:nth-child(3),table.bt-tbl td:nth-child(3),table.bt-tbl th:nth-child(5),table.bt-tbl td:nth-child(5){display:none}
+}

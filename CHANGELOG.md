@@ -1,5 +1,14 @@
 # Nhật ký thay đổi
 
+## Review bước 2 Lập PR (01/11/2026)
+
+- Bước 2–8: mô tả dài đầu mỗi mục thu vào nút "Cách làm" (trước đây chỉ bước 1 có).
+- 2.1: bảng phân bổ thấy đủ 10 cột trên máy tính (cột cố định, tên hàng xuống dòng), trên điện thoại mỗi dòng thành thẻ có ô SL Nhân viên; 188 ô có nhãn; ô tỷ lệ dạng "51,1"; lọc "Đã sửa tay / Tất cả"; nút Lưu chỉ hiện khi có thay đổi.
+- 2.2: xếp thành 3 bước có số (Tạo đợt PR → Chọn đợt → Gửi lên SAP); khi chưa lưu phân bổ có nút "Mở 2.1"; "Tách NCC" vào "Thao tác khác"; bảng xem trước CongNo và cấu hình SAP thu gọn; giải thích chế độ trạm SAP thu vào "Chế độ này làm gì?" (áp dụng cả bước 3, 7).
+- 2.3: bảng đợt PR còn 6 cột (Đợt, Tiền, Trạng thái kèm số PR, Tạo / duyệt, Thao tác), Sửa / Lưu số PR / Đã duyệt / Hủy gom một cột; thẻ số ẩn khi chưa có đợt; trên điện thoại mỗi đợt thành thẻ.
+- 2.4: ghi rõ "Theo dõi, không bắt buộc" (tab không còn chấm trạng thái); khi chưa có dữ liệu chỉ hiện thông báo trống kèm "Dán thực nhận".
+- Chung: ô đang gõ giữ con trỏ khi trang vẽ lại (ô tìm kiếm không còn mất focus); vùng bảng cuộn được có thể dùng bàn phím. axe: 0 lỗi ở cả 4 mục, kể cả khi đã có đợt PR.
+
 ## Review bước Dự trù – đợt 3 (01/11/2026)
 
 - Ô nhập kiểu bảng tính (chỉ hiện viền khi rê chuột / đang nhập) cho bảng lượng khách 1.2, định mức 1.3 và dự trù 1.4; bỏ nút tăng giảm của ô số.

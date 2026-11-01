@@ -26,7 +26,7 @@ function pbApply(onlyNull){ const P=ED.pb,p=pbRatio(P); P.lines.forEach(l=>{ if(
 function pbTotals(P){ let nv=0,bn=0; P.lines.forEach(l=>{nv+=l.g*l.nv;bn+=l.g*(l.sl-l.nv);}); return {nv,bn,tot:nv+bn}; }
 const batchesOf=t=>Object.values(S.prdot||{}).filter(b=>b.thang===t).sort((a,b)=>a.luc-b.luc);
 const prMain=()=>batchesOf(S.thang).filter(b=>b.loai==='Chính'&&b.tt!=='huy');
-function head2(title,desc,right){ return `<div class="sh"><div><h2>${title}</h2><p>${desc}</p></div><div class="toolbar">${right||''}</div></div>`; }
+function head2(title,desc,right){ return `<div class="sh"><div><h2>${title}</h2>${desc?`<details class="help"${HELP_OPEN?' open':''}><summary>Cách làm</summary><p>${desc}</p></details>`:''}</div><div class="toolbar">${right||''}</div></div>`; }
 const ttPill=b=>{const t=TTPR[b.tt]||['?',''];let late='';if(b.tt==='sap'&&b.sapLuc&&tstr(b.sapLuc).slice(0,5)!==tstr(Date.now()).slice(0,5))late=' <span class="pill bad">Quá ngày chưa duyệt</span>';return `<span class="pill ${t[1]}">${t[0]}</span>${late}`;};
 
 /* ---- 2.1 Phân bổ ngân sách ---- */
@@ -34,12 +34,12 @@ function vPB(){
   const dt=S.dutru;
   if(!dt||!(dt.lines||[]).length) return head2('2.1 Phân bổ ngân sách','Chia dự trù tháng vào 2 mã ngân sách Nhân viên (be1) và Bệnh nhân (be2).')+'<div class="empty"><b>Chưa có dự trù tháng này</b>Làm bước 1.4 (tính dự trù) và 1.5 (chốt) trước.</div>';
   const P=pbState(),T=pbTotals(P),p=pbRatio(P), mainUsed=prMain().length>0;
-  const q=(ED.pbq||'').toLowerCase();
-  const rows=P.lines.map((l,i)=>[l,i]).filter(([l])=>{const x=IT.get(l.ma);return !q||(x.ma+' '+x.ten+' '+l.ncc).toLowerCase().includes(q);}).map(([l,i])=>{const x=IT.get(l.ma);
-    return `<tr class="${l.e?'edited':''}"><td class="num">${x.ma}</td><td class="wrap">${esc(x.ten)}</td><td>${esc(l.ncc)}${hasLifnr(l.ncc)?'':' <span class="pill bad">thiếu mã NCC SAP</span>'}</td><td>${esc(x.dvt)}</td>
-    <td class="r num">${Q(l.sl)}</td><td class="r num">${VND(l.g)}</td>
-    <td class="r"><input class="q" type="text" inputmode="decimal" id="pb-${i}" data-pb="${i}" value="${QI(l.nv)}" ${canWrite&&!mainUsed?'':'disabled'}></td>
-    <td class="r num">${Q(l.sl-l.nv)}</td><td class="r num">${VND(l.g*l.nv)}</td><td class="r num">${VND(l.g*(l.sl-l.nv))}</td></tr>`;}).join('');
+  const q=(ED.pbq||'').toLowerCase(), nEd=P.lines.filter(l=>l.e).length, onlyEd=ED.pbEd&&nEd>0;
+  const rows=P.lines.map((l,i)=>[l,i]).filter(([l])=>{const x=IT.get(l.ma);return (!onlyEd||l.e)&&(!q||(x.ma+' '+x.ten+' '+l.ncc).toLowerCase().includes(q));}).map(([l,i])=>{const x=IT.get(l.ma);
+    return `<tr class="${l.e?'edited':''}"><td class="num ma">${x.ma}</td><td class="wrap nm">${esc(x.ten)}</td><td class="ncc">${esc(l.ncc)}${hasLifnr(l.ncc)?'':' <span class="pill bad">thiếu mã NCC SAP</span>'}</td><td class="dvt">${esc(x.dvt)}</td>
+    <td class="r num slc">${Q(l.sl)}</td><td class="r num gia">${VND(l.g)}</td>
+    <td class="r nv"><input class="q" type="text" inputmode="decimal" id="pb-${i}" data-pb="${i}" aria-label="SL Nhân viên · ${x.ma} · ${esc(x.ten)}" value="${QI(l.nv)}" ${canWrite&&!mainUsed?'':'disabled'}></td>
+    <td class="r num bn">${Q(l.sl-l.nv)}</td><td class="r num tnv">${VND(l.g*l.nv)}</td><td class="r num tbn">${VND(l.g*(l.sl-l.nv))}</td></tr>`;}).join('');
   return head2('2.1 Phân bổ ngân sách','Chia số lượng dự trù đã chốt vào 2 mã ngân sách. Đặt tỷ lệ % hoặc số tiền cho mã Nhân viên, phần còn lại vào Bệnh nhân. Sửa từng dòng ở cột SL Nhân viên; dòng sửa tay được giữ khi chia lại.',
     S.pb?`<span class="pill ok">✓ Đã lưu ${tstr(S.pb.luc)} · ${esc(nm(S.pb.ai))}</span>`:'<span class="pill run">Chưa lưu</span>')+
   `${!locked()?'<div class="warn">Dự trù tháng chưa chốt (bước 1.5). Số ở đây sẽ đổi nếu dự trù còn sửa.</div>':''}
@@ -49,12 +49,12 @@ function vPB(){
     <div class="kv"><b>Mã Bệnh nhân (be2)</b><div class="num">${TR(T.bn)}</div><small>${T.tot?(T.bn/T.tot*100).toFixed(1).replace('.',','):0}% tổng</small></div>
     <div class="kv"><b>Tỷ lệ suất nhân viên</b><div class="num">${String(pbDefaultPct()).replace('.',',')}%</div><small>theo lượng khách dự kiến (1.2)</small></div></div>
    ${canWrite&&!mainUsed?`<div class="toolbar"><div class="seg"><button data-act2="pb-mode" data-m="pct" aria-pressed="${P.mode==='pct'}">Theo %</button><button data-act2="pb-mode" data-m="amt" aria-pressed="${P.mode==='amt'}">Theo số tiền</button></div>
-    ${P.mode==='pct'?`<label class="meta" for="pb-pct">Nhân viên %</label><input class="n" type="number" id="pb-pct" min="0" max="100" step="0.1" value="${P.pct}" style="width:80px">`:`<label class="meta" for="pb-amt">Tiền mã Nhân viên (đ)</label><input type="text" inputmode="numeric" id="pb-amt" value="${QI(P.amt)}" style="width:140px">`}
+    ${P.mode==='pct'?`<label class="meta" for="pb-pct">Nhân viên %</label><input class="n" type="text" inputmode="decimal" id="pb-pct" value="${String(P.pct).replace('.',',')}" style="width:80px">`:`<label class="meta" for="pb-amt">Tiền mã Nhân viên (đ)</label><input type="text" inputmode="numeric" id="pb-amt" value="${QI(P.amt)}" style="width:140px">`}
     <button class="btn sm" data-act2="pb-apply">Chia lại theo tỷ lệ</button><button class="btn sm" data-act2="pb-reset">Bỏ sửa tay</button>
-    <span class="meta">Tỷ lệ áp dụng: ${(p*100).toFixed(1).replace('.',',')}% ${P.dirty?'<span class="dirty">· Có thay đổi chưa lưu</span>':''}</span><span class="sp"></span>
+    ${P.dirty?'<span class="meta"><span class="dirty">Có thay đổi chưa lưu</span></span>':''}<span class="sp"></span>
     <button class="btn primary" data-act2="pb-save" ${P.dirty||!S.pb?'':'disabled'}>Lưu phân bổ</button></div>`:''}
-   <div class="toolbar"><input type="text" id="pb-q" placeholder="Tìm mã / tên / NCC" value="${esc(ED.pbq||'')}" style="width:220px"></div>
-   <div class="tbl-wrap"><table class="t"><thead><tr><th>Mã</th><th>Tên hàng</th><th>NCC</th><th>ĐVT</th><th class="r">SL chốt</th><th class="r">Đơn giá</th><th class="r">SL Nhân viên</th><th class="r">SL Bệnh nhân</th><th class="r">Tiền NV</th><th class="r">Tiền BN</th></tr></thead><tbody>${rows}</tbody>
+   <div class="toolbar">${nEd?`<div class="seg" role="group" aria-label="Dòng hiển thị"><button data-act2="pb-ed" data-v="1" aria-pressed="${!!onlyEd}">Đã sửa tay ${nEd}</button><button data-act2="pb-ed" data-v="0" aria-pressed="${!onlyEd}">Tất cả ${P.lines.length}</button></div>`:''}<input type="search" id="pb-q" placeholder="Tìm mã / tên / NCC" aria-label="Tìm mã, tên hoặc NCC" value="${esc(ED.pbq||'')}" style="width:220px"></div>
+   <div class="tbl-wrap"><table class="t pb-tbl sheet"><colgroup><col class="c-ma"><col><col class="c-ncc"><col class="c-dvt"><col class="c-n"><col class="c-g"><col class="c-nv"><col class="c-n"><col class="c-t"><col class="c-t"></colgroup><thead><tr><th>Mã</th><th>Tên hàng</th><th>NCC</th><th>ĐVT</th><th class="r">SL chốt</th><th class="r">Đơn giá</th><th class="r">SL Nhân viên</th><th class="r">SL Bệnh nhân</th><th class="r">Tiền NV</th><th class="r">Tiền BN</th></tr></thead><tbody>${rows}</tbody>
    <tfoot><tr><td colspan="8">Tổng</td><td class="r num">${VND(T.nv)}</td><td class="r num">${VND(T.bn)}</td></tr></tfoot></table></div>`;
 }
 function makeBatch(loai,dt,lines,note){
@@ -75,18 +75,26 @@ function vXuat(){
   const sel=all.filter(b=>ED.sel.has(b.id)), rows=congNoRows(sel);
   const noL=[...new Set(sel.flatMap(b=>b.lines.map(l=>l.ncc)).filter(n=>!hasLifnr(n)))];
   const main=prMain();
-  return head2('2.2 Xuất PR lên SAP','Tạo đợt PR từ phân bổ, rồi xuất đúng 11 cột của sheet CongNo trong Template_PR_v3.xlsm. Bấm <b>Tạo PR trên SAP</b>: trạm SAP trên máy công ty tự điền CongNo và chạy CreatePR, số PR tự ghi về 2.3. Vẫn có thể tải file / copy để chạy tay.')+tramBox('PR')+
-  `<div class="toolbar">${canWrite?`<button class="btn primary" data-act2="mk-main" ${!main.length&&S.pb&&!(ED.pb&&ED.pb.dirty)?'':'disabled'}>Tạo đợt PR chính tháng ${mmY(S.thang)}</button>`:''}
-   <span class="meta">${main.length?`Đợt chính: ${main.map(b=>esc(b.nhom)+' ('+(TTPR[b.tt]||[''])[0].toLowerCase()+')').join(', ')}`:(S.pb?'Chưa tạo đợt chính.':'Lưu phân bổ ở 2.1 trước.')}</span></div>
-   <div class="box"><b>Cấu hình SAP (sheet Mapping)</b><div class="meta">Mã cơ sở ${SAPCFG.name1} · EKORG ${SAPCFG.ekorg} · Cost center ${SAPCFG.kostl} · Quỹ ${SAPCFG.geber} · EKGRP ${SAPCFG.ekgrp} · NhanVien → be1, BenhNhan → be2 · Loại PR ZEX. Macro gom các dòng cùng Nhom_PR thành 1 PR.</div></div>
-   ${all.length?`<div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th></th><th>Nhom_PR</th><th>Loại</th><th>Đối tượng</th><th class="r">Số dòng</th><th class="r">Tổng tiền</th><th>Trạng thái</th></tr></thead><tbody>
+  const cfg=`<details class="more"><summary>Cấu hình SAP (sheet Mapping)</summary><div class="meta">Mã cơ sở ${SAPCFG.name1} · EKORG ${SAPCFG.ekorg} · Cost center ${SAPCFG.kostl} · Quỹ ${SAPCFG.geber} · EKGRP ${SAPCFG.ekgrp} · NhanVien → be1, BenhNhan → be2 · Loại PR ZEX. Macro gom các dòng cùng Nhom_PR thành 1 PR.</div></details>`;
+  const s1=main.length?`<p class="fdone">Đã tạo đợt chính: ${main.map(b=>'<b class="num">'+esc(b.nhom)+'</b> ('+(TTPR[b.tt]||[''])[0].toLowerCase()+')').join(', ')}</p>`
+    :!S.pb?`<div class="toolbar"><span class="meta">Cần lưu phân bổ ngân sách ở 2.1 trước.</span><button class="btn sm" data-act="go-next" data-tab="pb">Mở 2.1</button></div>`
+    :canWrite?`<div class="toolbar"><button class="btn primary" data-act2="mk-main" ${!(ED.pb&&ED.pb.dirty)?'':'disabled'}>Tạo đợt PR chính tháng ${mmY(S.thang)}</button>${ED.pb&&ED.pb.dirty?'<span class="meta">Lưu thay đổi phân bổ ở 2.1 trước.</span>':''}</div>`:'<p class="meta">Chưa tạo đợt chính.</p>';
+  const s2=all.length?`<div class="tbl-wrap" style="max-height:none"><table class="t bt-tbl"><thead><tr><th><span class="sr">Chọn</span></th><th>Nhom_PR</th><th>Loại</th><th>Đối tượng</th><th class="r">Số dòng</th><th class="r">Tổng tiền</th><th>Trạng thái</th></tr></thead><tbody>
     ${all.map(b=>`<tr><td><input type="checkbox" data-sel="${b.id}" ${ED.sel.has(b.id)?'checked':''} aria-label="Chọn ${esc(b.nhom)}"></td><td class="num">${esc(b.nhom)}</td><td>${b.loai}</td><td>${DTG[b.dt].ten} (${DTG[b.dt].dispo})</td><td class="r num">${b.lines.length}</td><td class="r num">${VND(b.tong)}</td><td>${ttPill(b)}${lenhPill(b.lenh)}</td></tr>`).join('')}</tbody></table></div>
-   ${noL.length?`<div class="warn">NCC chưa có mã SAP (LIFNR) trong sheet Mapping: <b>${noL.map(esc).join(', ')}</b>. PR vẫn tạo được, nhưng bước tạo PO sẽ báo thiếu mã NCC; bổ sung vào Mapping cột E:F.</div>`:''}
-   ${prSapBar(sel)}
-   <div class="toolbar"><button class="btn" data-act2="xuat-xlsx" ${rows.length?'':'disabled'}>Tải file Excel cho sheet CongNo</button><button class="btn" data-act2="xuat-copy" ${rows.length?'':'disabled'}>Copy để dán vào CongNo</button><span class="meta">${rows.length} dòng · ${sel.length} đợt được chọn</span></div>
-   <div class="tbl-wrap"><table class="t"><thead><tr>${['STT','So_hoa_don','Nha_cung_cap','Ma_vat_tu','Ten_hang','So_luong','Don_gia','Doi_tuong_su_dung','Nhom_PR','Khoa_nap','Can_cu'].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>
-    ${rows.slice(0,300).map(r=>`<tr>${r.map((v,j)=>`<td class="${j===5||j===6?'r num':''}">${j===6?VND(v):j===5?Q(v):esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
-   :'<div class="empty"><b>Không có đợt PR nào chờ xuất</b>Bấm “Tạo đợt PR chính”, hoặc tạo PR bổ sung ở bước 2.4. Đợt đã có số PR xem ở 2.3.</div>'}`;
+    ${noL.length?`<div class="warn">NCC chưa có mã SAP (LIFNR) trong sheet Mapping: <b>${noL.map(esc).join(', ')}</b>. PR vẫn tạo được, nhưng bước tạo PO sẽ báo thiếu mã NCC; bổ sung vào Mapping cột E:F.</div>`:''}${tachBox(sel)}`
+    :'<p class="meta">Không có đợt nào chờ gửi. Đợt đã có số PR xem ở 2.3; PR bổ sung tạo ở bước 6.</p>';
+  const s3=all.length?`${tramBox('PR')}${prSapBar(sel)}
+    <div class="toolbar"><span class="meta">Hoặc chạy tay:</span><button class="btn sm" data-act2="xuat-xlsx" ${rows.length?'':'disabled'}>Tải file Excel cho sheet CongNo</button><button class="btn sm" data-act2="xuat-copy" ${rows.length?'':'disabled'}>Copy để dán vào CongNo</button><span class="meta">${rows.length} dòng · ${sel.length} đợt được chọn</span></div>
+    ${rows.length?`<details class="more"><summary>Xem trước file CongNo (${rows.length} dòng)</summary><div class="tbl-wrap"><table class="t cn-tbl"><thead><tr>${['STT','So_hoa_don','Nha_cung_cap','Ma_vat_tu','Ten_hang','So_luong','Don_gia','Doi_tuong_su_dung','Nhom_PR','Khoa_nap','Can_cu'].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>
+    ${rows.slice(0,300).map(r=>`<tr>${r.map((v,j)=>`<td class="${j===5||j===6?'r num':''}">${j===6?VND(v):j===5?Q(v):esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`:''}`
+    :'<p class="meta">Tạo hoặc chọn đợt trước.</p>';
+  const sent=all.length&&all.every(b=>b.tt!=='nhap');
+  return head2('2.2 Xuất PR lên SAP','Tạo đợt PR từ phân bổ, rồi xuất đúng 11 cột của sheet CongNo trong Template_PR_v3.xlsm. Bấm <b>Tạo PR trên SAP</b>: trạm SAP trên máy công ty tự điền CongNo và chạy CreatePR, số PR tự ghi về 2.3. Vẫn có thể tải file / copy để chạy tay.')+
+  `<ol class="flow">
+    <li class="${main.length?'done':'cur'}"><div class="fh"><span class="fn" aria-hidden="true">${main.length?'✓':'1'}</span><b>Tạo đợt PR</b></div>${s1}</li>
+    <li class="${!main.length?'':all.length?'cur':'done'}"><div class="fh"><span class="fn" aria-hidden="true">2</span><b>Chọn đợt gửi đi</b></div>${s2}</li>
+    <li class="${sent?'done':all.length?'cur':''}"><div class="fh"><span class="fn" aria-hidden="true">${sent?'✓':'3'}</span><b>Gửi lên SAP</b></div>${s3}</li>
+   </ol>${cfg}`;
 }
 async function exportSel(kind){
   const bs=batchesOf(S.thang).filter(b=>(b.tt==='nhap'||b.tt==='xuat')&&ED.sel.has(b.id)), rows=congNoRows(bs); if(!rows.length) return;
@@ -147,22 +155,26 @@ document.addEventListener('click',async e=>{ const t=e.target.closest('[data-pre
   }catch(err){ toast('Không lưu được: '+((err&&(err.message||err.code))||err)); } });
 function vLS(){
   const all=Object.values(S.prdot||{}).filter(b=>ED.lsAll||b.thang===S.thang).sort((a,b)=>b.luc-a.luc);
-  const body=all.map(b=>{const open=ED.lsOpen===b.id;
-    return `<tr><td><button class="x" data-act2="ls-open" data-id="${b.id}" aria-label="Xem chi tiết">${open?'▾':'▸'}</button></td><td class="num">${esc(b.nhom)}${prSuaDuoc(b)?` <button class="btn sm" data-pre="mo" data-id="${b.id}" title="Sửa đợt PR">✎ Sửa</button>`:''}</td><td>${mmY(b.thang)}</td><td>${b.loai}</td><td>${DTG[b.dt].ten}</td><td class="r num">${b.lines.length}</td><td class="r num">${VND(b.tong)}</td><td>${ttPill(b)}${lenhPill(b.lenh)}</td>
-    <td>${b.tt==='xuat'||b.tt==='sap'?`<input type="text" id="sopr-${b.id}" value="${esc(b.soPR||'')}" placeholder="Số PR" style="width:110px" ${canWrite?'':'disabled'}>`:esc(b.soPR||'')}</td>
-    <td class="meta">${tstr(b.luc)}<br>${esc(nm(b.ai))}</td><td class="meta">${b.duyetLuc?tstr(b.duyetLuc):''}</td>
-    <td>${canWrite?`${b.tt==='xuat'||b.tt==='sap'?`<button class="btn sm" data-act2="ls-sopr" data-id="${b.id}">Lưu số PR</button>`:''}${b.tt==='sap'?` <button class="btn sm primary" data-act2="ls-duyet" data-id="${b.id}">Đã duyệt</button>`:''}${b.tt!=='duyet'&&b.tt!=='huy'?` <button class="btn sm warn" data-act2="ls-huy" data-id="${b.id}">Hủy</button>`:''}`:''}</td></tr>
-    ${open?`<tr><td></td><td colspan="11"><div class="two" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)"><div class="tbl-wrap" style="max-height:300px"><table class="t"><thead><tr><th>Mã</th><th>Tên</th><th>NCC</th><th class="r">SL</th><th class="r">Đơn giá</th><th class="r">Tiền</th></tr></thead><tbody>${b.lines.map(l=>`<tr><td class="num">${l.ma}</td><td class="wrap">${esc(l.ten)}</td><td>${esc(l.ncc)}</td><td class="r num">${Q(l.sl)} ${esc(l.dvt)}</td><td class="r num">${VND(l.g)}</td><td class="r num">${VND(l.sl*l.g)}</td></tr>`).join('')}</tbody></table></div>
+  const body=all.map(b=>{const open=ED.lsOpen===b.id, cho=b.tt==='nhap'||b.tt==='xuat';
+    const acts=canWrite?[prSuaDuoc(b)?`<button class="btn sm" data-pre="mo" data-id="${b.id}">✎ Sửa</button>`:'',b.tt==='xuat'||b.tt==='sap'?`<button class="btn sm" data-act2="ls-sopr" data-id="${b.id}">Lưu số PR</button>`:'',b.tt==='sap'?`<button class="btn sm primary" data-act2="ls-duyet" data-id="${b.id}">Đã duyệt</button>`:'',b.tt!=='duyet'&&b.tt!=='huy'?`<button class="btn sm danger-text" data-act2="ls-huy" data-id="${b.id}">Hủy</button>`:''].join(''):'';
+    return `<tr><td class="exp"><button class="x" data-act2="ls-open" data-id="${b.id}" aria-expanded="${open}" aria-label="${open?'Ẩn':'Xem'} chi tiết ${esc(b.nhom)}">${open?'▾':'▸'}</button></td>
+    <td class="dg"><b class="num">${esc(b.nhom)}</b><small>${b.loai} · ${DTG[b.dt].ten}${ED.lsAll?' · '+mmY(b.thang):''}</small></td>
+    <td class="r tien"><b class="num">${VND(b.tong)}</b><small>${b.lines.length} dòng</small></td>
+    <td class="tt">${ttPill(b)}${lenhPill(b.lenh)}${cho&&!b.lenh?'<small>gửi ở 2.2</small>':''}${b.tt==='xuat'||b.tt==='sap'?`<input type="text" id="sopr-${b.id}" value="${esc(b.soPR||'')}" placeholder="Số PR" aria-label="Số PR của ${esc(b.nhom)}" ${canWrite?'':'disabled'}>`:b.soPR?`<small class="num">PR ${esc(b.soPR)}</small>`:''}</td>
+    <td class="meta when">Tạo ${tstr(b.luc)} · ${esc(nm(b.ai))}${b.duyetLuc?`<br>Duyệt ${tstr(b.duyetLuc)}`:''}</td>
+    <td class="acts"><div class="acts-in">${acts}</div></td></tr>
+    ${open?`<tr class="detail"><td colspan="6"><div class="two" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)"><div class="tbl-wrap" style="max-height:300px"><table class="t"><thead><tr><th>Mã</th><th>Tên</th><th>NCC</th><th class="r">SL</th><th class="r">Đơn giá</th><th class="r">Tiền</th></tr></thead><tbody>${b.lines.map(l=>`<tr><td class="num">${l.ma}</td><td class="wrap">${esc(l.ten)}</td><td>${esc(l.ncc)}</td><td class="r num">${Q(l.sl)} ${esc(l.dvt)}</td><td class="r num">${VND(l.g)}</td><td class="r num">${VND(l.sl*l.g)}</td></tr>`).join('')}</tbody></table></div>
       <div><b class="meta">Lịch sử đợt</b><ol style="margin:6px 0 0;padding-left:18px;font-size:13px">${(b.hist||[]).map(h=>`<li><span class="num meta">${tstr(h.ts)}</span> · ${(TTPR[h.tt]||[h.tt])[0]} · ${esc(nm(h.ai))}${h.note?' · '+esc(h.note):''}</li>`).join('')}</ol>${b.ghichu?`<p class="meta">${esc(b.ghichu)}</p>`:''}</div></div></td></tr>`:''}`;}).join('');
   const m=batchesOf(S.thang).filter(b=>b.tt!=='huy'), tong=m.reduce((a,b)=>a+b.tong,0), duyet=m.filter(b=>b.tt==='duyet');
-  return head2('2.3 Lịch sử tạo PR','Mọi đợt PR (chính và bổ sung) với trạng thái: nháp → đã xuất file → đã tạo trên SAP (ghi số PR) → đã duyệt. Đợt chưa có số PR và chưa gửi trạm SAP thì bấm <b>Sửa đợt</b> để sửa số lượng, giá, NCC, thêm hoặc xóa mặt hàng. PR phải được duyệt trong ngày tạo.',
-    `<label class="meta"><input type="checkbox" id="ls-all" ${ED.lsAll?'checked':''}> Tất cả các tháng</label>`)+
-  `<div class="kpis"><div class="kv big"><b>PR tháng ${mmY(S.thang)}</b><div class="num">${TR(tong)}</div><small>${m.length} đợt · ${m.filter(b=>b.loai==='Bổ sung').length} bổ sung</small></div>
-   <div class="kv"><b>Đã duyệt</b><div class="num">${duyet.length}/${m.length}</div><small>${TR(duyet.reduce((a,b)=>a+b.tong,0))}</small></div>
-   <div class="kv"><b>Chờ tạo / chờ duyệt</b><div class="num">${m.filter(b=>b.tt==='nhap'||b.tt==='xuat').length} / ${m.filter(b=>b.tt==='sap').length}</div><small>đợt</small></div></div>
-  ${ED.preId&&S.prdot[ED.preId]?`<div id="pre-box">${prEditor(S.prdot[ED.preId])}</div>`:''}
-  ${all.length?`<div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th></th><th>Nhom_PR</th><th>Tháng</th><th>Loại</th><th>Đối tượng</th><th class="r">Dòng</th><th class="r">Tổng tiền</th><th>Trạng thái</th><th>Số PR</th><th>Tạo</th><th>Duyệt</th><th></th></tr></thead><tbody>${body}</tbody></table></div>`
-  :'<div class="empty"><b>Chưa có đợt PR nào</b>Tạo đợt PR chính ở bước 2.2.</div>'}`;
+  const choGui=m.filter(b=>b.tt==='nhap'||b.tt==='xuat').length, choDuyet=m.filter(b=>b.tt==='sap').length;
+  return head2('2.3 Lịch sử tạo PR','Mọi đợt PR (chính và bổ sung) với trạng thái: nháp → đã xuất file → đã tạo trên SAP (ghi số PR) → đã duyệt. Đợt chưa có số PR và chưa gửi trạm SAP thì bấm <b>Sửa</b> để sửa số lượng, giá, NCC, thêm hoặc xóa mặt hàng. PR phải được duyệt trong ngày tạo.')+
+  (m.length?`<div class="kpis"><div class="kv big"><b>PR tháng ${mmY(S.thang)}</b><div class="num">${TR(tong)}</div><small>${m.length} đợt · ${m.filter(b=>b.loai==='Bổ sung').length} bổ sung</small></div>
+   <div class="kv"><b>Đã duyệt</b><div class="num">${duyet.length} / ${m.length} đợt</div><small>${TR(duyet.reduce((a,b)=>a+b.tong,0))}</small></div>
+   <div class="kv"><b>Chờ gửi SAP</b><div class="num">${choGui} đợt</div><small>${choDuyet} đợt đã tạo, chờ duyệt</small></div></div>`:'')+
+  `${ED.preId&&S.prdot[ED.preId]?`<div id="pre-box">${prEditor(S.prdot[ED.preId])}</div>`:''}
+  <div class="toolbar"><label class="meta"><input type="checkbox" id="ls-all" ${ED.lsAll?'checked':''}> Hiện cả các tháng khác</label></div>
+  ${all.length?`<div class="tbl-wrap" style="max-height:none"><table class="t ls-tbl"><colgroup><col class="c-exp"><col><col class="c-tien"><col class="c-tt"><col class="c-when"><col class="c-acts"></colgroup><thead><tr><th><span class="sr">Chi tiết</span></th><th>Đợt</th><th class="r">Tiền</th><th>Trạng thái</th><th>Tạo / duyệt</th><th><span class="sr">Thao tác</span></th></tr></thead><tbody>${body}</tbody></table></div>`
+  :'<div class="empty"><b>Chưa có đợt PR nào</b>Tạo đợt PR chính ở bước 2.2.<div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="go-next" data-tab="xuat">Mở 2.2</button></div></div>'}`;
 }
 
 /* ---- 2.4 PR so với nhận hàng ---- */
@@ -197,18 +209,18 @@ function vDC(){
     <td class="r num">${r.need>0?Q(r.need):''}</td>
     <td class="r num">${r.du>0&&(r.st==='thua'||C.frac>=1)?Q(Math.round(r.du*10)/10):''}</td></tr>`;}).join('');
   return head2('2.4 PR so với nhận hàng','So số lượng trên PR (đã tạo trên SAP / đã duyệt) với số thực nhận (phiếu MIGO). Dự báo cuối tháng = đã nhận ÷ phần tháng đã qua. Báo cáo theo dõi; PR bổ sung chỉ tạo một lần cuối chu kỳ ở bước 6 sau khi số nhận đã khớp với NCC.',
-    `<label class="meta"><input type="checkbox" id="dc-all" ${ED.dcAll?'checked':''}> Tính cả PR mới xuất file</label>`)+
-  `<div class="kpis"><div class="kv big"><b>Cần PR bổ sung</b><div class="num">${need.length} mã</div><small>${TR(need.reduce((a,r)=>a+(ED.bs[r.ma]!=null?ED.bs[r.ma]:r.need)*r.g,0))}</small></div>
+    '<span class="pill">Theo dõi, không bắt buộc</span>')+
+  (!C.rows.length&&!ED.nhPaste?`<div class="empty"><b>Chưa có gì để so</b>Cần ít nhất một PR đã tạo trên SAP (2.3) hoặc số nhận hàng. Bước 4 (MIGO từng phần) sẽ tự ghi số nhận vào đây.<div class="toolbar" style="justify-content:center;margin-top:12px"><label class="meta"><input type="checkbox" id="dc-all" ${ED.dcAll?'checked':''}> Tính cả PR mới xuất file</label>${canWrite?'<button class="btn sm" data-act2="nh-paste">Dán thực nhận</button>':''}</div></div>`:`<div class="kpis"><div class="kv big"><b>Cần PR bổ sung</b><div class="num">${need.length} mã</div><small>${TR(need.reduce((a,r)=>a+(ED.bs[r.ma]!=null?ED.bs[r.ma]:r.need)*r.g,0))}</small></div>
    <div class="kv"><b>Tiền theo PR</b><div class="num">${TR(tPR)}</div><small>${C.rows.filter(r=>r.sP>0).length} mã</small></div>
    <div class="kv"><b>Đã nhận (theo giá PR)</b><div class="num">${TR(tR)}</div><small>${C.nRecv} dòng nhận · tới ${C.asOf?dm(C.asOf):'—'}</small></div>
    <div class="kv"><b>Dự kiến dư cuối tháng</b><div class="num">${TR(C.rows.reduce((a,r)=>a+(r.st==='thua'||C.frac>=1?r.du*r.g:0),0))}</div><small>đóng phần dư ở bước 6</small></div></div>
   <div class="toolbar"><div class="seg"><button data-act2="dc-f" data-f="" aria-pressed="${!f}">Tất cả ${C.rows.length}</button>${Object.entries(DCST).filter(([k])=>cnt[k]).map(([k,v])=>`<button data-act2="dc-f" data-f="${k}" aria-pressed="${f===k}">${v[0]} ${cnt[k]}</button>`).join('')}</div><span class="sp"></span>
-   ${canWrite?`<button class="btn sm" data-act2="nh-paste">Dán thực nhận</button><span class="meta">PR bổ sung tạo 1 lần cuối chu kỳ ở bước 6.1</span>`:''}</div>
+   <label class="meta"><input type="checkbox" id="dc-all" ${ED.dcAll?'checked':''}> Tính cả PR mới xuất file</label>${canWrite?`<button class="btn sm" data-act2="nh-paste">Dán thực nhận</button>`:''}</div>
   ${ED.nhPaste?`<div class="box"><label class="meta" for="nh-txt">Tạm thời trước khi có bước 4 (MIGO): dán các dòng <b>Ngày</b> ⇥ <b>Mã hàng</b> ⇥ <b>SL thực nhận</b> ⇥ NCC ⇥ Số MIGO. Ngày dạng dd/mm/yyyy; mã phải có trong bảng giá.</label><textarea class="paste" id="nh-txt"></textarea>
     <div class="toolbar"><button class="btn sm primary" data-act2="nh-ok">Thêm vào nhận hàng tháng ${mmY(S.thang)}</button><button class="btn sm" data-act2="nh-paste">Đóng</button>${(S.nhan&&S.nhan.rows||[]).length?'<span class="sp"></span><button class="btn sm warn" data-act2="nh-clear">Xóa toàn bộ số nhận tháng này</button>':''}</div></div>`:''}
   <div class="meta">${S.nhan?`Số nhận: ${(S.nhan.rows||[]).length} dòng · nguồn ${esc(S.nhan.nguon||'')} · cập nhật ${tstr(S.nhan.luc)}`:'Chưa có số nhận hàng tháng này. Bước 4 (MIGO từng phần) sẽ tự ghi vào đây; trước đó có thể dán tay.'}</div>
   ${C.rows.length?`<div class="tbl-wrap"><table class="t"><thead><tr><th>Mã</th><th>Tên hàng</th><th>NCC</th><th>ĐVT</th><th class="r">SL PR</th><th class="r">Đã nhận</th><th class="r">% nhận</th><th class="r">Dự báo cuối tháng</th><th>Tình trạng</th><th class="r">Dự kiến thiếu PR</th><th class="r">Dư</th></tr></thead><tbody>${body}</tbody></table></div>`
-  :'<div class="empty"><b>Chưa có gì để so</b>Cần ít nhất một PR đã tạo trên SAP (2.3) hoặc số nhận hàng.</div>'}`;
+  :'<div class="empty"><b>Chưa có gì để so</b>Cần ít nhất một PR đã tạo trên SAP (2.3) hoặc số nhận hàng.</div>'}`);
 }
 async function makeBS(){
   const C=dcCompute(), pick=C.rows.map(r=>({r,q:ED.bs&&ED.bs[r.ma]!=null?ED.bs[r.ma]:r.need})).filter(o=>o.q>0);
@@ -224,6 +236,7 @@ async function makeBS(){
 document.addEventListener('click',async e=>{
   const t=e.target.closest('[data-act2]'); if(!t) return; const a=t.dataset.act2;
   try{
+  if(a==='pb-ed'){ ED.pbEd=t.dataset.v==='1'; render(); return; }
   if(a==='pb-mode'){ const P=pbState(); P.mode=t.dataset.m; if(P.mode==='amt'&&!P.amt) P.amt=Math.round(pbTotals(P).nv); P.dirty=true; render(); }
   else if(a==='pb-apply'){ pbApply(false); ED.pb.dirty=true; render(); }
   else if(a==='pb-reset'){ ED.pb.lines.forEach(l=>l.e=false); pbApply(false); ED.pb.dirty=true; render(); }

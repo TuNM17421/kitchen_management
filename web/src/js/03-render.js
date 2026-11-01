@@ -24,7 +24,7 @@ function renderTabs(){
   const tt4=k=>false;
   const tt3=k=>{const m=poOf(S.thang);return k==='pocan'?m.length&&!poPending().length:k==='posap'?m.length&&m.every(p=>p.soPO):false;};
   const tt2=k=>k==='pb'?!!S.pb:k==='xuat'?prMain().length&&prMain().every(b=>b.tt!=='nhap'):k==='ls'?prMain().length&&prMain().every(b=>b.tt==='duyet'):false;
-  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const ok=S.step>=5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}" title="${ok?'Đã xác nhận':'Chưa xác nhận'}"><b>${n}</b>${t}<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span></button>`;}).join('');
+  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const ok=S.step>=5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}" title="${S.step===2&&k==='dc'?'Theo dõi, không bắt buộc':ok?'Đã xác nhận':'Chưa xác nhận'}"><b>${n}</b>${t}${S.step===2&&k==='dc'?'<span class="ck-note">theo dõi</span>':`<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span>`}</button>`;}).join('');
 }
 function renderSteps(){
   $('#stHead').textContent=`Trạng thái bước ${S.step} · ${S.thang.slice(5)}/${S.thang.slice(0,4)}`;
@@ -59,7 +59,9 @@ function applyMode(){ const ag=ED.mode==='agent'; $('#agentPanel').hidden=!ag; $
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-mode]'); if(!b) return; ED.mode=b.dataset.mode; applyMode(); renderAgents(); window.scrollTo({top:0}); });
 function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();renderTabs();renderSteps();renderLog();
   const v={td:vTD,khach:vKhach,dm:vDM,tinh:vTinh,chot:vChot,pb:vPB,xuat:vXuat,ls:vLS,dc:vDC,pocan:vPOcan,posap:vPOsap,podc:vPOdc,pols:vPOls,dat:vDat,nhan:vNhan,nls:vNls,bk:vBK,sofile:vSoFile,dsk:vDSK,cpo:vCPO,gpo:vGPO,kpo:vKPO,mg:vMG,mgls:vMGls,hd:vHD,dn:vDN,dnls:vDNls}[S.tab]; const ae=document.activeElement, id=ae&&ae.id, pos=ae&&ae.selectionStart;
+  const fa=document.activeElement, fid=fa&&fa.id&&$('#view').contains(fa)&&/^(INPUT|TEXTAREA)$/.test(fa.tagName)?fa.id:'', fs=fid&&fa.selectionStart!=null?[fa.selectionStart,fa.selectionEnd]:null;
   $('#view').innerHTML=v();
+  if(fid){ const nf=document.getElementById(fid); if(nf){ nf.focus({preventScroll:true}); if(fs) try{nf.setSelectionRange(fs[0],fs[1]);}catch(e){} } }
   { const vw=$('#view'), sh=vw.querySelector(':scope > .sh'), k=vw.querySelector(':scope > .kpis'); if(sh&&k) sh.after(k); // kết quả lên ngay dưới tiêu đề
     const kb=vw.querySelector(':scope > #khoBox'); if(kb) vw.appendChild(kb); // tồn kho (ít dùng) xuống cuối
     const subs=curSub(), ix=subs.findIndex(x=>x[2]===S.tab), nx=subs[ix+1], ns=STEPS[S.step]; // nút đi tiếp
@@ -68,6 +70,7 @@ function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();rend
       const tt=vw.querySelector('.toolbar [data-act="tt"]'); if(tt){ const tb=tt.closest('.toolbar'); tt.classList.add('primary'); b.prepend(tt); if(tb&&![...tb.children].some(c=>!c.classList.contains('sp'))) tb.remove(); }
       if(!nx&&S.step===1&&typeof locked==='function'&&!locked()){ const m=document.createElement('span'); m.className='meta nb-note'; m.textContent='Chưa chốt dự trù: bước 2 sẽ dùng số hiện tại.'; b.prepend(m); } } }
   $('#view').querySelectorAll('table.t').forEach(t=>{ if(!t.closest('.tbl-wrap')){ const w=document.createElement('div'); w.className='tbl-wrap'; t.before(w); w.appendChild(t); } });
+  $('#view').querySelectorAll('.tbl-wrap').forEach(w=>{ if(!w.querySelector('input,select,button,a,textarea')){ w.tabIndex=0; w.setAttribute('role','region'); if(!w.hasAttribute('aria-label')) w.setAttribute('aria-label','Bảng (cuộn được)'); } });
   const vk=S.step+'|'+S.tab; if(vk!==LAST_VIEW){ LAST_VIEW=vk; {const tt=document.getElementById('toast'); if(tt&&LAST_VIEW_SEEN) tt.hidden=true;} LAST_VIEW_SEEN=true; requestAnimationFrame(()=>{ for(const el of [document.querySelector('.node.cur'),document.querySelector('.tab[aria-selected="true"]')]){ const sc=el&&el.closest('.track,.tabs'); if(sc&&sc.scrollWidth>sc.clientWidth+4) sc.scrollTo({left:el.offsetLeft-(sc.clientWidth-el.offsetWidth)/2,behavior:'smooth'}); } }); }
   if(id){const el=document.getElementById(id); if(el){el.focus(); try{if(pos!=null)el.setSelectionRange(pos,pos);}catch(e){}}}
 }
