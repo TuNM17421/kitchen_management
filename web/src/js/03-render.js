@@ -6,6 +6,7 @@ document.addEventListener('toggle',e=>{ const d=e.target; if(d.matches&&d.matche
 document.addEventListener('click',e=>{ const t=e.target.closest('[data-act]'); if(!t) return; const a=t.dataset.act;
   if(a==='ncc-all'){ ED.nccAll=!ED.nccAll; render(); }
   else if(a==='f-all'){ ED.filt.all=t.dataset.v==='1'; render(); }
+  else if(a==='go-next'&&t.dataset.step&&t.dataset.tab){ e.stopPropagation(); S.step=+t.dataset.step; S.tab=t.dataset.tab; render(); window.scrollTo({top:Math.max(0,($('#trackSec').getBoundingClientRect().top+scrollY)-12),behavior:'smooth'}); }
   else if(a==='go-next'){ e.stopPropagation(); const el=t.dataset.tab?document.querySelector(`#tabs [data-tab="${t.dataset.tab}"]`):document.querySelector(`.node[data-step="${t.dataset.step}"]`); if(el){ el.click(); window.scrollTo({top:Math.max(0,($('#trackSec').getBoundingClientRect().top+scrollY)-12),behavior:'smooth'}); } } },true);
 if(window.matchMedia&&matchMedia('(max-width:1000px)').matches) document.querySelectorAll('details.lg[data-lg="log"]').forEach(d=>d.open=false);
 /* ---------- RENDER CHUNG ---------- */
@@ -21,11 +22,12 @@ function renderTrack(){
 }
 const curSub=()=>S.step===8?SUB8:S.step===7?SUB7:S.step===6?SUB6:S.step===5?SUB5:S.step===4?SUB4:S.step===3?SUB3:S.step===2?SUB2:SUB;
 function renderTabs(){
+  const tt6=k=>{const M=mocList(),td=todayVN(); if(k==='cpo'){const R=M.filter(m=>td>=m.d); return R.length>0&&R.every(m=>!cpoCompute(m).some(r=>r.ok&&r.act!=='khop'&&!(r.act==='bs'&&r.pend>=r.bs)));} if(k==='gpo'){const used=new Set(poAll().filter(p=>p.tt!=='huy').flatMap(p=>p.src||[]));const B=batchesOf(S.thang).filter(b=>b.loai==='Bổ sung'&&b.tt!=='huy');return B.length>0&&B.every(b=>b.lines.every(l=>used.has(b.id+'|'+l.ncc)));} return false;};
   const tt5=k=>{const td=todayVN(),R=dsNccs().flatMap(n=>kyList(S.thang,n).map(ky=>({ky,d:dsDoc(n,ky.k),c:kyRows(n,ky).length}))).filter(r=>r.c&&td>=r.ky.to);if(!R.length)return false;return k==='bk'?R.every(r=>r.d&&r.d.tt!=='chua'):k==='dsk'?R.every(r=>r.d&&r.d.tt==='khop'):false;};
   const tt4=k=>{const D=dhOf(S.thang);return k==='dat'?D.length>0:k==='nhan'?D.length>0&&D.every(d=>d.pn):false;};
   const tt3=k=>{const m=poOf(S.thang);return k==='pocan'?m.length&&!poPending().length:k==='posap'?m.length&&m.every(p=>p.soPO):k==='pols'?m.length&&m.every(p=>p.soPO&&!p.sua):false;};
   const tt2=k=>k==='pb'?!!S.pb:k==='xuat'?prMain().length&&prMain().every(b=>b.tt!=='nhap'):k==='ls'?prMain().length&&prMain().every(b=>b.tt==='duyet'):false;
-  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const trk=(S.step===2&&k==='dc')||(S.step===3&&k==='podc')||(S.step===4&&k==='nls')||(S.step===5&&k==='sofile'), ok=S.step===5?tt5(k):S.step>5?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}" title="${trk?'Theo dõi, không bắt buộc':ok?'Đã xác nhận':'Chưa xác nhận'}"><b>${n}</b>${t}${trk?'<span class="ck-note">theo dõi</span>':`<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span>`}</button>`;}).join('');
+  $('#tabs').innerHTML=curSub().map(([n,t,k])=>{const trk=(S.step===2&&k==='dc')||(S.step===3&&k==='podc')||(S.step===4&&k==='nls')||(S.step===5&&k==='sofile')||(S.step===6&&k==='kpo'), ok=S.step===6?tt6(k):S.step===5?tt5(k):S.step>6?false:S.step===4?tt4(k):S.step===3?tt3(k):S.step===2?tt2(k):(S.tt[k]&&S.tt[k].ok);return `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}" title="${trk?'Theo dõi, không bắt buộc':ok?'Đã xác nhận':'Chưa xác nhận'}"><b>${n}</b>${t}${trk?'<span class="ck-note">theo dõi</span>':`<span class="ck ${ok?'ok':''}" aria-hidden="true">${ok?'✓':''}</span>`}</button>`;}).join('');
 }
 function renderSteps(){
   $('#stHead').textContent=`Trạng thái bước ${S.step} · ${S.thang.slice(5)}/${S.thang.slice(0,4)}`;

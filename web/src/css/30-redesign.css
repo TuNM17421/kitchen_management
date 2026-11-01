@@ -496,3 +496,19 @@ table.dsk-tbl .acts-in select{max-width:220px}
   table.dsk-tbl td.ncc{grid-area:ncc}table.dsk-tbl td.ky{grid-area:ky}table.dsk-tbl td.tien{grid-area:tien;text-align:right}table.dsk-tbl td.tt{grid-area:tt;text-align:right}table.dsk-tbl td.acts{grid-area:acts}
   table.dsk-tbl .acts-in{justify-content:flex-start}table.dsk-tbl .acts-in select{max-width:none;flex:1 1 100%}
 }
+
+/* ---- Bước 6: chỉnh PO & PR bổ sung ---- */
+table.ls-tbl>tbody>tr.dim td.dg b{color:var(--muted);font-weight:600}
+table.cpo-tbl col.c-tien{width:170px}table.cpo-tbl col.c-tt{width:230px}table.cpo-tbl col.c-acts{width:120px}
+table.cpo-tbl td.tien b{display:block}
+table.kpo-tbl col.c-tien{width:160px}table.kpo-tbl col.c-tt{width:250px}table.kpo-tbl col.c-acts{width:120px}
+table.gpo-tbl col.c-exp{width:44px}table.gpo-tbl col.c-tt{width:200px}table.gpo-tbl col.c-when{width:210px}
+label.chkl{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.seg.wrapseg{flex-wrap:wrap}
+ol.flow.mini{margin-top:var(--s3)}
+ol.flow.mini>li{padding-bottom:var(--s3)}
+ol.flow.mini .fh .btn{margin-left:auto}
+.warn>.btn{margin-left:8px}
+@media (max-width:700px){
+  .seg.wrapseg{display:flex;width:100%}.seg.wrapseg>button{flex:1 1 auto}
+}

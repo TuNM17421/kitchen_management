@@ -113,10 +113,10 @@ const CKS={15:'15 ngày',30:'Tháng',0:'Không báo'};
 function vDSK(){
   const N=dsNccs(), td=todayVN(), f=ED.dskF||'co';
   const all=N.flatMap(n=>kyList(S.thang,n).map(ky=>({n,ky,doc:dsDoc(n,ky.k),rows:kyRows(n,ky)})));
-  const st=r=>(r.doc&&r.doc.tt)||'chua', isDue=r=>td>=r.ky.to&&r.rows.length&&st(r)!=='khop';
+  const st=r=>(r.doc&&r.doc.tt)||'chua', isDue=r=>td>=r.ky.to&&st(r)!=='khop';
   const co=all.filter(r=>r.rows.length), due=all.filter(isDue), shown=f==='all'?all:f==='han'?due:co;
   const body=shown.map(r=>{const s=st(r), tien=r.rows.reduce((a,x)=>a+x.sl*x.g,0), dn=td>=r.ky.to, ck=ckOf(r.n), key=r.n+'|'+r.ky.k;
-    const act=!canWrite?'':s==='khop'?`<button class="btn sm" data-act5="ds-open" data-n="${esc(r.n)}" data-k="${r.ky.k}">Mở lại</button>`:!r.rows.length?'':ED.dskAsk===key?`<select id="cc-${slug(r.n)}-${r.ky.k}" aria-label="Căn cứ chốt ${esc(r.n)}"><option>NCC xác nhận qua email</option><option>${ck===0?'Không báo NCC – Bếp tự xác nhận':'Người dùng cho phép'}</option></select><button class="btn sm primary" data-act5="ds-khop" data-n="${esc(r.n)}" data-k="${r.ky.k}">Xác nhận</button><button class="btn sm ghost" data-act5="dsk-ask" data-key="">Hủy</button>`:`<button class="btn sm${dn?' primary':''}" data-act5="dsk-ask" data-key="${esc(key)}">Chốt khớp…</button>`;
+    const act=!canWrite?'':s==='khop'?`<button class="btn sm" data-act5="ds-open" data-n="${esc(r.n)}" data-k="${r.ky.k}">Mở lại</button>`:ED.dskAsk===key?`${dn?'':`<small class="bad-t">Kỳ chưa kết thúc (hết ${dm(r.ky.to)})</small>`}<select id="cc-${slug(r.n)}-${r.ky.k}" aria-label="Căn cứ chốt ${esc(r.n)}">${r.rows.length?`<option>NCC xác nhận qua email</option><option>${ck===0?'Không báo NCC – Bếp tự xác nhận':'Người dùng cho phép'}</option>`:'<option>Không nhận hàng trong kỳ</option>'}</select><button class="btn sm primary" data-act5="ds-khop" data-n="${esc(r.n)}" data-k="${r.ky.k}">Xác nhận</button><button class="btn sm ghost" data-act5="dsk-ask" data-key="">Hủy</button>`:!r.rows.length&&!dn?'':`<button class="btn sm${dn&&r.rows.length?' primary':''}" data-act5="dsk-ask" data-key="${esc(key)}">${r.rows.length?'Chốt khớp…':'Chốt không nhận hàng…'}</button>`;
     return `<tr><td class="ncc"><b>${esc(r.n)}</b>${r.ky.k<=1&&canWrite?`<select data-ck="${esc(r.n)}" aria-label="Chu kỳ đối soát ${esc(r.n)}">${[15,30,0].map(v=>`<option value="${v}" ${v===ck?'selected':''}>${CKS[v]}</option>`).join('')}</select>`:`<small>${CKS[ck]}</small>`}</td>
     <td class="ky">${kyName(r.ky)}${dn?'':'<small>chưa hết kỳ</small>'}</td><td class="r tien"><b class="num">${VND(tien)}</b><small>${r.rows.length} dòng</small></td>
     <td class="tt"><span class="pill ${TTDS[s][1]}">${TTDS[s][0]}</span>${r.doc&&r.doc.canCu?`<small>${esc(r.doc.canCu)}</small>`:''}</td><td class="acts"><div class="acts-in">${act}</div></td></tr>`;}).join('');
@@ -135,7 +135,7 @@ function mocKy(ncc,moc){ return kyList(S.thang,ncc).filter(k=>k.to<=moc.d); }
 function cpoCompute(moc){
   const last=moc.m==='cuoi', out=[];
   dsNccs().forEach(ncc=>{ const kys=mocKy(ncc,moc); if(!kys.length) return; const endK=kys[kys.length-1]; if(endK.to!==moc.d) return;
-    const ok=kys.every(k=>{const d=dsDoc(ncc,k.k);return (d&&d.tt==='khop')||!kyRows(ncc,k).length;});
+    const ok=kys.every(k=>{const d=dsDoc(ncc,k.k);return d&&d.tt==='khop';});
     const recv=new Map(); kys.forEach(k=>kyRows(ncc,k).forEach(r=>recv.set(r.ma,(recv.get(r.ma)||0)+r.sl)));
     const po=poOf(S.thang).find(p=>p.ncc===ncc&&p.tt!=='huy'); const poQ=new Map(); if(po) po.lines.forEach(l=>poQ.set(l.ma,(poQ.get(l.ma)||0)+l.sl));
     const prQ=new Map(); batchesOf(S.thang).filter(b=>b.tt==='duyet').forEach(b=>b.lines.filter(l=>l.ncc===ncc).forEach(l=>prQ.set(l.ma,(prQ.get(l.ma)||0)+l.sl)));
@@ -143,29 +143,55 @@ function cpoCompute(moc){
     new Set([...recv.keys(),...poQ.keys()]).forEach(ma=>{ const r=recv.get(ma)||0, q=poQ.get(ma)||0, pr=prQ.get(ma)||0, x=IT.get(ma)||{ten:ma,dvt:''};
       let act='khop', tang=0, bs=0, giam=0; const free=Math.max(0,pr-q);
       if(r>q+1e-9){ const need=r-q; tang=Math.min(need,free); bs=+(need-tang).toFixed(3); act=bs>0?'bs':'tang'; }
-      else if(last&&q>r+1e-9){ giam=+(q-r).toFixed(3); act='giam'; }
+      else if(last&&q>r+1e-9&&ok){ giam=+(q-r).toFixed(3); act='giam'; }
       if(act!=='khop'||r>0) out.push({ncc,po,ma,ten:x.ten,dvt:x.dvt,g:priceFor(ncc,ma),r,q,pr,free,tang:+tang.toFixed(3),bs,giam,act,ok,pend:pendBS.get(ma)||0}); }); });
   return out; }
 const CPO={bs:['Cần PR bổ sung','bad'],tang:['Tăng PO (PR đủ)','run'],giam:['Giảm PO = số nhận','run'],khop:['Khớp','ok']};
 function vCPO(){
-  const M=mocList(); if(!ED.moc) ED.moc=todayVN()>M[0].d?'cuoi':'15'; const moc=M.find(m=>m.m===ED.moc);
-  const R=cpoCompute(moc), nOk=R.filter(r=>r.ok), notOk=[...new Set(R.filter(r=>!r.ok).map(r=>r.ncc))];
+  const M=mocList(), td=todayVN(); if(!ED.moc) ED.moc=td>M[0].d?'cuoi':'15'; const moc=M.find(m=>m.m===ED.moc), reached=td>=moc.d;
+  const R=cpoCompute(moc), nOk=R.filter(r=>r.ok), notOk=dsNccs().filter(n=>{const kys=mocKy(n,moc); return kys.length&&kys[kys.length-1].to===moc.d&&!kys.every(k=>(dsDoc(n,k.k)||{}).tt==='khop');});
   const bsDoc=(S.prbs||{})[S.thang+'_m'+moc.m], cnt={}; nOk.forEach(r=>cnt[r.act]=(cnt[r.act]||0)+1);
-  const f=ED.cpoF||''; const shown=R.filter(r=>(!f||r.act===f)&&(r.act!=='khop'||f==='khop'));
-  return head2('6.1 Đề xuất chỉnh PO cuối chu kỳ','Khi số nhận của NCC đã chốt khớp (bước 5), so lũy kế số nhận với PO: thiếu mà PR còn trống thì tăng PO; PR không đủ thì gom vào MỘT đợt PR bổ sung duy nhất của mốc này; mốc cuối tháng thì giảm PO bằng đúng số nhận để PO = MIGO. Sửa PO xong nhớ sửa trên SAP (ME22N).')+
-  `<div class="toolbar"><div class="seg">${M.map(m=>`<button data-act6="moc" data-m="${m.m}" aria-pressed="${m.m===ED.moc}">${m.ten}</button>`).join('')}</div></div>
-  ${notOk.length?`<div class="warn">Chưa chốt khớp nên chưa chỉnh: <b>${notOk.map(esc).join(', ')}</b> (bước 5.3).</div>`:''}
-  ${bsDoc?`<div class="warn ok">Mốc này đã tạo PR bổ sung lúc ${tstr(bsDoc.luc)}: ${(bsDoc.batches||[]).map(id=>esc((S.prdot[id]||{}).nhom||id)).join(', ')}. Mỗi mốc chỉ tạo 1 lần; muốn làm lại thì hủy các đợt đó ở 2.3.</div>`:''}
-  <div class="kpis"><div class="kv big"><b>Cần PR bổ sung</b><div class="num">${cnt.bs||0} dòng</div><small>${TR(nOk.filter(r=>r.act==='bs').reduce((a,r)=>a+r.bs*r.g,0))}</small></div>
-   <div class="kv"><b>Tăng PO (đủ PR)</b><div class="num">${cnt.tang||0}</div><small>${TR(nOk.filter(r=>r.act==='tang').reduce((a,r)=>a+r.tang*r.g,0))}</small></div>
-   <div class="kv"><b>Giảm PO</b><div class="num">${cnt.giam||0}</div><small>${TR(nOk.filter(r=>r.act==='giam').reduce((a,r)=>a+r.giam*r.g,0))}</small></div>
-   <div class="kv"><b>Đã khớp</b><div class="num">${cnt.khop||0}</div></div></div>
-  <div class="toolbar"><div class="seg"><button data-act6="cpo-f" data-f="" aria-pressed="${!f}">Cần xử lý</button>${Object.entries(CPO).map(([k,v])=>`<button data-act6="cpo-f" data-f="${k}" aria-pressed="${f===k}">${v[0]} ${R.filter(r=>r.act===k).length}</button>`).join('')}</div><span class="sp"></span>
-   ${canWrite?`<button class="btn" data-act6="cpo-apply" ${nOk.some(r=>r.act==='tang'||r.act==='giam')?'':'disabled'}>Áp dụng tăng/giảm PO</button><button class="btn primary" data-act6="cpo-bs" ${nOk.some(r=>r.act==='bs'&&r.bs-r.pend>0)&&!bsDoc?'':'disabled'}>Tạo PR bổ sung mốc này</button>`:''}</div>
-  ${shown.length?`<div class="tbl-wrap"><table class="t"><thead><tr><th>NCC · PO</th><th>Mã</th><th>Tên hàng</th><th>ĐVT</th><th class="r">Nhận đã khớp</th><th class="r">SL PO</th><th class="r">PR đã duyệt</th><th class="r">Tăng PO</th><th class="r">PR bổ sung</th><th class="r">Giảm PO</th><th>Đề xuất</th></tr></thead><tbody>
-  ${shown.map(r=>`<tr${r.ok?'':' style="opacity:.55"'}><td>${esc(r.ncc)}<div class="meta num">${r.po?esc(r.po.soPO||'chưa có số'):'chưa có PO'}</div></td><td class="num">${r.ma}</td><td class="wrap">${esc(r.ten)}</td><td>${esc(r.dvt)}</td><td class="r num">${Q(r.r)}</td><td class="r num">${Q(r.q)}</td><td class="r num">${Q(r.pr)}</td><td class="r num">${r.tang?'+'+Q(r.tang):''}</td><td class="r num">${r.bs?Q(r.bs)+(r.pend?` <span class="meta">(đang chờ ${Q(r.pend)})</span>`:''):''}</td><td class="r num">${r.giam?'−'+Q(r.giam):''}</td><td><span class="pill ${CPO[r.act][1]}">${CPO[r.act][0]}</span>${r.ok?'':' <span class="pill">chưa khớp NCC</span>'}</td></tr>`).join('')}
-  </tbody></table></div>`:'<div class="empty"><b>Không có dòng nào cần chỉnh ở mốc này</b>Hoặc chưa có NCC nào kết thúc kỳ tại mốc này.</div>'}`;
+  const f=ED.cpoF||'', bo=ED.cpoBo||(ED.cpoBo=new Set());
+  const match=r=>(!f||r.act===f)&&(r.act!=='khop'||f==='khop');
+  const sum=(L,k)=>L.reduce((a,r)=>a+r[k]*r.g,0);
+  const G=new Map(); R.forEach(r=>{ const g=G.get(r.ncc)||{ncc:r.ncc,po:r.po,ok:r.ok,rows:[]}; g.rows.push(r); G.set(r.ncc,g); });
+  notOk.forEach(n=>{ if(!G.has(n)) G.set(n,{ncc:n,po:poOf(S.thang).find(p=>p.ncc===n),ok:false,rows:[]}); });
+  const groups=[...G.values()].map(g=>({...g,shown:g.rows.filter(match),tang:sum(g.rows,'tang'),giam:sum(g.rows,'giam'),bs:sum(g.rows,'bs'),c:{bs:g.rows.filter(r=>r.act==='bs').length,tang:g.rows.filter(r=>r.act==='tang').length,giam:g.rows.filter(r=>r.act==='giam').length}}))
+    .filter(g=>g.shown.length||(!f&&!g.ok)).sort((a,b)=>(b.ok-a.ok)||(b.tang+b.giam+b.bs)-(a.tang+a.giam+a.bs));
+  const applyG=groups.filter(g=>g.ok&&g.po&&!bo.has(g.ncc)&&(g.c.tang||(reached&&g.c.giam)));
+  const canBS=nOk.some(r=>r.act==='bs'&&r.bs-r.pend>0)&&!bsDoc;
+  const body=groups.map(g=>{const open=ED.cpoOpen===g.ncc, chg=[g.c.bs?`${g.c.bs} cần PR bổ sung`:'',g.c.tang?`${g.c.tang} tăng`:'',g.c.giam?`${g.c.giam} giảm`:''].filter(Boolean).join(' · ')||'không cần chỉnh';
+    const sel=g.ok&&g.po&&(g.c.tang||(reached&&g.c.giam));
+    return `<tr class="${g.ok?'':'dim'}"><td class="exp">${g.shown.length?`<button class="x" data-act6="cpo-open" data-n="${esc(g.ncc)}" aria-expanded="${open}" aria-label="${open?'Ẩn':'Xem'} chi tiết ${esc(g.ncc)}">${open?'▾':'▸'}</button>`:''}</td>
+    <td class="dg">${sel&&canWrite?`<label class="chkl"><input type="checkbox" data-cposel="${esc(g.ncc)}" ${bo.has(g.ncc)?'':'checked'} aria-label="Chọn ${esc(g.ncc)} để áp dụng"> <b>${esc(g.ncc)}</b></label>`:`<b>${esc(g.ncc)}</b>`}<small>${g.po?'PO <span class="num">'+esc(g.po.soPO||'chưa có số')+'</span>':'chưa có PO'} · ${g.rows.length?g.rows.length+' mã · '+chg:'chưa có số nhận đã chốt'}</small></td>
+    <td class="r tien">${g.tang?`<b class="num">+${VND(g.tang)}</b>`:''}${g.giam?`<b class="num">−${VND(g.giam)}</b>`:''}${g.bs?`<small class="num">PR bổ sung ${VND(g.bs)}</small>`:''}${!g.tang&&!g.giam&&!g.bs?`<span class="meta">${g.ok?'0':'—'}</span>`:''}</td>
+    <td class="tt">${!g.ok?'<span class="pill">Chưa đối soát</span><small>Chốt khớp ở 5.3 trước</small>':g.c.giam&&!reached?'<span class="pill run">Đã khớp</span><small>Giảm PO khi tới mốc '+dm(moc.d)+'</small>':'<span class="pill ok">Đã khớp NCC</span>'}</td>
+    <td class="acts"><div class="acts-in">${!g.ok?'<button class="btn sm" data-act="go-next" data-step="5" data-tab="dsk">Mở 5.3</button>':''}</div></td></tr>
+    ${open&&g.shown.length?`<tr class="detail"><td colspan="5"><div class="tbl-wrap" style="max-height:340px" aria-label="Chi tiết ${esc(g.ncc)}"><table class="t"><thead><tr><th>Mặt hàng</th><th class="r">Nhận đã khớp</th><th class="r">SL PO</th><th class="r">PR đã duyệt</th><th class="r">Thay đổi</th><th>Đề xuất</th></tr></thead><tbody>
+      ${g.shown.map(r=>`<tr><td class="wrap"><b>${esc(r.ten)}</b><div class="meta num">${r.ma} · ${esc(r.dvt)}</div></td><td class="r num">${Q(r.r)}</td><td class="r num">${Q(r.q)}</td><td class="r num">${Q(r.pr)}</td>
+        <td class="r num">${r.tang?'+'+Q(r.tang)+' PO':''}${r.bs?Q(r.bs)+' PR bổ sung'+(r.pend?`<div class="meta">đang chờ ${Q(r.pend)}</div>`:''):''}${r.giam?'−'+Q(r.giam)+' PO':''}</td><td><span class="pill ${CPO[r.act][1]}">${CPO[r.act][0]}</span></td></tr>`).join('')}</tbody></table></div></td></tr>`:''}`;}).join('');
+  const steps=bsDoc?bsSteps(bsDoc):'';
+  const conf=ED.cpoConf&&applyG.length?`<div class="warn"><b>Xác nhận chỉnh ${applyG.length} PO</b>: ${applyG.map(g=>esc(g.ncc)).join(', ')}. Tăng <span class="num">+${VND(applyG.reduce((a,g)=>a+g.tang,0))}</span> · giảm <span class="num">−${VND(reached?applyG.reduce((a,g)=>a+g.giam,0):0)}</span>. Sau đó cần cập nhật SAP (ME22N) ở 3.4.<div class="toolbar" style="margin-top:8px"><button class="btn primary" data-act6="cpo-apply">Xác nhận áp dụng</button><button class="btn" data-act6="cpo-conf" data-v="">Hủy</button></div></div>`:'';
+  return head2('6.1 Đề xuất chỉnh PO cuối chu kỳ','Khi số nhận của NCC đã chốt khớp (bước 5), so lũy kế số nhận với PO: thiếu mà PR còn trống thì tăng PO; PR không đủ thì gom vào MỘT đợt PR bổ sung duy nhất của mốc này; tới mốc cuối tháng thì giảm PO bằng đúng số nhận để PO = MIGO. NCC không giao hàng: chốt “Không nhận hàng trong kỳ” ở 5.3 thì mới được giảm PO về 0. Sửa PO xong nhớ cập nhật trên SAP (ME22N) ở 3.4.')+
+  `<div class="toolbar"><div class="seg">${M.map(m=>`<button data-act6="moc" data-m="${m.m}" aria-pressed="${m.m===ED.moc}">Mốc ${dm(m.d)}${td>=m.d?'':' · chưa tới'}</button>`).join('')}</div><span class="meta">${moc.m==='15'?'Kỳ 1 của NCC báo 15 ngày':'Cuối tháng, mọi NCC'}</span></div>
+  <div class="kpis"><div class="kv big"><b>Cần PR bổ sung</b><div class="num">${TR(sum(nOk,'bs'))}</div><small>${cnt.bs||0} mã nhận vượt PO và PR</small></div>
+   <div class="kv"><b>Tăng PO (PR còn đủ)</b><div class="num">${TR(sum(nOk,'tang'))}</div><small>${cnt.tang||0} mã</small></div>
+   <div class="kv"><b>Giảm PO = số nhận</b><div class="num">${TR(sum(nOk,'giam'))}</div><small>${cnt.giam||0} mã${moc.m==='cuoi'&&!reached?' · áp dụng từ '+dm(moc.d):''}</small></div>
+   <div class="kv"><b>NCC chưa đối soát</b><div class="num">${notOk.length}</div><small>${notOk.length?'chưa chỉnh, chốt ở 5.3':'mọi NCC đã chốt'}</small></div></div>
+  ${steps}
+  <div class="toolbar"><div class="seg wrapseg"><button data-act6="cpo-f" data-f="" aria-pressed="${!f}">Cần xử lý</button>${Object.entries(CPO).map(([k,v])=>`<button data-act6="cpo-f" data-f="${k}" aria-pressed="${f===k}">${v[0]} ${R.filter(r=>r.act===k).length}</button>`).join('')}</div></div>
+  ${groups.length?`<div class="tbl-wrap" style="max-height:none"><table class="t ls-tbl cpo-tbl"><colgroup><col class="c-exp"><col><col class="c-tien"><col class="c-tt"><col class="c-acts"></colgroup><thead><tr><th><span class="sr">Chi tiết</span></th><th>Nhà cung cấp</th><th class="r">Thay đổi tiền</th><th>Trạng thái</th><th><span class="sr">Thao tác</span></th></tr></thead><tbody>${body}</tbody></table></div>`
+  :`<div class="empty"><b>Không có dòng nào cần chỉnh ở mốc này</b>${moc.m==='15'?'Chưa có NCC báo 15 ngày nào chốt khớp kỳ 1.':'Các NCC đã chốt đều khớp với PO.'}</div>`}
+  ${conf}
+  ${canWrite&&!conf?`<div class="toolbar savebar"><span class="meta">${applyG.length?`Áp dụng cho ${applyG.length} NCC đã chọn`:reached||moc.m!=='cuoi'?'Không có PO nào cần tăng/giảm':'Giảm PO chỉ áp dụng khi tới '+dm(moc.d)}</span><span class="sp"></span>
+   <button class="btn" data-act6="cpo-conf" data-v="1" ${applyG.length?'':'disabled'}>Áp dụng tăng/giảm PO…</button><button class="btn primary" data-act6="cpo-bs" ${canBS?'':'disabled'} ${bsDoc?'title="Mốc này đã tạo PR bổ sung"':''}>Tạo PR bổ sung mốc này</button></div>`:''}`;
 }
+function bsSteps(bsDoc){ const B=(bsDoc.batches||[]).map(id=>S.prdot[id]).filter(b=>b&&b.tt!=='huy'); if(!B.length) return '';
+  const used=new Set(poAll().filter(p=>p.tt!=='huy').flatMap(p=>p.src||[]));
+  const exp=B.every(b=>b.tt!=='nhap'), ok=B.every(b=>b.tt==='duyet'), att=ok&&B.every(b=>b.lines.every(l=>used.has(b.id+'|'+l.ncc)));
+  const li=(done,cur,n,t,btn)=>`<li class="${done?'done':cur?'cur':''}"><div class="fh"><span class="fn" aria-hidden="true">${done?'✓':n}</span><b>${t}</b>${!done&&cur?btn:''}</div></li>`;
+  return `<div class="box"><b>PR bổ sung mốc này: ${B.map(b=>esc(b.nhom)).join(', ')}</b> <span class="meta">tạo ${tstr(bsDoc.luc)} · mỗi mốc chỉ tạo 1 lần, muốn làm lại thì hủy các đợt ở 2.3</span>
+   <ol class="flow mini">${li(exp,!exp,1,'Xuất PR lên SAP','<button class="btn sm" data-act="go-next" data-step="2" data-tab="xuat">Mở 2.2</button>')}${li(ok,exp&&!ok,2,'Ghi số PR và duyệt','<button class="btn sm" data-act="go-next" data-step="2" data-tab="ls">Mở 2.3</button>')}${li(att,ok&&!att,3,'Gắn vào PO','<button class="btn sm" data-act="go-next" data-tab="gpo">Mở 6.2</button>')}</ol></div>`; }
 function addToPO(p,adds,note){ // adds:[{ma,sl,g,soPR,dt,ten,dvt}]
   const lines=p.lines.map(l=>({...l}));
   adds.forEach(a=>{ const ex=lines.filter(l=>l.ma===a.ma&&(a.soPR?l.soPR===a.soPR:true)); if(ex.length&&!a.soPR){ ex[0].sl=+(ex[0].sl+a.sl).toFixed(3); } else lines.push({ma:a.ma,ten:a.ten,dvt:a.dvt,sl:a.sl,g:a.g,soPR:a.soPR||'',dt:a.dt||''}); });
@@ -174,24 +200,44 @@ function vGPO(){
   const used=new Set(poAll().filter(p=>p.tt!=='huy').flatMap(p=>p.src||[]));
   const B=batchesOf(S.thang).filter(b=>b.loai==='Bổ sung'&&b.tt!=='huy'), pend=[];
   B.forEach(b=>b.lines.forEach(l=>{const k=b.id+'|'+l.ncc; if(!used.has(k)) pend.push({b,l,k});}));
-  const ready=pend.filter(x=>x.b.tt==='duyet');
-  return head2('6.2 Gắn PR bổ sung vào PO','Khi đợt PR bổ sung đã duyệt (2.3), thêm các dòng đó vào PO tháng sẵn có của từng NCC (không lập PO mới). NCC chưa có PO thì lập PO mới. Sau đó sửa PO trên SAP (ME22N, thêm dòng tham chiếu PR).')+
-  `<div class="toolbar">${canWrite?`<button class="btn primary" data-act6="gpo-apply" ${ready.length?'':'disabled'}>Gắn ${ready.length} dòng PR bổ sung đã duyệt vào PO</button>`:''}<span class="meta">${pend.length-ready.length} dòng PR bổ sung chưa duyệt</span></div>
-  ${pend.length?`<div class="tbl-wrap"><table class="t"><thead><tr><th>Đợt</th><th>Số PR</th><th>Trạng thái</th><th>NCC</th><th>PO hiện có</th><th>Mã</th><th>Tên</th><th class="r">SL</th><th class="r">Tiền</th></tr></thead><tbody>
-   ${pend.map(x=>{const po=poOf(S.thang).find(p=>p.ncc===x.l.ncc);return `<tr><td class="num">${esc(x.b.nhom)}</td><td class="num">${esc(x.b.soPR||'')}</td><td>${ttPill(x.b)}</td><td>${esc(x.l.ncc)}</td><td class="num">${po?esc(po.soPO||'(chưa có số)'):'<span class="pill run">sẽ lập PO mới</span>'}</td><td class="num">${x.l.ma}</td><td class="wrap">${esc(x.l.ten)}</td><td class="r num">${Q(x.l.sl)}</td><td class="r num">${VND(x.l.sl*x.l.g)}</td></tr>`;}).join('')}</tbody></table></div>`
-  :'<div class="empty"><b>Không có PR bổ sung nào chờ gắn vào PO</b></div>'}`;
+  const ready=pend.filter(x=>x.b.tt==='duyet'), nNhap=pend.filter(x=>x.b.tt==='nhap').length, nCho=pend.filter(x=>x.b.tt==='xuat'||x.b.tt==='sap').length;
+  pend.sort((a,b)=>a.l.ncc.localeCompare(b.l.ncc,'vi')||a.l.ma.localeCompare(b.l.ma));
+  return head2('6.2 Gắn PR bổ sung vào PO','Khi đợt PR bổ sung đã duyệt (2.3), thêm các dòng đó vào PO tháng sẵn có của từng NCC (không lập PO mới). NCC chưa có PO thì lập PO mới. Sau đó cập nhật PO trên SAP ở 3.4 (ME22N, thêm dòng tham chiếu PR). Một mã có thể tách 2 dòng theo đối tượng Bệnh nhân / Nhân viên.')+
+  (ED.gpoOk?`<div class="okbox" role="status"><span>${esc(ED.gpoOk)}</span><button class="btn sm" data-act="go-next" data-step="3" data-tab="pols">Mở 3.4</button><button class="x" data-act6="gpo-okx" aria-label="Đóng thông báo">×</button></div>`:'')+
+  (pend.length?`<div class="kpis"><div class="kv big"><b>Sẵn sàng gắn vào PO</b><div class="num">${ready.length} dòng</div><small>${TR(ready.reduce((a,x)=>a+x.l.sl*x.l.g,0))}</small></div>
+   <div class="kv"><b>Chờ xuất lên SAP</b><div class="num">${nNhap} dòng</div><small>${nNhap?'đợt đang ở trạng thái Nháp':'không có'}</small></div>
+   <div class="kv"><b>Chờ ghi số PR / duyệt</b><div class="num">${nCho} dòng</div><small>${nCho?'làm ở 2.3':'không có'}</small></div></div>`:'')+
+  `${nNhap?`<div class="warn"><span>${nNhap} dòng thuộc đợt Nháp, cần xuất lên SAP trước.</span> <button class="btn sm" data-act="go-next" data-step="2" data-tab="xuat">Mở 2.2</button></div>`:''}
+  ${nCho?`<div class="warn"><span>${nCho} dòng đã xuất, cần ghi số PR và duyệt.</span> <button class="btn sm" data-act="go-next" data-step="2" data-tab="ls">Mở 2.3</button></div>`:''}
+  ${pend.length?`<div class="tbl-wrap" style="max-height:none"><table class="t ls-tbl gpo-tbl"><colgroup><col class="c-exp"><col><col class="c-tien"><col class="c-tt"><col class="c-when"></colgroup><thead><tr><th><span class="sr">STT</span></th><th>Mặt hàng</th><th class="r">Tiền</th><th>Đợt PR</th><th>Vào PO</th></tr></thead><tbody>
+   ${pend.map((x,i)=>{const po=poOf(S.thang).find(p=>p.ncc===x.l.ncc);return `<tr><td class="exp meta num">${i+1}</td><td class="dg"><b>${esc(x.l.ten)}</b><small><span class="num">${x.l.ma}</span> · ${Q(x.l.sl)} ${esc(x.l.dvt)} · ${esc(x.l.ncc)}</small></td><td class="r tien"><b class="num">${VND(x.l.sl*x.l.g)}</b></td>
+     <td class="tt">${ttPill(x.b)}<small class="num">${esc(x.b.nhom)}${x.b.soPR?' · PR '+esc(x.b.soPR):''}</small></td><td class="when">${po?`Thêm vào PO <span class="num">${esc(po.soPO||'(chưa có số)')}</span>`:'<span class="pill run">Lập PO mới</span>'}</td></tr>`;}).join('')}</tbody></table></div>`
+  :'<div class="empty"><b>Không có PR bổ sung nào chờ gắn vào PO</b>PR bổ sung được tạo ở 6.1 khi nhận vượt PO và PR.<div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="go-next" data-tab="cpo">Mở 6.1</button></div></div>'}
+  ${canWrite&&pend.length?`<div class="toolbar savebar"><span class="meta">${ready.length?`${ready.length} dòng đã duyệt`:'Chưa có dòng nào đã duyệt'}</span><span class="sp"></span><button class="btn primary" data-act6="gpo-apply" ${ready.length?'':'disabled'}>Gắn ${ready.length} dòng vào PO</button></div>`:''}`;
 }
 function vKPO(){
   const migoQ=new Map(); migoAll().filter(m=>m.thang===S.thang).forEach(m=>m.lines.forEach(l=>migoQ.set(m.poId+'|'+l.item,(migoQ.get(m.poId+'|'+l.item)||0)+l.sl)));
   const rows=[]; poOf(S.thang).forEach(po=>{ const kys=kyList(S.thang,po.ncc), okK=kys.filter(k=>(dsDoc(po.ncc,k.k)||{}).tt==='khop');
     const r=new Map(); okK.forEach(k=>kyRows(po.ncc,k).forEach(x=>r.set(x.ma,(r.get(x.ma)||0)+x.sl)));
     const q=new Map(),mg=new Map(); poItems(po).forEach(l=>{q.set(l.ma,(q.get(l.ma)||0)+l.sl); mg.set(l.ma,(mg.get(l.ma)||0)+(migoQ.get(po.id+'|'+l.item)||0));});
-    const t={po,dong:q.size,q:0,r:0,mg:0,lech:0}; q.forEach((v,ma)=>{t.q+=v*priceFor(po.ncc,ma);t.r+=(r.get(ma)||0)*priceFor(po.ncc,ma);t.mg+=(mg.get(ma)||0)*priceFor(po.ncc,ma); if(Math.abs(v-(mg.get(ma)||0))>1e-6) t.lech++;});
-    t.allK=okK.length===kys.length; rows.push(t); });
-  return head2('6.3 PO so với số đã khớp và MIGO','Kiểm tra cuối tháng: mỗi PO phải bằng tổng MIGO (và bằng số nhận đã khớp với NCC) trên từng mã. ĐNTT lập theo số PO.')+
-  `<div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>NCC</th><th>PO</th><th class="r">Tiền PO</th><th class="r">Nhận đã khớp</th><th class="r">Đã MIGO</th><th class="r">Mã lệch PO–MIGO</th><th>Kết luận</th></tr></thead><tbody>
-  ${rows.map(t=>`<tr><td><b>${esc(t.po.ncc)}</b>${t.po.sua?' <span class="pill bad">cần sửa ME22N</span>':''}</td><td class="num">${esc(t.po.soPO||'')}</td><td class="r num">${VND(t.q)}</td><td class="r num">${VND(t.r)}</td><td class="r num">${VND(t.mg)}</td><td class="r num">${t.lech}</td><td>${!t.lech&&t.allK&&!t.po.sua?'<span class="pill ok">PO = MIGO · sẵn sàng ĐNTT</span>':t.allK?'<span class="pill run">Chưa khớp hết</span>':'<span class="pill">Còn kỳ chưa đối soát</span>'}</td></tr>`).join('')||'<tr><td colspan="7" class="muted">Chưa có PO.</td></tr>'}
-  </tbody></table></div>`;
+    const t={po,dong:q.size,q:0,r:0,mg:0,lech:[]}; q.forEach((v,ma)=>{t.q+=v*priceFor(po.ncc,ma);t.r+=(r.get(ma)||0)*priceFor(po.ncc,ma);t.mg+=(mg.get(ma)||0)*priceFor(po.ncc,ma); if(Math.abs(v-(mg.get(ma)||0))>1e-6) t.lech.push({ma,q:v,r:r.get(ma)||0,mg:mg.get(ma)||0});});
+    t.allK=okK.length===kys.length; t.st=!t.lech.length&&t.allK&&!po.sua?'ok':!t.allK?'ds':po.sua?'sua':'lech'; rows.push(t); });
+  const ST={ok:['PO = MIGO · sẵn sàng ĐNTT','ok'],sua:['Cần cập nhật SAP (ME22N)','bad'],lech:['PO chưa bằng MIGO','run'],ds:['Còn kỳ chưa đối soát','']};
+  const f=ED.kpoF||'', cnt={}; rows.forEach(t=>cnt[t.st]=(cnt[t.st]||0)+1); const shown=rows.filter(t=>!f||t.st===f);
+  const body=shown.map(t=>{const open=ED.kpoOpen===t.po.id;
+    return `<tr><td class="exp">${t.lech.length?`<button class="x" data-act6="kpo-open" data-id="${t.po.id}" aria-expanded="${open}" aria-label="${open?'Ẩn':'Xem'} mã lệch ${esc(t.po.ncc)}">${open?'▾':'▸'}</button>`:''}</td>
+    <td class="dg"><b>${esc(t.po.ncc)}</b><small>PO <span class="num">${esc(t.po.soPO||'chưa có số')}</span> · ${t.dong} mã${t.lech.length?` · ${t.lech.length} mã lệch PO–MIGO`:''}</small></td>
+    <td class="r tien"><b class="num">${VND(t.q)}</b><small>MIGO ${VND(t.mg)}</small></td>
+    <td class="tt"><span class="pill ${ST[t.st][1]}">${ST[t.st][0]}</span><small>Nhận đã khớp ${VND(t.r)}</small></td>
+    <td class="acts"><div class="acts-in">${t.st==='ds'?'<button class="btn sm" data-act="go-next" data-step="5" data-tab="dsk">Mở 5.3</button>':t.st==='sua'?'<button class="btn sm" data-act="go-next" data-step="3" data-tab="pols">Mở 3.4</button>':t.st==='lech'?'<button class="btn sm" data-act="go-next" data-step="7" data-tab="mg">Mở 7.1</button>':''}</div></td></tr>
+    ${open?`<tr class="detail"><td colspan="5"><div class="tbl-wrap" style="max-height:280px" aria-label="Mã lệch ${esc(t.po.ncc)}"><table class="t"><thead><tr><th>Mã</th><th>Tên</th><th class="r">SL PO</th><th class="r">Nhận đã khớp</th><th class="r">Đã MIGO</th></tr></thead><tbody>${t.lech.map(l=>{const x=IT.get(l.ma)||{ten:l.ma};return `<tr><td class="num">${l.ma}</td><td class="wrap">${esc(x.ten)}</td><td class="r num">${Q(l.q)}</td><td class="r num">${Q(l.r)}</td><td class="r num">${Q(l.mg)}</td></tr>`;}).join('')}</tbody></table></div></td></tr>`:''}`;}).join('');
+  return head2('6.3 PO so với số đã khớp và MIGO','Kiểm tra cuối tháng: mỗi PO phải bằng tổng MIGO (và bằng số nhận đã khớp với NCC) trên từng mã. ĐNTT lập theo số PO.','<span class="pill">Theo dõi</span>')+
+  (rows.length?`<div class="kpis"><div class="kv big"><b>Sẵn sàng ĐNTT</b><div class="num">${cnt.ok||0} / ${rows.length} PO</div><small>PO = MIGO, không còn sửa chờ SAP</small></div>
+   <div class="kv"><b>Cần cập nhật SAP</b><div class="num">${cnt.sua||0} PO</div><small>đã sửa SL, chạy ME22N ở 3.4</small></div>
+   <div class="kv"><b>Còn kỳ chưa đối soát</b><div class="num">${cnt.ds||0} NCC</div><small>${cnt.lech||0} PO đã đối soát nhưng chưa bằng MIGO</small></div></div>
+  <div class="toolbar"><div class="seg wrapseg"><button data-act6="kpo-f" data-f="" aria-pressed="${!f}">Tất cả ${rows.length}</button>${Object.keys(ST).filter(k=>cnt[k]).map(k=>`<button data-act6="kpo-f" data-f="${k}" aria-pressed="${f===k}">${ST[k][0].split(' · ')[0]} ${cnt[k]}</button>`).join('')}</div></div>
+  <div class="tbl-wrap" style="max-height:none"><table class="t ls-tbl kpo-tbl"><colgroup><col class="c-exp"><col><col class="c-tien"><col class="c-tt"><col class="c-acts"></colgroup><thead><tr><th><span class="sr">Chi tiết</span></th><th>Nhà cung cấp · PO</th><th class="r">Tiền PO</th><th>Kết luận</th><th><span class="sr">Thao tác</span></th></tr></thead><tbody>${body}</tbody></table></div>`
+  :'<div class="empty"><b>Chưa có PO nào tháng này</b>Lập PO ở bước 3.</div>');
 }
 
 /* ================= BƯỚC 7 · MIGO CUỐI KỲ (1 MIGO / PO / KỲ) ================= */
@@ -259,9 +305,14 @@ document.addEventListener('click',async e=>{
   else if(a==='sf-mark-lech'){ await setDS(ED.dsN,ky,{tt:'lech'},`Lệch ${ED.sfD.length} dòng so với file NCC`); }
   else if(a==='ds-khop'){ const n=t.dataset.n, kk=kyList(S.thang,n).find(k=>k.k===+t.dataset.k), cc=$(`#cc-${slug(n)}-${kk.k}`).value; ED.dskAsk=null; await setDS(n,kk,{tt:'khop',khopLuc:Date.now(),canCu:cc},'Chốt khớp: '+cc); await log('5.3',`Chốt khớp ${n} ${kyName(kk)} – ${cc}`); }
   else if(a==='ds-open'){ const n=t.dataset.n, kk=kyList(S.thang,n).find(k=>k.k===+t.dataset.k); if(migoAll().some(m=>m.ncc===n&&m.k===kk.k&&m.thang===S.thang)){toast('Kỳ này đã lập MIGO; hủy MIGO ở 7.2 trước.');return;} await setDS(n,kk,{tt:'lech'},'Mở lại để sửa'); await log('5.3',`Mở lại kỳ ${n} ${kyName(kk)}`); }
-  else if(a==='moc'){ ED.moc=t.dataset.m; render(); }
+  else if(a==='moc'){ ED.moc=t.dataset.m; ED.cpoConf=false; ED.cpoOpen=null; render(); }
   else if(a==='cpo-f'){ ED.cpoF=t.dataset.f; render(); }
-  else if(a==='cpo-apply'){ const moc=mocList().find(m=>m.m===ED.moc), R=cpoCompute(moc).filter(r=>r.ok&&(r.act==='tang'||r.act==='giam')&&r.po); const by=new Map(); R.forEach(r=>(by.get(r.po.id)||by.set(r.po.id,[]).get(r.po.id)).push(r));
+  else if(a==='cpo-conf'){ ED.cpoConf=!!t.dataset.v; render(); }
+  else if(a==='cpo-open'){ ED.cpoOpen=ED.cpoOpen===t.dataset.n?null:t.dataset.n; render(); }
+  else if(a==='gpo-okx'){ ED.gpoOk=null; render(); }
+  else if(a==='kpo-f'){ ED.kpoF=t.dataset.f; render(); }
+  else if(a==='kpo-open'){ ED.kpoOpen=ED.kpoOpen===t.dataset.id?null:t.dataset.id; render(); }
+  else if(a==='cpo-apply'){ ED.cpoConf=false; const moc=mocList().find(m=>m.m===ED.moc), reached=todayVN()>=moc.d, bo=ED.cpoBo||new Set(), R=cpoCompute(moc).filter(r=>r.ok&&r.po&&!bo.has(r.ncc)&&(r.act==='tang'||(r.act==='giam'&&reached))); const by=new Map(); R.forEach(r=>(by.get(r.po.id)||by.set(r.po.id,[]).get(r.po.id)).push(r));
     for(const [id,list] of by){ const po=S.po[id]; const lines=po.lines.map(l=>({...l})); const notes=[];
       list.forEach(r=>{ const L=lines.filter(l=>l.ma===r.ma); if(r.act==='tang'){ L[L.length-1].sl=+(L[L.length-1].sl+r.tang).toFixed(3); notes.push(`${r.ma} +${Q(r.tang)}`); }
         else { let rem=r.giam; for(let i=L.length-1;i>=0&&rem>0;i--){const d=Math.min(L[i].sl,rem);L[i].sl=+(L[i].sl-d).toFixed(3);rem-=d;} notes.push(`${r.ma} −${Q(r.giam)}`); } });
@@ -277,7 +328,7 @@ document.addEventListener('click',async e=>{
     for(const [ncc,o] of by){ const po=poOf(S.thang).find(p=>p.ncc===ncc);
       if(po){ const lines=addToPO(po,o.adds); await setPO(po.id,{lines,tong:Math.round(lines.reduce((s,l)=>s+l.sl*l.g,0)),src:[...(po.src||[]),...o.src],pr:[...new Set([...(po.pr||[]),...o.pr])],sua:true},`Thêm ${o.adds.length} dòng từ PR bổ sung ${[...o.pr].join(', ')}`); }
       else { const pid=S.thang+'-'+slug(ncc)+'-'+Date.now().toString(36); await store.set('po/'+pid,{thang:S.thang,ncc,lifnr:LIFNR[ncc.toUpperCase()]||'',loai:'Bổ sung',src:[...o.src],pr:[...o.pr],lines:o.adds.map(({ncc:_,...l})=>l),tong:Math.round(o.adds.reduce((s,l)=>s+l.sl*l.g,0)),tt:'cho',soPO:'',tongSAP:null,luc:Date.now(),ai:uid,hist:[{ts:Date.now(),tt:'cho',ai:uid,note:'Lập từ PR bổ sung'}]}); } }
-    await log('6.2',`Gắn PR bổ sung vào PO: ${[...by.keys()].join(', ')}`); toast('Đã gắn vào PO. Sang 3.4 bấm “Cập nhật trên SAP” để trạm thêm dòng (ME22N).'); }
+    await log('6.2',`Gắn PR bổ sung vào PO: ${[...by.keys()].join(', ')}`); ED.gpoOk=`Đã gắn vào PO của ${[...by.keys()].join(', ')}. Sang 3.4 bấm “Cập nhật trên SAP” để trạm thêm dòng (ME22N).`; render(); }
   else if(a==='mg-make'){ const C=mgCandidates().filter(c=>!c.short.length); let n=0;
     for(const c of C){ const id=`${S.thang}-${slug(c.po.ncc)}-k${c.ky.k}-${Date.now().toString(36)}${n}`; const ma=`MG${tK(S.thang)}${c.ky.k?'K'+c.ky.k:''}-${slug(c.po.ncc).slice(0,8).toUpperCase()}`;
       await store.set('migo/'+id,{thang:S.thang,k:c.ky.k,ma,ncc:c.po.ncc,poId:c.po.id,soPO:c.po.soPO,ngay:c.ky.to,lines:c.lines,tong:c.tong,tt:'cho',soMIGO:'',luc:Date.now(),ai:uid}); n++; }
@@ -297,6 +348,7 @@ document.addEventListener('click',async e=>{
 });
 document.addEventListener('input',e=>{ const t=e.target; if(t.dataset.bk){ ED.bk=ED.bk||{}; ED.bk[t.dataset.bk]=Math.max(0,pnum(t.value)); } });
 document.addEventListener('change',async e=>{ const t=e.target;
+  if(t.dataset&&t.dataset.cposel){ ED.cpoBo=ED.cpoBo||new Set(); t.checked?ED.cpoBo.delete(t.dataset.cposel):ED.cpoBo.add(t.dataset.cposel); ED.cpoConf=false; render(); return; }
   if(t.id==='ds-n'){ ED.dsN=t.value; ED.dsK=null; ED.bk={}; ED.bkEdit=false; ED.sf=null; ED.sfForce=false; render(); }
   else if(t.id==='ds-k'){ ED.dsK=+t.value; ED.bk={}; ED.sf=null; ED.sfForce=false; render(); }
   else if(t.dataset.ck){ const m={...((S.ck&&S.ck.map)||{})}; m[t.dataset.ck]=+t.value; await store.set('cauhinh/chuky',{...(S.ck||{}),map:m,luc:Date.now(),ai:uid}); await log('5.3',`Đổi chu kỳ ${t.dataset.ck}: ${CKN[+t.value]}`); }

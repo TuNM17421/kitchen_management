@@ -2,6 +2,17 @@
 
 
 
+
+## Bước 6 Chỉnh PO & PR bổ sung – sửa theo review UI/UX
+
+- An toàn dữ liệu: NCC chưa chốt khớp ở 5.3 (kể cả NCC chưa có phiếu nhận nào) không còn bị đề xuất giảm PO về 0. NCC không giao hàng phải chốt “Không nhận hàng trong kỳ” ở 5.3 (chỉ khi kỳ đã kết thúc) thì mới giảm PO.
+- Giảm PO chỉ áp dụng khi đã tới mốc; trước đó chỉ xem trước. Tăng PO và PR bổ sung vẫn làm được.
+- “Áp dụng tăng/giảm PO…” có bước xác nhận ghi rõ NCC, tổng tăng/giảm; chọn từng NCC bằng checkbox.
+- 6.1 gộp theo NCC (bấm ▸ xem từng mã), NCC chưa đối soát hiện ở cuối kèm nút Mở 5.3; KPI theo tiền, thêm “NCC chưa đối soát”; nhãn mốc gọn (Mốc 15/11 · chưa tới).
+- Sau khi tạo PR bổ sung: hộp 3 bước Xuất PR (2.2) → Ghi số và duyệt (2.3) → Gắn vào PO (6.2), mỗi bước có nút mở đúng chỗ.
+- 6.2: KPI sẵn sàng / chờ xuất / chờ duyệt, cảnh báo kèm nút Mở 2.2, Mở 2.3; bảng gọn theo mặt hàng; gắn xong hiện thông báo kèm nút Mở 3.4.
+- 6.3: KPI sẵn sàng ĐNTT, cần cập nhật SAP, còn kỳ chưa đối soát; lọc theo kết luận; bấm ▸ xem mã lệch PO–MIGO; nút đi tới 5.3, 3.4 hoặc 7.1 tùy kết luận.
+- Nút chuyển bước có thể mở thẳng một tab của bước khác. 5.3 lọc “Đến hạn” tính cả kỳ không có hàng; cảnh báo khi chốt trước khi hết kỳ. Tab 6.1/6.2 có dấu ✓, 6.3 ghi “theo dõi”.
 ## Bước 5 Đối soát NCC – sửa theo review UI/UX
 
 - Thanh chọn NCC · Kỳ đưa lên trên KPI, dùng chung cho 5.1 và 5.2; có nút ‹ › chuyển NCC; danh sách NCC ghi số dòng nhận và đưa NCC có hàng lên trước.
