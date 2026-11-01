@@ -100,7 +100,7 @@ function vSoFile(){
       ${D.map((x,i)=>{const a=x.a,b=x.b,m=a||b;const act=lock||!canWrite?'':x.loai==='LỆCH SỐ LƯỢNG'?`<button class="btn sm" data-act5="sf-fix" data-i="${i}">Sửa theo NCC</button>`:x.loai==='NCC TÍNH – MÌNH KHÔNG CÓ'?`<button class="btn sm" data-act5="sf-add" data-i="${i}">Thêm vào phiếu nhận</button>`:x.loai==='MÌNH CÓ – NCC KHÔNG TÍNH'?`<button class="btn sm danger-text" data-act5="sf-zero" data-i="${i}">Bỏ dòng của Bếp</button>`:'<span class="meta">Trao đổi với NCC</span>';
         return `<tr><td class="loai"><span class="pill ${x.loai.startsWith('LỆCH ĐƠN')||x.loai.startsWith('LỆCH NGÀY')?'run':'bad'}">${x.loai}</span><small>${dm(m.d)}</small></td><td class="nm"><b>${esc((a&&a.ten)||(b&&b.ten)||'')}</b><small class="num">${m.ma}</small></td>
           <td class="r side a"><span class="lbl">Bếp </span>${side(a,b)}</td><td class="r side b"><span class="lbl">NCC </span>${side(b,a)}</td><td class="acts"><div class="acts-in">${act}</div></td></tr>`;}).join('')}</tbody></table></div>`:''}
-    ${canWrite&&!lock?`<div class="toolbar">${D.length?`${nFix>1?`<button class="btn" data-act5="sf-fixall">Sửa tất cả ${nFix} dòng lệch số lượng theo NCC</button>`:''}<span class="sp"></span><button class="btn" data-act5="sf-mark-lech">Ghi nhận lệch</button><button class="btn danger-text" data-act5="sf-force">${ED.sfForce?'Bấm lần nữa để chốt dù lệch':'Cho phép chốt dù lệch'}</button>`:'<span class="sp"></span><button class="btn primary" data-act5="sf-khop">Chốt KHỚP theo file NCC</button>'}</div>`:''}`; ED.sfD=D; } }
+    ${canWrite&&!lock?`<div class="toolbar">${D.length?`${nFix>1?`<button class="btn" data-act5="sf-fixall">Sửa tất cả ${nFix} dòng lệch số lượng theo NCC</button>`:''}<span class="sp"></span><button class="btn" data-act5="sf-mark-lech">Ghi nhận lệch</button><button class="btn danger-text" data-act5="sf-force">${ED.sfForce?'Bấm lần nữa để chốt dù lệch':'Cho phép chốt dù lệch'}</button>`:`${todayVN()<ky.to?`<span class="meta bad-t">Kỳ chưa kết thúc (hết ${dm(ky.to)}): chốt sớm thì MIGO vẫn phải chờ tới ngày đó.</span>`:''}<span class="sp"></span><button class="btn primary" data-act5="sf-khop">Chốt KHỚP theo file NCC</button>`}</div>`:''}`; ED.sfD=D; } }
   return head2('5.2 So file chốt của NCC','Tải file Excel NCC gửi (sổ chi tiết / bảng kê), trang tự nhận cột Ngày, Mã hàng, Tên, Số lượng, Đơn giá, Thành tiền trong 20 dòng đầu và so từng dòng theo (ngày, mã hàng): lệch số lượng, lệch đơn giá, khác mã hàng, lệch ngày (≤ 3 ngày), Bếp có – NCC không tính, NCC tính – Bếp không có. Sửa đến khi khớp thì chốt.')+
   dsPicker(N,K,ky,cn)+kp+(lock?'<div class="warn ok">Kỳ này đã chốt khớp.</div>':'')+
   `<div class="toolbar"><label class="btn${R?'':' primary'}" for="sf-file">Chọn file NCC (.xlsx, .xls, .csv)</label><input type="file" id="sf-file" accept=".xlsx,.xls,.csv" hidden>
@@ -252,26 +252,59 @@ function mgCandidates(){
     const lines=[],short=[]; byMa.forEach((q,ma)=>{const a=allocItems(po,ma,q,used); a.alloc.forEach(x=>lines.push({item:x.item,ma,sl:x.sl})); if(a.over>0) short.push({ma,over:a.over});});
     out.push({po,ky,lines:lines.sort((a,b)=>a.item-b.item),short,tong:Math.round(rows.reduce((a,r)=>a+r.sl*r.g,0))}); }));
   return out; }
+const mgReady=m=>todayVN()>=m.ngay;
+const mgWait=()=>migoAll().filter(m=>m.thang===S.thang&&(m.tt==='cho'||m.tt==='xuat'));
+const mgElig=m=>mgReady(m)&&!lenhBusy(m.lenh);
+function mgSelIds(){ const bo=ED.mgBo||new Set(); return mgWait().filter(m=>mgElig(m)&&!bo.has(m.id)).map(m=>m.id); }
 function vMG(){
-  const C=mgCandidates(), W=migoAll().filter(m=>m.thang===S.thang&&(m.tt==='cho'||m.tt==='xuat'));
-  if(!ED.mgsel) ED.mgsel=new Set(W.map(m=>m.id)); const sel=W.filter(m=>ED.mgsel.has(m.id));
-  const rows=sel.flatMap(m=>m.lines.map(l=>[m.ma,m.soPO,m.ngay.split('-').reverse().join('.'),l.item,l.ma,l.sl,`Mua hàng phục vụ Bếp tháng ${+m.thang.slice(5)}`]));
-  return head2('7.1 Lập & xuất MIGO cuối kỳ','Mỗi PO mỗi kỳ đã chốt khớp = 1 chứng từ MIGO, số lượng = số nhận đã khớp, ngày hạch toán = ngày cuối kỳ. Nếu PO chưa đủ số lượng thì chỉnh PO ở bước 6 trước (SAP không cho MIGO vượt PO). Bấm <b>Nhập kho trên SAP</b>: trạm SAP chạy MIGO cho từng chứng từ đã chọn, số chứng từ tự ghi về. PO phải đã cập nhật SAP (không còn sửa chờ ME22N).')+tramBox('MIGO')+
-  `${C.length?`<h3 class="eyebrow" style="margin:0">Kỳ đã khớp chưa lập MIGO</h3><div class="tbl-wrap" style="max-height:300px"><table class="t"><thead><tr><th>NCC</th><th>PO</th><th>Kỳ</th><th class="r">Dòng MIGO</th><th class="r">Tiền</th><th>Kiểm tra PO</th></tr></thead><tbody>
-   ${C.map(c=>`<tr><td>${esc(c.po.ncc)}</td><td class="num">${esc(c.po.soPO)}</td><td>${kyName(c.ky)}</td><td class="r num">${c.lines.length}</td><td class="r num">${VND(c.tong)}</td><td>${c.short.length?`<span class="pill bad">PO thiếu ${c.short.length} mã – chỉnh ở bước 6</span>`:c.po.sua?'<span class="pill run">PO đã sửa – cập nhật SAP ở 3.4 trước</span>':'<span class="pill ok">PO đủ</span>'}</td></tr>`).join('')}</tbody></table></div>
-   ${canWrite?`<div class="toolbar"><button class="btn primary" data-act7="mg-make" ${C.some(c=>!c.short.length)?'':'disabled'}>Lập ${C.filter(c=>!c.short.length).length} chứng từ MIGO (PO đủ)</button></div>`:''}`:'<div class="meta">Không có kỳ đã khớp nào chờ lập MIGO.</div>'}
-  ${W.length?`<h3 class="eyebrow" style="margin:6px 0 0">Chứng từ chờ chạy macro</h3><div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th></th><th>Ma_phieu</th><th>NCC</th><th>PO</th><th>Ngày hạch toán</th><th class="r">Dòng</th><th class="r">Tiền</th><th>Trạng thái</th></tr></thead><tbody>
-   ${W.map(m=>`<tr><td><input type="checkbox" data-mgsel="${m.id}" ${ED.mgsel.has(m.id)?'checked':''} aria-label="Chọn"></td><td class="num">${esc(m.ma)}</td><td>${esc(m.ncc)}</td><td class="num">${esc(m.soPO)}</td><td>${m.ngay.split('-').reverse().join('/')}</td><td class="r num">${m.lines.length}</td><td class="r num">${VND(m.tong)}</td><td><span class="pill ${TTMG[m.tt][1]}">${TTMG[m.tt][0]}</span>${lenhPill(m.lenh)}${m.ghichu?`<div class="meta">${esc(m.ghichu)}</div>`:''}</td></tr>`).join('')}</tbody></table></div>
-   ${canWrite?`<div class="toolbar"><button class="btn primary" data-tram="migo" ${sel.filter(m=>!lenhBusy(m.lenh)).length?'':'disabled'}>Nhập kho trên SAP (${sel.filter(m=>!lenhBusy(m.lenh)).length} chứng từ đã chọn)</button></div>`:''}
-   <div class="toolbar"><button class="btn" data-act7="mg-xlsx" ${rows.length?'':'disabled'}>Tải file cho sheet MIGO_TP</button><button class="btn" data-act7="mg-copy" ${rows.length?'':'disabled'}>Copy để dán</button><span class="meta">${rows.length} dòng</span></div>
-   ${canWrite?`<div class="box"><label class="meta" for="mg-txt">Dán kết quả từ sheet MIGO_TP: <b>Ma_phieu</b> ⇥ <b>So_chung_tu_MIGO</b>.</label><textarea class="paste" id="mg-txt" style="min-height:60px"></textarea><div class="toolbar"><button class="btn sm primary" data-act7="mg-ok">Ghi số MIGO</button></div></div>`:''}`:''}`;
+  const C=mgCandidates(), W=mgWait(), bo=ED.mgBo||(ED.mgBo=new Set()), td=todayVN();
+  const all=migoAll().filter(m=>m.thang===S.thang), done=all.filter(m=>m.tt==='migo');
+  const elig=W.filter(mgElig), sel=elig.filter(m=>!bo.has(m.id)), Cok=C.filter(c=>!c.short.length), Cbad=C.filter(c=>c.short.length);
+  const rows=sel.flatMap(m=>m.lines.map(l=>[m.ma,m.soPO,m.ngay.split('-').reverse().join('.'),l.item,l.ma,l.sl]));
+  const lt=sapLuuThat('MIGO'), on=tramOnline();
+  const s1=C.length?`<div class="tbl-wrap" style="max-height:none"><table class="t ls-tbl mgc-tbl"><colgroup><col class="c-exp"><col><col class="c-tien"><col class="c-tt"><col class="c-acts"></colgroup><thead><tr><th><span class="sr">STT</span></th><th>NCC · PO</th><th class="r">Tiền</th><th>Kiểm tra PO</th><th><span class="sr">Thao tác</span></th></tr></thead><tbody>
+    ${C.map((c,i)=>`<tr><td class="exp meta num">${i+1}</td><td class="dg"><b>${esc(c.po.ncc)}</b><small>PO <span class="num">${esc(c.po.soPO)}</span> · ${kyName(c.ky)}${td<c.ky.to?' · <span class="bad-t">kỳ chưa kết thúc</span>':''}</small></td><td class="r tien"><b class="num">${VND(c.tong)}</b><small>${c.lines.length} dòng MIGO</small></td>
+      <td class="tt">${c.short.length?`<span class="pill bad">PO thiếu ${c.short.length} mã</span>${c.short.map(s=>{const x=IT.get(s.ma)||{ten:s.ma,dvt:''};return `<small><span class="num">${s.ma}</span> ${esc(x.ten)}: thiếu ${Q(s.over)} ${esc(x.dvt)}</small>`;}).join('')}`:c.po.sua?'<span class="pill run">PO đã sửa, chưa cập nhật SAP</span>':'<span class="pill ok">PO đủ</span>'}</td>
+      <td class="acts"><div class="acts-in">${c.short.length?'<button class="btn sm" data-act="go-next" data-step="6" data-tab="cpo">Mở 6.1</button>':c.po.sua?'<button class="btn sm" data-act="go-next" data-step="3" data-tab="pols">Mở 3.4</button>':''}</div></td></tr>`).join('')}</tbody></table></div>
+    ${canWrite&&Cok.length?`<div class="toolbar"><button class="btn primary" data-act7="mg-make">Lập ${Cok.length} chứng từ MIGO · ${VND(Cok.reduce((a,c)=>a+c.tong,0))} đ</button>${Cbad.length?`<span class="meta">${Cbad.length} PO thiếu cần chỉnh ở bước 6 trước</span>`:''}</div>`:''}`
+    :`<p class="meta">${all.length?'Đã lập chứng từ cho mọi kỳ đã chốt khớp.':'Chưa có kỳ nào chốt khớp ở bước 5.'}</p>`;
+  const s2=W.length?`${tramBox('MIGO')}<div class="tbl-wrap" style="max-height:none"><table class="t ls-tbl mgw-tbl"><colgroup><col class="c-exp"><col><col class="c-tien"><col class="c-when"><col class="c-tt"></colgroup><thead><tr><th>${elig.length?`<input type="checkbox" id="mgsel-all" aria-label="Chọn tất cả chứng từ" ${sel.length===elig.length?'checked':''}>`:'<span class="sr">Chọn</span>'}</th><th>Chứng từ</th><th class="r">Tiền</th><th>Ngày hạch toán</th><th>Trạng thái</th></tr></thead><tbody>
+    ${W.map(m=>`<tr><td class="exp">${mgElig(m)?`<input type="checkbox" data-mgsel="${m.id}" ${bo.has(m.id)?'':'checked'} aria-label="Chọn ${esc(m.ma)}">`:''}</td><td class="dg"><b class="num">${esc(m.ma)}</b><small>${esc(m.ncc)} · PO <span class="num">${esc(m.soPO)}</span></small></td><td class="r tien"><b class="num">${VND(m.tong)}</b><small>${m.lines.length} dòng</small></td>
+      <td class="when">${dm(m.ngay)}/${m.ngay.slice(0,4)}${mgReady(m)?'':`<small class="bad-t">Chờ hết kỳ, nhập kho từ ${dm(m.ngay)}</small>`}</td><td class="tt"><span class="pill ${TTMG[m.tt][1]}">${TTMG[m.tt][0]}</span>${lenhPill(m.lenh)}${m.ghichu?`<small class="bad-t">${esc(m.ghichu)}</small>`:''}</td></tr>`).join('')}</tbody></table></div>
+    ${canWrite?`<div class="toolbar"><button class="btn primary" data-tram="migo" ${sel.length?'':'disabled'}>${on?'Nhập kho trên SAP':'Gửi lệnh nhập kho'} · ${sel.length} chứng từ · ${VND(sel.reduce((a,m)=>a+m.tong,0))} đ</button><span class="meta">${lt?'Lưu thật: macro sẽ Post':'Không lưu: chỉ chạy thử, chưa có số chứng từ'}${on?'':' · trạm đang ngoại tuyến, lệnh chạy khi trạm mở'}</span></div>
+    <details class="more"${ED.mgMacro?' open':''} id="mg-macro"><summary>Chạy bằng macro (khi không dùng trạm)</summary>
+     <div class="toolbar"><button class="btn sm" data-act7="mg-xlsx" ${rows.length?'':'disabled'}>Tải file cho sheet MIGO_TP</button><button class="btn sm" data-act7="mg-copy" ${rows.length?'':'disabled'}>Copy để dán</button><span class="meta">${rows.length} dòng của các chứng từ đã chọn</span></div>
+     <label class="meta" for="mg-txt">Dán kết quả từ sheet MIGO_TP: <b>Mã phiếu</b> ⇥ <b>Số chứng từ MIGO</b> (cột A và H).</label><textarea class="paste" id="mg-txt" style="min-height:60px"></textarea><div class="toolbar"><button class="btn sm primary" data-act7="mg-ok">Ghi số MIGO</button></div></details>`:''}`
+    :`<p class="meta">${done.length?'Không còn chứng từ nào chờ nhập kho.':'Lập chứng từ ở bước 1 trước.'}</p>`;
+  const st1=!C.length&&all.length>0, st2=all.length>0&&!W.length, st3=all.length>0&&done.length===all.length;
+  const li=(d,c,n,t,b)=>`<li class="${d?'done':c?'cur':''}"><div class="fh"><span class="fn" aria-hidden="true">${d?'✓':n}</span><b>${t}</b></div>${b}</li>`;
+  return head2('7.1 Lập & nhập kho MIGO cuối kỳ','Mỗi PO mỗi kỳ đã chốt khớp = 1 chứng từ MIGO, số lượng = số nhận đã khớp, ngày hạch toán = ngày cuối kỳ (chỉ nhập kho được khi đã tới ngày đó). Nếu PO chưa đủ số lượng thì chỉnh PO ở bước 6 trước (SAP không cho MIGO vượt PO). PO phải đã cập nhật SAP (không còn sửa chờ ME22N). Trạm SAP chạy MIGO cho từng chứng từ đã chọn và tự ghi số chứng từ về.')+
+  (C.length||all.length?`<div class="kpis"><div class="kv big"><b>Đã MIGO</b><div class="num">${done.length} / ${all.length} chứng từ</div><small>${TR(done.reduce((a,m)=>a+m.tong,0))}</small></div>
+   <div class="kv"><b>Kỳ đã khớp chờ lập</b><div class="num">${TR(C.reduce((a,c)=>a+c.tong,0))}</div><small>${C.length} PO × kỳ</small></div>
+   <div class="kv"><b>Chờ nhập kho</b><div class="num">${W.length} chứng từ</div><small>${W.filter(m=>!mgReady(m)).length} chờ hết kỳ</small></div>
+   <div class="kv"><b>PO thiếu cần chỉnh</b><div class="num">${Cbad.length}</div><small>${Cbad.length?'chỉnh ở 6.1':'không có'}</small></div></div>`:'')+
+  (ED.mgOk?`<div class="okbox" role="status"><span>${esc(ED.mgOk)}</span><button class="x" data-act7="mg-okx" aria-label="Đóng thông báo">×</button></div>`:'')+
+  `<ol class="flow">${li(st1,!st1,1,'Lập chứng từ từ các kỳ đã chốt khớp',s1)}${li(st2,st1&&!st2,2,'Nhập kho trên SAP',s2)}${li(st3,st2&&!st3,3,'Có số chứng từ MIGO',`<div class="toolbar"><span class="meta">${done.length} / ${all.length} chứng từ đã có số</span><button class="btn sm" data-act="go-next" data-tab="mgls">Xem ở 7.2</button></div>`)}</ol>`;
 }
 function vMGls(){
-  const L=migoAll().filter(m=>m.thang===S.thang).sort((a,b)=>b.luc-a.luc);
-  return head2('7.2 Lịch sử MIGO','Các chứng từ MIGO cuối kỳ theo PO. Hủy được khi chưa có số chứng từ.')+
-  (L.length?`<div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th></th><th>Ma_phieu</th><th>NCC</th><th>PO</th><th>Kỳ</th><th>Ngày HT</th><th class="r">Tiền</th><th>Trạng thái</th><th>Số MIGO</th><th></th></tr></thead><tbody>
-   ${L.map(m=>`<tr><td><button class="x" data-act7="mg-open" data-id="${m.id}">${ED.mgOpen===m.id?'▾':'▸'}</button></td><td class="num">${esc(m.ma)}</td><td>${esc(m.ncc)}</td><td class="num">${esc(m.soPO)}</td><td>${m.k===0?'Tháng':'Kỳ '+m.k}</td><td>${m.ngay.split('-').reverse().join('/')}</td><td class="r num">${VND(m.tong)}</td><td><span class="pill ${TTMG[m.tt][1]}">${TTMG[m.tt][0]}</span></td><td class="num">${esc(m.soMIGO||'')}</td><td>${canWrite&&m.tt!=='migo'?`<button class="btn sm warn" data-act7="mg-huy" data-id="${m.id}">Hủy</button>`:''}</td></tr>
-   ${ED.mgOpen===m.id?`<tr><td></td><td colspan="9"><table class="t"><tbody>${m.lines.map(l=>`<tr><td class="num">Dòng ${l.item}</td><td class="num">${l.ma}</td><td>${esc((IT.get(l.ma)||{}).ten||'')}</td><td class="r num">${Q(l.sl)}</td></tr>`).join('')}</tbody></table></td></tr>`:''}`).join('')}</tbody></table></div>`:'<div class="empty"><b>Chưa có chứng từ MIGO</b>Lập ở 7.1.</div>');
+  const A=migoAll().filter(m=>m.thang===S.thang).sort((a,b)=>b.luc-a.luc), f=ED.mglsF||'', nf=ED.mglsN||'';
+  const nccs=[...new Set(A.map(m=>m.ncc))].sort((a,b)=>a.localeCompare(b,'vi')), cnt={}; A.filter(m=>!nf||m.ncc===nf).forEach(m=>cnt[m.tt]=(cnt[m.tt]||0)+1);
+  const L=A.filter(m=>(!nf||m.ncc===nf)&&(!f||m.tt===f)), done=A.filter(m=>m.tt==='migo');
+  const body=L.map(m=>{const open=ED.mgOpen===m.id;
+    return `<tr><td class="exp"><button class="x" data-act7="mg-open" data-id="${m.id}" aria-expanded="${open}" aria-label="${open?'Ẩn':'Xem'} chi tiết ${esc(m.ma)}">${open?'▾':'▸'}</button></td>
+    <td class="dg"><b class="num">${esc(m.ma)}</b><small>${esc(m.ncc)} · PO <span class="num">${esc(m.soPO)}</span></small></td>
+    <td class="r tien"><b class="num">${VND(m.tong)}</b><small>${m.lines.length} dòng</small></td>
+    <td class="tt"><span class="pill ${TTMG[m.tt][1]}">${TTMG[m.tt][0]}</span>${m.soMIGO?`<small class="num">MIGO ${esc(m.soMIGO)}${m.migoLuc?' · '+tstr(m.migoLuc):''}</small>`:''}${m.ghichu?`<small class="bad-t">${esc(m.ghichu)}</small>`:''}</td>
+    <td class="meta when">${m.k===0?'Cả tháng':'Kỳ '+m.k} · hạch toán ${dm(m.ngay)}<br>Lập ${tstr(m.luc)}</td>
+    <td class="acts"><div class="acts-in">${canWrite&&m.tt!=='migo'?`<button class="btn sm danger-text" data-act7="mg-huy" data-id="${m.id}">${ED.mgHuy===m.id?'Bấm lần nữa để hủy':'Hủy'}</button>`:''}</div></td></tr>
+    ${open?`<tr class="detail"><td colspan="6"><div class="tbl-wrap" style="max-height:280px" aria-label="Chi tiết ${esc(m.ma)}"><table class="t"><thead><tr><th>Dòng PO</th><th>Mã</th><th>Tên hàng</th><th class="r">Số lượng</th></tr></thead><tbody>${m.lines.map(l=>{const x=IT.get(l.ma)||{};return `<tr><td class="num">${l.item}</td><td class="num">${l.ma}</td><td class="wrap">${esc(x.ten||'')}</td><td class="r num">${Q(l.sl)} ${esc(x.dvt||'')}</td></tr>`;}).join('')}</tbody></table></div></td></tr>`:''}`;}).join('');
+  return head2('7.2 Lịch sử MIGO','Các chứng từ MIGO cuối kỳ theo PO. Hủy được khi chưa có số chứng từ.','<span class="pill">Theo dõi</span>')+
+  (A.length?`<div class="kpis"><div class="kv big"><b>Đã nhập kho tháng ${mmY(S.thang)}</b><div class="num">${TR(done.reduce((a,m)=>a+m.tong,0))}</div><small>${done.length} / ${A.length} chứng từ có số MIGO</small></div>
+   <div class="kv"><b>Chưa có số</b><div class="num">${A.length-done.length} chứng từ</div><small>${TR(A.filter(m=>m.tt!=='migo').reduce((a,m)=>a+m.tong,0))}</small></div></div>
+  <div class="toolbar"><select id="mgls-ncc" aria-label="Lọc theo NCC"><option value="">Tất cả NCC</option>${nccs.map(n=>`<option ${n===nf?'selected':''}>${esc(n)}</option>`).join('')}</select>
+   <div class="seg wrapseg"><button data-act7="mgls-f" data-f="" aria-pressed="${!f}">Tất cả</button>${Object.keys(TTMG).filter(k=>cnt[k]).map(k=>`<button data-act7="mgls-f" data-f="${k}" aria-pressed="${f===k}">${TTMG[k][0]} ${cnt[k]}</button>`).join('')}</div></div>
+  ${L.length?`<div class="tbl-wrap" style="max-height:none"><table class="t ls-tbl"><colgroup><col class="c-exp"><col><col class="c-tien"><col class="c-tt"><col class="c-when"><col class="c-acts"></colgroup><thead><tr><th><span class="sr">Chi tiết</span></th><th>Chứng từ</th><th class="r">Tiền</th><th>Trạng thái</th><th>Kỳ / ngày</th><th><span class="sr">Thao tác</span></th></tr></thead><tbody>${body}</tbody></table></div>`:'<div class="empty"><b>Không có chứng từ nào khớp bộ lọc</b></div>'}`
+  :'<div class="empty"><b>Chưa có chứng từ MIGO</b>Lập ở 7.1 sau khi chốt khớp NCC ở bước 5.<div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="go-next" data-tab="mg">Mở 7.1</button></div></div>');
 }
 
 async function sfApply(x,a){
@@ -330,11 +363,14 @@ document.addEventListener('click',async e=>{
       else { const pid=S.thang+'-'+slug(ncc)+'-'+Date.now().toString(36); await store.set('po/'+pid,{thang:S.thang,ncc,lifnr:LIFNR[ncc.toUpperCase()]||'',loai:'Bổ sung',src:[...o.src],pr:[...o.pr],lines:o.adds.map(({ncc:_,...l})=>l),tong:Math.round(o.adds.reduce((s,l)=>s+l.sl*l.g,0)),tt:'cho',soPO:'',tongSAP:null,luc:Date.now(),ai:uid,hist:[{ts:Date.now(),tt:'cho',ai:uid,note:'Lập từ PR bổ sung'}]}); } }
     await log('6.2',`Gắn PR bổ sung vào PO: ${[...by.keys()].join(', ')}`); ED.gpoOk=`Đã gắn vào PO của ${[...by.keys()].join(', ')}. Sang 3.4 bấm “Cập nhật trên SAP” để trạm thêm dòng (ME22N).`; render(); }
   else if(a==='mg-make'){ const C=mgCandidates().filter(c=>!c.short.length); let n=0;
-    for(const c of C){ const id=`${S.thang}-${slug(c.po.ncc)}-k${c.ky.k}-${Date.now().toString(36)}${n}`; const ma=`MG${tK(S.thang)}${c.ky.k?'K'+c.ky.k:''}-${slug(c.po.ncc).slice(0,8).toUpperCase()}`;
+    for(const c of C){ const id=`${S.thang}-${slug(c.po.ncc)}-k${c.ky.k}-${Date.now().toString(36)}${n}`; const ma=`MG${tK(S.thang)}${c.ky.k?'K'+c.ky.k:''}-${slug(c.po.ncc).replace(/-/g,'').slice(0,10).toUpperCase()}`;
       await store.set('migo/'+id,{thang:S.thang,k:c.ky.k,ma,ncc:c.po.ncc,poId:c.po.id,soPO:c.po.soPO,ngay:c.ky.to,lines:c.lines,tong:c.tong,tt:'cho',soMIGO:'',luc:Date.now(),ai:uid}); n++; }
-    ED.mgsel=null; await log('7.1',`Lập ${n} chứng từ MIGO cuối kỳ`); }
-  else if(a==='mg-copy'||a==='mg-xlsx'){ const W=migoAll().filter(m=>m.thang===S.thang&&(m.tt==='cho'||m.tt==='xuat')&&ED.mgsel.has(m.id));
+    ED.mgBo=null; ED.mgOk=`Đã lập ${n} chứng từ MIGO. Chọn chứng từ ở bước 2 rồi bấm Nhập kho.`; await log('7.1',`Lập ${n} chứng từ MIGO cuối kỳ`); render(); }
+  else if(a==='mg-okx'){ ED.mgOk=null; render(); }
+  else if(a==='mgls-f'){ ED.mglsF=t.dataset.f; render(); }
+  else if(a==='mg-copy'||a==='mg-xlsx'){ const ids=new Set(mgSelIds()), W=mgWait().filter(m=>ids.has(m.id)); ED.mgMacro=true;
     const rows=W.flatMap(m=>m.lines.map(l=>[m.ma,m.soPO,m.ngay.split('-').reverse().join('.'),l.item,l.ma,l.sl,`Mua hàng phục vụ Bếp tháng ${+m.thang.slice(5)}`]));
+    if(!rows.length){toast('Chưa có chứng từ nào đủ điều kiện (đã tới ngày hạch toán).');return;}
     if(a==='mg-copy'){ try{ await navigator.clipboard.writeText(rows.map(r=>r.map((v,j)=>j===5?String(v).replace('.',','):String(v)).join('\t')).join('\r\n')); toast('Đã copy '+rows.length+' dòng. Dán vào sheet MIGO_TP ô A3.'); }catch(err){ toast('Không copy được.'); return; } }
     else { if(!window.XLSX){toast('Không tạo được file; dùng nút Copy.');return;} const ws=XLSX.utils.aoa_to_sheet([['Ma_phieu','So_PO','Ngay_hach_toan','Dong_PO','Ma_vat_tu','So_luong','Text'],...rows]); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'MIGO_TP');
       try{ await saveOut(`MIGO_TP_${S.thang}_${todayVN()}.xlsx`,new Blob([XLSX.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})); }catch(err){ if(err&&err.code!=='cancelled') toast('Không lưu được file.'); return; } }
@@ -343,7 +379,7 @@ document.addEventListener('click',async e=>{
     for(const line of $('#mg-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const m=map.get(c[0]); if(!m||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} await store.set('migo/'+m.id,{...stripId(m),tt:'migo',soMIGO:c[1],migoLuc:Date.now()}); n++; }
     if(n) await log('7.1',`Ghi ${n} số chứng từ MIGO`); $('#mg-txt').value=bad.join('\n'); toast(`Đã ghi ${n} chứng từ${bad.length?`, ${bad.length} dòng không khớp`:''}.`); }
   else if(a==='mg-open'){ ED.mgOpen=ED.mgOpen===t.dataset.id?null:t.dataset.id; render(); }
-  else if(a==='mg-huy'){ const m=S.migo[t.dataset.id]; if(ED.mgHuy!==m.id){ED.mgHuy=m.id;toast('Bấm Hủy lần nữa để hủy '+m.ma+'.');return;} ED.mgHuy=null; await store.set('migo/'+m.id,{...stripId(m),tt:'huy'}); await log('7.2',`Hủy chứng từ MIGO ${m.ma}`); }
+  else if(a==='mg-huy'){ const m=S.migo[t.dataset.id]; if(ED.mgHuy!==m.id){ED.mgHuy=m.id;toast('Bấm Hủy lần nữa để hủy '+m.ma+'.');render();return;} ED.mgHuy=null; await store.set('migo/'+m.id,{...stripId(m),tt:'huy'}); await log('7.2',`Hủy chứng từ MIGO ${m.ma}`); }
   }catch(err){ toast('Không lưu được: '+(err&&err.message||err)); }
 });
 document.addEventListener('input',e=>{ const t=e.target; if(t.dataset.bk){ ED.bk=ED.bk||{}; ED.bk[t.dataset.bk]=Math.max(0,pnum(t.value)); } });
@@ -352,7 +388,9 @@ document.addEventListener('change',async e=>{ const t=e.target;
   if(t.id==='ds-n'){ ED.dsN=t.value; ED.dsK=null; ED.bk={}; ED.bkEdit=false; ED.sf=null; ED.sfForce=false; render(); }
   else if(t.id==='ds-k'){ ED.dsK=+t.value; ED.bk={}; ED.sf=null; ED.sfForce=false; render(); }
   else if(t.dataset.ck){ const m={...((S.ck&&S.ck.map)||{})}; m[t.dataset.ck]=+t.value; await store.set('cauhinh/chuky',{...(S.ck||{}),map:m,luc:Date.now(),ai:uid}); await log('5.3',`Đổi chu kỳ ${t.dataset.ck}: ${CKN[+t.value]}`); }
-  else if(t.dataset.mgsel){ ED.mgsel=ED.mgsel||new Set(); t.checked?ED.mgsel.add(t.dataset.mgsel):ED.mgsel.delete(t.dataset.mgsel); render(); }
+  else if(t.dataset.mgsel){ ED.mgBo=ED.mgBo||new Set(); t.checked?ED.mgBo.delete(t.dataset.mgsel):ED.mgBo.add(t.dataset.mgsel); render(); }
+  else if(t.id==='mgsel-all'){ ED.mgBo=new Set(t.checked?[]:mgWait().map(m=>m.id)); render(); }
+  else if(t.id==='mgls-ncc'){ ED.mglsN=t.value; ED.mglsF=''; render(); }
   else if(t.id==='sf-file'&&t.files&&t.files[0]){ const {ky}=dsSel(); const f=t.files[0];
     try{ if(!window.XLSX) throw new Error('chưa tải được thư viện Excel'); const wb=XLSX.read(await f.arrayBuffer(),{type:'array',cellDates:false}); let best=null;
       for(const sn of wb.SheetNames){ const aoa=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:true,defval:''}); const r=parseNccTable(aoa,ky); if(!r.err&&(!best||r.rows.length>best.rows.length)) best={...r,ten:f.name+' · '+sn}; }

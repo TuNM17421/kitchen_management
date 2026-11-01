@@ -18,7 +18,7 @@ async function lenhPOSua(id){
 const migoDate=d=>d.split('-').reverse().join('.');
 async function lenhMIGO(ids){
   let n=0;
-  for(const id of ids){ const m=S.migo[id]; if(!m||!(m.tt==='cho'||m.tt==='xuat')||lenhBusy(m.lenh)) continue; const po=S.po[m.poId];
+  for(const id of ids){ const m=S.migo[id]; if(!m||!(m.tt==='cho'||m.tt==='xuat')||lenhBusy(m.lenh)) continue; if(!mgReady(m)){ toast(`${m.ma}: chưa tới ngày hạch toán ${dm(m.ngay)}.`); continue; } const po=S.po[m.poId];
     if(po&&(po.sua||lenhBusy(po.lenh))){ toast(`PO ${m.soPO} (${m.ncc}) còn sửa chưa cập nhật SAP – bấm “Cập nhật trên SAP” ở 3.4 trước.`); continue; }
     const rows=m.lines.map(l=>({c:[m.ma,m.soPO,migoDate(m.ngay),l.item,l.ma,+l.sl,`Mua hàng phục vụ Bếp tháng ${+m.thang.slice(5)}`]}));
     const lid=await guiLenh('MIGO',rows,{migo:id},`${m.ma} – PO ${m.soPO} (${rows.length} dòng)`); if(!lid) continue;

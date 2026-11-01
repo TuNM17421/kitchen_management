@@ -3,6 +3,15 @@
 
 
 
+
+## Bước 7 MIGO cuối kỳ – sửa theo review UI/UX
+
+- An toàn: chứng từ có ngày hạch toán trong tương lai (kỳ chốt khớp sớm) vẫn lập được nhưng ở trạng thái “Chờ hết kỳ”; không chọn, không gửi trạm, không xuất file được cho tới ngày đó. 5.2 cảnh báo khi chốt trước lúc hết kỳ.
+- “PO thiếu” ghi rõ mã, tên và số lượng thiếu, kèm nút Mở 6.1; PO đã sửa chưa cập nhật SAP có nút Mở 3.4; bỏ nút “Lập 0 chứng từ”.
+- 7.1 thành luồng 3 bước: Lập chứng từ → Nhập kho trên SAP → Có số MIGO. Chọn tất cả ở tiêu đề, nút ghi số chứng từ và tổng tiền, chế độ lưu thật/không lưu và trạng thái trạm ngay cạnh nút. Tải file, Copy và dán số chứng từ gom vào “Chạy bằng macro”.
+- KPI 7.1: đã MIGO, kỳ chờ lập, chờ nhập kho, PO thiếu. Lỗi từ trạm hiện đỏ ngay trong dòng.
+- 7.2: bảng 6 cột như 2.3/3.4/4.3, chi tiết có số lượng và ĐVT, lọc theo NCC và trạng thái, Hủy chữ đỏ bấm 2 lần, KPI tiền đã nhập kho.
+- Mã chứng từ gọn (MGT11-NCCMAU02). Điện thoại hiện dạng thẻ. Tab 7.1 có dấu ✓, 7.2 ghi “theo dõi”. Không còn lỗi axe.
 ## Bước 6 Chỉnh PO & PR bổ sung – sửa theo review UI/UX
 
 - An toàn dữ liệu: NCC chưa chốt khớp ở 5.3 (kể cả NCC chưa có phiếu nhận nào) không còn bị đề xuất giảm PO về 0. NCC không giao hàng phải chốt “Không nhận hàng trong kỳ” ở 5.3 (chỉ khi kỳ đã kết thúc) thì mới giảm PO.

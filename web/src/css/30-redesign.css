@@ -512,3 +512,9 @@ ol.flow.mini .fh .btn{margin-left:auto}
 @media (max-width:700px){
   .seg.wrapseg{display:flex;width:100%}.seg.wrapseg>button{flex:1 1 auto}
 }
+
+/* ---- Bước 7: MIGO cuối kỳ ---- */
+table.mgc-tbl col.c-exp,table.mgw-tbl col.c-exp{width:44px}
+table.mgc-tbl col.c-tien{width:150px}table.mgc-tbl col.c-tt{width:300px}table.mgc-tbl col.c-acts{width:120px}
+table.mgw-tbl col.c-tien{width:150px}table.mgw-tbl col.c-when{width:210px}table.mgw-tbl col.c-tt{width:230px}
+ol.flow>li>.box,ol.flow>li>.tbl-wrap{min-width:0}

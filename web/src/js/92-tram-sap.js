@@ -103,7 +103,7 @@ document.addEventListener('click',async e=>{ const t=e.target.closest('[data-tra
       await log('2.2',`Chế độ trạm SAP – ${SAPTEN[lo]}${lo==='PR'||lo==='PO'?' và '+SAPTEN[lo==='PR'?'PO':'PR']:''}: ${lt?'không lưu (chạy thử)':'LƯU THẬT'}`); render(); }
     else if(a==='posua'){ t.disabled=true; await lenhPOSua(t.dataset.id); }
     else if(a==='dntt'){ t.disabled=true; await lenhDNTT([...(ED.dnsel||[])]); }
-    else if(a==='migo'){ t.disabled=true; await lenhMIGO([...(ED.mgsel||[])]); }
+    else if(a==='migo'){ t.disabled=true; await lenhMIGO(mgSelIds()); }
     else if(a==='pr'){ t.disabled=true; await lenhPR(); }
     else if(a==='po'){ t.disabled=true; await lenhPO(t.dataset.id); }
     else if(a==='po-many'){ t.disabled=true; const bo=ED.poBo||new Set(), ids=poOf(S.thang).filter(p=>p.tt==='cho'&&!lenhBusy(p.lenh)&&!bo.has(p.id)).map(p=>p.id); for(const id of ids) await lenhPO(id); ED.poBo=null; render(); }
