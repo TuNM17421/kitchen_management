@@ -1,5 +1,12 @@
 # Nhật ký thay đổi
 
+## Review bước Dự trù – đợt 2 (01/11/2026)
+
+- 1.1: thanh công cụ gọn: chọn nhóm, chọn tuần và menu "Nhập / chép" (chép tuần trước, dán Excel, nạp gói Drive, chép sang nhóm khác); "+ Thêm món" nằm dưới bảng. Khung nạp gói Drive chỉ hiện khi bấm. Tuần mặc định là tuần có ít nhất 4 ngày trong tháng. Trên điện thoại dải nhóm khách cuộn ngang, không gãy chữ.
+- Nút "Lưu …" chỉ hiện khi có thay đổi chưa lưu; nút "Xác nhận …" là nút chính ở cuối mỗi mục, cạnh nút "Tiếp".
+- 1.3: ô tìm món (không phân biệt dấu); giá vốn / suất hiện dưới tên món; "Xóa định mức" thành nút chữ đỏ, hỏi lại trước khi xóa; nút AI ẩn khi không có món thiếu.
+- 1.5: 4 bước con thành danh sách kiểm, mỗi dòng có nút mở thẳng mục đó; khi chưa chốt, cuối trang ghi rõ bước 2 sẽ dùng số hiện tại.
+
 ## Review bước Dự trù – đợt 1 (01/11/2026)
 
 - 1.3: bảng nguyên liệu vừa khung (cột cố định, tên hàng xuống dòng, cột xóa không còn bị cắt); trên điện thoại mỗi nguyên liệu thành thẻ. Danh sách món là nút bấm được bằng bàn phím.

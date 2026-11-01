@@ -253,3 +253,47 @@ table.dm-tbl .x:hover{background:color-mix(in srgb,var(--bad) 12%,transparent);c
   table.dm-tbl td[colspan]{grid-column:1/-1}
 }
 table.dm-tbl td:first-child input{padding-inline:6px;font-variant-numeric:tabular-nums}
+
+/* ===== review Dự trù – đợt 2 ===== */
+/* 1.1: menu "Nhập / chép" */
+details.menu{position:relative}
+details.menu>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+details.menu>summary::-webkit-details-marker{display:none}
+details.menu>summary::after{content:"▾";font-size:11px;color:var(--muted)}
+details.menu .menu-pop{position:absolute;right:0;top:calc(100% + 6px);z-index:20;display:grid;gap:var(--s2);padding:var(--s3);min-width:260px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r2);box-shadow:var(--shadow)}
+details.menu .menu-pop>.btn{justify-content:flex-start;width:100%}
+details.menu .menu-row{display:flex;gap:var(--s2);border-top:1px solid var(--line);padding-top:var(--s2)}
+details.menu .menu-row select{flex:1;min-width:0}
+@media (max-width:700px){
+  details.menu .menu-pop{right:auto;left:0;min-width:min(300px,calc(100vw - 48px))}
+  .seg.seg-nhom{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
+  .seg.seg-nhom::-webkit-scrollbar{display:none}
+  .seg.seg-nhom button{white-space:nowrap;flex:none}
+}
+/* nút Lưu chỉ hiện khi có thay đổi */
+[data-act="td-save"]:disabled,[data-act="kh-save"]:disabled,[data-act="ln-save"]:disabled{display:none}
+/* 1.3: tìm món, giá vốn dưới tên món, nút xóa dạng chữ đỏ */
+.dcol{display:grid;gap:var(--s2);align-content:start;min-width:0}
+.dfind{width:100%}
+.dm-cost{margin:2px 0 0;font-size:13px;color:var(--muted)}.dm-cost b{font-size:15px;color:var(--ink)}
+.btn.danger-text{background:transparent;border-color:transparent;color:var(--bad);margin-right:var(--s4)}
+.btn.danger-text:hover{background:color-mix(in srgb,var(--bad) 10%,transparent)}
+/* 1.5: danh sách kiểm */
+ol.chk{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:var(--r2);background:var(--chip)}
+ol.chk li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:var(--s3);align-items:center;padding:var(--s3) var(--s4);border-top:1px solid var(--line)}
+ol.chk li:first-child{border-top:0}
+ol.chk .ci{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:700}
+ol.chk li.ok .ci{background:var(--sage);border-color:var(--sage);color:#22301F}
+ol.chk b{display:block;font-size:14px}ol.chk small{color:var(--muted);font-size:12.5px}
+/* thanh cuối mục: Xác nhận (chính) + Tiếp */
+.nextbar{gap:var(--s3);align-items:center;flex-wrap:wrap}
+.nextbar .nb-note{margin-right:auto}
+.nextbar [data-act="tt"]{margin-right:auto}
+.nextbar .nb-note+[data-act="tt"]{margin-right:0}
+@media (max-width:700px){.nextbar [data-act="tt"]{width:100%;justify-content:center;margin-right:0}}
+.nextbar .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.nextbar .btn.primary::after{content:none}
+.dm-cost+p{margin-bottom:var(--s3)}
+details.menu .menu-pop>.btn{border-color:transparent;background:transparent;font-weight:500}
+details.menu .menu-pop>.btn:hover{background:var(--sunk)}
+@media (max-width:700px){.hide-m{display:none}}

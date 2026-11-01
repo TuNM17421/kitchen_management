@@ -1,4 +1,6 @@
 /* ---------- giao diện gọn: mục "Cách làm" thu gọn, nhật ký thu gọn trên màn hình nhỏ ---------- */
+document.addEventListener('click',e=>{ document.querySelectorAll('details.menu[open]').forEach(d=>{ if(!d.contains(e.target)) d.open=false; }); });
+document.addEventListener('input',e=>{ if(e.target.id==='dm-find'){ ED.dmFind=e.target.value; const q=fold(e.target.value); document.querySelectorAll('.dlist .ditem').forEach(b=>{b.hidden=!!q&&!fold(b.textContent).includes(q);}); } });
 let HELP_OPEN=false, OPTS_OPEN=false, LAST_VIEW='', LAST_VIEW_SEEN=false;
 document.addEventListener('toggle',e=>{ const d=e.target; if(d.matches&&d.matches('details.help')) HELP_OPEN=d.open; if(d.matches&&d.matches('details.opts')) OPTS_OPEN=d.open; },true);
 document.addEventListener('click',e=>{ const t=e.target.closest('[data-act]'); if(!t) return; const a=t.dataset.act;
@@ -62,7 +64,9 @@ function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();rend
     const kb=vw.querySelector(':scope > #khoBox'); if(kb) vw.appendChild(kb); // tồn kho (ít dùng) xuống cuối
     const subs=curSub(), ix=subs.findIndex(x=>x[2]===S.tab), nx=subs[ix+1], ns=STEPS[S.step]; // nút đi tiếp
     if(nx||(S.step<8&&ns)){ const b=document.createElement('div'); b.className='nextbar';
-      b.innerHTML=nx?`<button class="btn" data-act="go-next" data-tab="${nx[2]}">Tiếp: ${nx[0]} ${esc(nx[1])}</button>`:`<button class="btn" data-act="go-next" data-step="${S.step+1}">Sang bước ${S.step+1}: ${esc(ns[0])}</button>`; vw.appendChild(b); } }
+      b.innerHTML=nx?`<button class="btn" data-act="go-next" data-tab="${nx[2]}">Tiếp: ${nx[0]} ${esc(nx[1])}</button>`:`<button class="btn" data-act="go-next" data-step="${S.step+1}">Sang bước ${S.step+1}: ${esc(ns[0])}</button>`; vw.appendChild(b);
+      const tt=vw.querySelector('.toolbar [data-act="tt"]'); if(tt){ const tb=tt.closest('.toolbar'); tt.classList.add('primary'); b.prepend(tt); if(tb&&![...tb.children].some(c=>!c.classList.contains('sp'))) tb.remove(); }
+      if(!nx&&S.step===1&&typeof locked==='function'&&!locked()){ const m=document.createElement('span'); m.className='meta nb-note'; m.textContent='Chưa chốt dự trù: bước 2 sẽ dùng số hiện tại.'; b.prepend(m); } } }
   $('#view').querySelectorAll('table.t').forEach(t=>{ if(!t.closest('.tbl-wrap')){ const w=document.createElement('div'); w.className='tbl-wrap'; t.before(w); w.appendChild(t); } });
   const vk=S.step+'|'+S.tab; if(vk!==LAST_VIEW){ LAST_VIEW=vk; {const tt=document.getElementById('toast'); if(tt&&LAST_VIEW_SEEN) tt.hidden=true;} LAST_VIEW_SEEN=true; requestAnimationFrame(()=>{ for(const el of [document.querySelector('.node.cur'),document.querySelector('.tab[aria-selected="true"]')]){ const sc=el&&el.closest('.track,.tabs'); if(sc&&sc.scrollWidth>sc.clientWidth+4) sc.scrollTo({left:el.offsetLeft-(sc.clientWidth-el.offsetWidth)/2,behavior:'smooth'}); } }); }
   if(id){const el=document.getElementById(id); if(el){el.focus(); try{if(pos!=null)el.setSelectionRange(pos,pos);}catch(e){}}}

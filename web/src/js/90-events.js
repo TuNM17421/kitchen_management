@@ -29,7 +29,7 @@ document.addEventListener('click',async e=>{
     if(!nl.length){toast('Cần ít nhất 1 nguyên liệu có mã đúng và định lượng > 0.');return;}
     await store.set('dinhmuc/'+k,{mon,nl,nguon:'Bếp',ghichu:rec&&rec.ghichu||'',luc:Date.now(),ai:uid}); ED.dmDirty=false;
     await log('1.3',`${rec&&rec.nguon==='AI'?'Duyệt':'Lưu'} định mức “${mon}”: ${nl.length} nguyên liệu`); toast('Đã lưu định mức.'); }
-  else if(a==='dm-clear'){ const rec=S.dm[ED.dmMon]; await store.del('dinhmuc/'+ED.dmMon); ED.dmRows=null;ED.dmDirty=false; await log('1.3',`Xóa định mức “${rec&&rec.mon}”`); }
+  else if(a==='dm-clear'){ const rec=S.dm[ED.dmMon]; if(!confirm(`Xóa toàn bộ định mức của “${rec&&rec.mon}”? Món này sẽ tính theo lịch sử cho tới khi nhập lại.`)) return; await store.del('dinhmuc/'+ED.dmMon); ED.dmRows=null;ED.dmDirty=false; await log('1.3',`Xóa định mức “${rec&&rec.mon}”`); }
   else if(a==='dm-paste'){ ED.dmPaste=!ED.dmPaste; render(); }
   else if(a==='dm-paste-ok'){ const by=new Map(), bad=[];
     for(const line of $('#dm-paste-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const x=IT.get((c[1]||'').toUpperCase()); const v=pnum(c[2]);

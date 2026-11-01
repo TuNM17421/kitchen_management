@@ -2,7 +2,7 @@
 function tdKey(){return ED.nhom+'_'+ED.week;}
 function tdRows(){ if(ED.tdKey!==tdKey()||!ED.td){ED.tdKey=tdKey();const d=S.td[ED.tdKey];ED.td=d?(d.items||[]).map(x=>({...x,monGoc:x.mon})):[];ED.tdDirty=false;} return ED.td; }
 function vTD(){
-  const ws=weeksOf(S.thang); if(!ED.week||!ws.includes(ED.week)) ED.week=ws.find(w=>!S.td[ED.nhom+'_'+w])||ws[0];
+  const ws=weeksOf(S.thang); if(!ED.week||!ws.includes(ED.week)){ const inM=w=>Array.from({length:7},(_,i)=>addD(w,i)).filter(d=>d.slice(0,7)===S.thang).length; ED.week=ws.find(w=>!S.td[ED.nhom+'_'+w]&&inM(w)>=4)||ws.find(w=>inM(w)>=4)||ws[0]; }
   const rows=tdRows(), doc=S.td[tdKey()], days=Array.from({length:7},(_,i)=>addD(ED.week,i)), N=NHOM[ED.nhom];
   const known=[...new Set(Object.values(S.td).flatMap(d=>(d.items||[]).map(x=>x.mon)))].sort((a,b)=>a.localeCompare(b,'vi'));
   const ord=r=>r.d+N.bua.indexOf(r.b);
@@ -21,20 +21,20 @@ function vTD(){
   const wsOpts=ws.map(w=>{const d=S.td[ED.nhom+'_'+w];return `<option value="${w}" ${w===ED.week?'selected':''}>Tuần ${dm(w)}–${dm(addD(w,6))} ${d?'· '+(d.items||[]).length+' món':'· trống'}</option>`;}).join('');
   const cover=ws.filter(w=>S.td[ED.nhom+'_'+w]).length;
   return head('1.1 Thực đơn tuần','Nhập thực đơn từng tuần cho từng nhóm khách. Mỗi món ở đây sẽ được nhân với số suất của bữa đó (bước 1.2) và định mức nguyên liệu (bước 1.3). Thực đơn “Nội trú chung” dùng cho các nhóm nội trú chưa có thực đơn riêng ở bữa đó. Món có loại “Chọn 1” (bữa sáng chọn 1 trong các món) được chia đều số suất. Bữa nào chưa có thực đơn sẽ tính theo mức tiêu thụ tháng 9.','td')+
-  `<div class="toolbar"><div class="seg">${Object.entries(NHOM).map(([k,v])=>`<button data-act="td-nhom" data-k="${k}" aria-pressed="${ED.nhom===k}">${v.ten}</button>`).join('')}</div>
+  `<div class="toolbar"><div class="seg seg-nhom">${Object.entries(NHOM).map(([k,v])=>`<button data-act="td-nhom" data-k="${k}" aria-pressed="${ED.nhom===k}">${v.ten}</button>`).join('')}</div>
    <select id="td-week" aria-label="Chọn tuần">${wsOpts}</select><span class="sp"></span>
-   ${W()?`<button class="btn sm" data-act="td-add">+ Thêm món</button><button class="btn sm" data-act="td-copy">Chép tuần trước</button><button class="btn sm" data-act="td-paste">Dán từ Excel</button><button class="btn sm primary" data-act="pack-open" type="button">Nạp gói dữ liệu</button><select id="td-to" aria-label="Chép sang nhóm">${Object.entries(NHOM).filter(([k])=>k!==ED.nhom).map(([k,v])=>`<option value="${k}">${v.ten}</option>`).join('')}</select><button class="btn sm" data-act="td-to" ${rows.length?'':'disabled'}>Chép tuần này sang</button>
+   ${W()?`<details class="menu"><summary class="btn sm">Nhập / chép</summary><div class="menu-pop"><button class="btn sm" data-act="td-copy">Chép tuần trước</button><button class="btn sm" data-act="td-paste">Dán từ Excel</button><button class="btn sm" data-act="pack-open" type="button">Nạp gói dữ liệu từ Drive</button><div class="menu-row"><select id="td-to" aria-label="Chép sang nhóm">${Object.entries(NHOM).filter(([k])=>k!==ED.nhom).map(([k,v])=>`<option value="${k}">${v.ten}</option>`).join('')}</select><button class="btn sm" data-act="td-to" ${rows.length?'':'disabled'}>Chép tuần này sang</button></div></div></details>
    <button class="btn primary" data-act="td-save" ${ED.tdDirty?'':'disabled'}>Lưu tuần</button>`:''}</div>
    <div class="meta">${doc?`Đã lưu ${tstr(doc.luc)} · ${esc(nm(doc.ai))}${doc.nguon?' · '+esc(doc.nguon):''}`:'Tuần này chưa có thực đơn.'} ${ED.tdDirty?'<span class="dirty">· Có thay đổi chưa lưu</span>':''} · ${N.ten}: ${cover}/${ws.length} tuần đã có thực đơn</div>
    ${ED.paste?`<div class="box"><label class="meta" for="td-paste-txt">Dán các dòng copy từ Excel, mỗi dòng: <b>Ngày hoặc Thứ</b> ⇥ <b>Bữa</b> ⇥ <b>Loại</b> ⇥ <b>Món</b>. Ví dụ: <span class="num">T2 ⇥ Trưa ⇥ Món mặn ⇥ Thịt kho trứng</span> hoặc <span class="num">03/11 ⇥ Tối ⇥ Món rau ⇥ Cải luộc</span></label>
      <textarea class="paste" id="td-paste-txt"></textarea><div class="toolbar"><button class="btn sm primary" data-act="td-paste-ok">Thêm vào tuần</button><button class="btn sm" data-act="td-paste">Đóng</button></div></div>`:''}
-   ${W()?`<details class="box" ${ED.packOpen?'open':''}><summary class="meta"><b>Nạp gói dữ liệu từ Drive</b> – thực đơn + định lượng + lượng khách soạn sẵn (vd thực đơn tuần 1 từ Excel)</summary>
+   ${W()&&ED.packOpen?`<details class="box" open><summary class="meta"><b>Nạp gói dữ liệu từ Drive</b> – thực đơn + định lượng + lượng khách soạn sẵn (vd thực đơn tuần 1 từ Excel)</summary>
      <div class="toolbar"><input type="text" id="pack-id" value="${esc(ED.packId||PACK_TUAN1||'')}" placeholder="ID hoặc link file .json trên Drive" style="flex:1;min-width:220px"><button class="btn sm primary" data-act="pack-load" ${ED.packing?'disabled':''}>${ED.packing?esc(ED.packing):'Nạp gói'}</button></div>
      <div class="meta">Gói mặc định: thực đơn tháng 11 chạy thử – thực đơn tuần 1 Excel (ở cữ, nội trú thường + nội trú chung, nhân viên) từ 02/11 lặp lại mọi tuần đến 30/11 (01/11 lấy thực đơn Chủ nhật), định mức tham chiếu, lượng khách cả tháng (CBNV 260/160/100, nội trú 40, ở cữ 15), 6 mặt hàng ngoài bảng giá. Ghi đè thực đơn tháng 11 hiện có.</div></details>`:''}
    ${rows.length?`<div class="tbl-wrap"><table class="t td-tbl"><colgroup><col class="c-d"><col class="c-b"><col class="c-l"><col><col class="c-tl"><col class="c-dm"><col class="c-x"></colgroup><thead><tr><th>Ngày</th><th>Bữa</th><th>Loại món</th><th>Tên món</th><th class="r">% suất</th><th>Định mức</th><th><span class="sr">Xóa</span></th></tr></thead><tbody>${body}</tbody></table></div>`:
    `<div class="empty"><b>Tuần ${dm(ED.week)}–${dm(addD(ED.week,6))} chưa có thực đơn ${N.ten.toLowerCase()}</b>Bấm “Chép tuần trước”, “Dán từ Excel” hoặc “+ Thêm món”.</div>`}
    <datalist id="dl-mon">${known.map(m=>`<option value="${esc(m)}">`).join('')}</datalist>
-   ${W()?`<div class="toolbar"><span class="sp"></span><button class="btn" data-act="tt" data-k="td">${S.tt.td&&S.tt.td.ok?'Xác nhận lại':'Xác nhận đủ thực đơn tháng'}</button></div>`:''}`;
+   ${W()?`<div class="toolbar"><button class="btn sm" data-act="td-add">+ Thêm món</button><span class="sp"></span><button class="btn" data-act="tt" data-k="td">${S.tt.td&&S.tt.td.ok?'Xác nhận lại':'Xác nhận đủ thực đơn tháng'}</button></div>`:''}`;
 }
 function parsePaste(txt){
   const days=Array.from({length:7},(_,i)=>addD(ED.week,i)), N=NHOM[ED.nhom], out=[], bad=[];
@@ -71,17 +71,18 @@ function vKhach(){
 }
 
 /* ---------- 1.3 ĐỊNH MỨC MÓN ---------- */
+function fold(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/gi,'d').toLowerCase().trim();}
 function vDM(){
   const ds=dishesOfMonth(); if(!ED.dmMon&&ds.length) ED.dmMon=ds[0].k;
   const miss=ds.filter(d=>!S.dm[d.k]);
-  const list=ds.length?ds.map(d=>{const r=S.dm[d.k];return `<button type="button" class="ditem" data-act="dm-pick" data-k="${d.k}" aria-current="${ED.dmMon===d.k}"><span>${esc(d.mon)}</span>${r?`<span class="pill ${r.nguon==='AI'?'run':'ok'}">${r.nguon==='AI'?'AI':'đã duyệt'}</span>`:'<span class="pill bad">thiếu</span>'}</button>`;}).join(''):'<div class="empty"><b>Chưa có món nào</b>Nhập thực đơn ở bước 1.1 trước.</div>';
+  const list=ds.length?ds.map(d=>{const r=S.dm[d.k];return `<button type="button" class="ditem" ${ED.dmFind&&!fold(d.mon).includes(fold(ED.dmFind))?'hidden':''} data-act="dm-pick" data-k="${d.k}" aria-current="${ED.dmMon===d.k}"><span>${esc(d.mon)}</span>${r?`<span class="pill ${r.nguon==='AI'?'run':'ok'}">${r.nguon==='AI'?'AI':'đã duyệt'}</span>`:'<span class="pill bad">thiếu</span>'}</button>`;}).join(''):'<div class="empty"><b>Chưa có món nào</b>Nhập thực đơn ở bước 1.1 trước.</div>';
   return head('1.3 Định mức nguyên liệu theo món','Mỗi món cần biết dùng mã hàng nào, bao nhiêu cho 1 suất. Bấm “AI đề xuất” để Claude soạn định mức từ danh mục hàng có giá khung, sau đó bếp xem và sửa. Món đã duyệt được dùng lại cho mọi tuần sau.','dm')+
-  `<div class="toolbar">${W()?`<button class="btn primary" data-act="dm-ai" ${miss.length&&!ED.ai?'':'disabled'}>${ED.ai?esc(ED.ai):`AI đề xuất định mức cho ${miss.length} món thiếu`}</button>`:''}
+  `<div class="toolbar">${W()&&(miss.length||ED.ai)?`<button class="btn primary" data-act="dm-ai" ${miss.length&&!ED.ai?'':'disabled'}>${ED.ai?esc(ED.ai):`AI đề xuất định mức cho ${miss.length} món thiếu`}</button>`:''}
     <span class="meta">${ds.length} món trong tháng · ${ds.length-miss.length} có định mức · ${ds.filter(d=>S.dm[d.k]&&S.dm[d.k].nguon==='AI').length} do AI soạn chưa duyệt</span><span class="sp"></span>
     ${W()?`<button class="btn sm" data-act="dm-paste">Dán định mức từ Excel</button><button class="btn" data-act="tt" data-k="dm">${S.tt.dm&&S.tt.dm.ok?'Xác nhận lại':'Xác nhận định mức'}</button>`:''}</div>
   ${ED.dmPaste?`<div class="box"><label class="meta" for="dm-paste-txt">Mỗi dòng: <b>Tên món</b> ⇥ <b>Mã hàng</b> ⇥ <b>Định lượng/suất</b> (gram với hàng tính KG, số đơn vị với hàng khác). Món đã có định mức sẽ được thay bằng các dòng dán vào.</label>
     <textarea class="paste" id="dm-paste-txt"></textarea><div class="toolbar"><button class="btn sm primary" data-act="dm-paste-ok">Nạp định mức</button><button class="btn sm" data-act="dm-paste">Đóng</button></div></div>`:''}
-  <div class="two"><div class="dlist" role="group" aria-label="Danh sách món (${ds.length})">${list}</div><div>${ED.dmMon?dmEditor():''}</div></div>`;
+  <div class="two"><div class="dcol">${ds.length>8?`<input type="search" id="dm-find" class="dfind" placeholder="Tìm trong ${ds.length} món" aria-label="Tìm món" value="${esc(ED.dmFind||'')}">`:''}<div class="dlist" role="group" aria-label="Danh sách món (${ds.length})">${list}</div></div><div>${ED.dmMon?dmEditor():''}</div></div>`;
 }
 function dmEditor(){
   const k=ED.dmMon, rec=S.dm[k], mon=(dishesOfMonth().find(d=>d.k===k)||{}).mon||(rec&&rec.mon)||'';
@@ -92,10 +93,10 @@ function dmEditor(){
     <td class="wrap nm">${x?esc(x.ten):'<span class="pill bad">mã không có trong bảng giá</span>'}</td><td class="dvt">${x?esc(x.dvt):''}</td>
     <td class="r q"><input class="q" type="text" inputmode="decimal" aria-label="Định lượng / suất${x?' · '+esc(x.ten):''}" id="dm-q-${i}" data-dm="${i}" data-f="q" value="${kg?QI((r.q||0)*1000):QI(r.q)}" ${W()?'':'disabled'}> <span class="muted u">${kg?'g':esc(x?x.dvt.toLowerCase():'')}</span></td>
     <td class="r num tien">${VND(g*(r.q||0))}</td><td class="del">${W()?`<button class="x" data-act="dm-del" data-i="${i}" aria-label="Xóa nguyên liệu">×</button>`:''}</td></tr>`;}).join('');
-  return `<div class="sh"><div><h2 style="font-size:17px">${esc(mon)}</h2><p>${rec?`${rec.nguon==='AI'?'AI soạn':'Bếp duyệt'} · ${tstr(rec.luc)}${rec.ghichu?' · '+esc(rec.ghichu):''}`:'Chưa có định mức.'} ${ED.dmDirty?'<span class="dirty">· Có thay đổi chưa lưu</span>':''}</p></div>
-    <div class="kv"><b>Giá vốn nguyên liệu / suất</b><div class="num">${VND(cost)} đ</div></div></div>
+  return `<div class="sh"><div><h2 style="font-size:17px">${esc(mon)}</h2><p class="dm-cost"><b class="num">${VND(cost)} đ</b> nguyên liệu / suất</p><p>${rec?`${rec.nguon==='AI'?'AI soạn':'Bếp duyệt'} · ${tstr(rec.luc)}${rec.ghichu?' · '+esc(rec.ghichu):''}`:'Chưa có định mức.'} ${ED.dmDirty?'<span class="dirty">· Có thay đổi chưa lưu</span>':''}</p></div>
+    </div>
     <div class="tbl-wrap"><table class="t dm-tbl"><colgroup><col class="c-ma"><col><col class="c-dvt"><col class="c-q"><col class="c-tien"><col class="c-x"></colgroup><thead><tr><th>Mã hàng</th><th>Tên hàng</th><th>ĐVT</th><th class="r">Định lượng / suất</th><th class="r">Tiền / suất</th><th><span class="sr">Xóa</span></th></tr></thead><tbody>${body||'<tr><td colspan="6" class="muted">Chưa có nguyên liệu.</td></tr>'}</tbody></table></div>
-    ${W()?`<div class="toolbar" style="margin-top:8px"><button class="btn sm" data-act="dm-add">+ Thêm nguyên liệu</button><span class="sp"></span>${rec?'<button class="btn sm warn" data-act="dm-clear">Xóa định mức</button>':''}<button class="btn primary" data-act="dm-save">${rec&&rec.nguon==='AI'&&!ED.dmDirty?'Duyệt định mức':'Lưu định mức'}</button></div>`:''}
+    ${W()?`<div class="toolbar" style="margin-top:8px"><button class="btn sm" data-act="dm-add">+ Thêm nguyên liệu</button><span class="sp"></span>${rec?'<button class="btn sm danger-text" data-act="dm-clear">Xóa định mức</button>':''}<button class="btn primary" data-act="dm-save">${rec&&rec.nguon==='AI'&&!ED.dmDirty?'Duyệt định mức':'Lưu định mức'}</button></div>`:''}
 `;
 }
 async function runAI(){
@@ -219,7 +220,7 @@ function vChot(){
   const req=['td','khach','dm','tinh'], okAll=req.every(k=>S.tt[k]&&S.tt[k].ok);
   return head('1.5 Chốt dự trù tháng','Sau khi chốt, số lượng được khóa và chuyển sang bước 2 để lập PR theo tháng cho cả hàng tươi và đồ khô (cột Giao K1/K2 chỉ để tham khảo lịch giao). Có thể mở lại để sửa trước khi lập PR.','chot')+
   `<div class="kpis"><div class="kv big"><b>Ngân sách dự tính</b><div class="num">${TR(tc)}</div><small>${lines.length} mã hàng</small></div>
-   ${SUB.slice(0,4).map(([n,t,k])=>`<div class="kv"><b>${n} ${t}</b><div>${S.tt[k]&&S.tt[k].ok?'<span class="pill ok">✓ Đã xác nhận</span>':'<span class="pill run">Chưa</span>'}</div><small>${S.tt[k]&&S.tt[k].ok?tstr(S.tt[k].luc)+' · '+esc(nm(S.tt[k].ai)):''}</small></div>`).join('')}</div>
+   </div><ol class="chk">${SUB.slice(0,4).map(([n,t,k])=>{const ok=S.tt[k]&&S.tt[k].ok;return `<li class="${ok?'ok':''}"><span class="ci" aria-hidden="true">${ok?'✓':''}</span><div><b>${n} ${esc(t)}</b><small>${ok?'Đã xác nhận '+tstr(S.tt[k].luc)+' · '+esc(nm(S.tt[k].ai)):'Chưa xác nhận'}</small></div><button class="btn sm" data-act="go-next" data-tab="${k}">${ok?'Xem':'Mở<span class="hide-m"> để xác nhận</span>'}</button></li>`;}).join('')}</ol>
   ${!okAll&&!locked()?'<div class="warn">Nên xác nhận đủ 4 bước con trước khi chốt. Vẫn có thể chốt nếu anh chấp nhận số hiện tại.</div>':''}
   <div class="toolbar">${canWrite?(locked()?`<span class="pill ok">✓ Đã chốt ${tstr(S.tt.chot.luc)} · ${esc(nm(S.tt.chot.ai))}</span><button class="btn" data-act="unlock">Mở lại để sửa</button>`:
     `<button class="btn primary" data-act="lock" ${lines.length&&!ED.lnDirty?'':'disabled'}>Chốt dự trù tháng ${S.thang.slice(5)}/${S.thang.slice(0,4)}</button>${ED.lnDirty?'<span class="dirty">Lưu số chốt ở bước 1.4 trước</span>':''}`):''}
