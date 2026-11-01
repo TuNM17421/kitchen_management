@@ -1,5 +1,13 @@
 # Nhật ký thay đổi
 
+## Bước 3 Tạo PO – sửa theo review UI/UX
+
+- 3.1: KPI “Chờ lập PO” chỉ hiện khi còn dòng chờ; nguồn PR rút gọn thành “N PR” (di chuột để xem); trạng thái trống có nút sang 3.2.
+- 3.2: chọn nhiều PO (mặc định chọn hết) và “Tạo N PO đã chọn trên SAP”; bảng cố định cột, ô Số PO và Tổng SAP gọn trong một cột, nút thao tác cùng hàng; dán từ sheet chuyển vào “Thao tác khác”; dạng thẻ trên điện thoại.
+- 3.3: nhãn “Theo dõi, không bắt buộc”, trạng thái trống có nút “Mở 3.2”, bộ lọc NCC có nhãn, bỏ ghi chú lặp.
+- 3.4: bảng 6 cột như 2.3, nút Hủy dạng chữ đỏ và xác nhận 2 lần, trạm SAP chỉ hiện khi có PO chờ cập nhật, KPI theo tiền.
+- Tab 3.3 hiện “theo dõi” thay cho dấu tích; tab 3.4 có dấu tích khi mọi PO đã có số và không còn sửa chờ SAP.
+
 ## Review bước 2 Lập PR (01/11/2026)
 
 - Bước 2–8: mô tả dài đầu mỗi mục thu vào nút "Cách làm" (trước đây chỉ bước 1 có).

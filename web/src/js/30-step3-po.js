@@ -19,30 +19,35 @@ async function setPO(id,patch,note){ const p=S.po[id];
 function vPOcan(){
   const pend=poPending(), made=poOf(S.thang), noL=pend.filter(o=>!hasLifnr(o.ncc));
   return head2('3.1 PO cần tạo','Gom các dòng của PR đã duyệt theo nhà cung cấp: mỗi NCC một PO cho cả tháng (gồm dòng của PR Nhân viên và PR Bệnh nhân). PO là dữ liệu nội bộ để đặt hàng hằng ngày và lập ĐNTT, không gửi NCC. PO theo tháng nên không vượt kỳ giá. Sau khi lập danh sách, sang 3.2 bấm <b>Tạo trên SAP</b> cho từng NCC: trạm SAP tự chạy CreatePO và ghi số PO về.')+
-  `<div class="kpis"><div class="kv big"><b>Chờ lập PO</b><div class="num">${pend.length} NCC</div><small>${TR(pend.reduce((a,o)=>a+o.tong,0))}</small></div>
+  `<div class="kpis">${pend.length?`<div class="kv big"><b>Chờ lập PO</b><div class="num">${pend.length} NCC</div><small>${TR(pend.reduce((a,o)=>a+o.tong,0))}</small></div>`:''}
    <div class="kv"><b>PO đã lập tháng ${mmY(S.thang)}</b><div class="num">${made.length}</div><small>${made.filter(p=>p.soPO).length} đã có số PO</small></div>
    <div class="kv"><b>PR đã duyệt</b><div class="num">${batchesOf(S.thang).filter(b=>b.tt==='duyet').length} đợt</div><small>${batchesOf(S.thang).filter(b=>b.tt==='sap'||b.tt==='xuat'||b.tt==='nhap').length} đợt chưa duyệt (chưa lên PO)</small></div></div>
   ${noL.length?`<div class="warn">Chưa có mã NCC SAP: <b>${noL.map(o=>esc(o.ncc)).join(', ')}</b>. Thêm vào sheet Mapping (cột E:F) trước khi chạy CreatePO.</div>`:''}
   ${pend.length?`<div class="toolbar">${canWrite?`<button class="btn primary" data-act3="po-make">Lập danh sách ${pend.length} PO</button>`:''}<span class="meta">Tạo bản ghi PO “chờ tạo trên SAP” để theo dõi số PO, email và nhận hàng.</span></div>
   <div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>Nhà cung cấp</th><th>Mã NCC SAP</th><th>PR nguồn</th><th>Loại</th><th class="r">Dòng PO</th><th class="r">Tổng tiền</th></tr></thead><tbody>
-  ${pend.map(o=>`<tr><td><b>${esc(o.ncc)}</b></td><td class="num">${hasLifnr(o.ncc)?LIFNR[o.ncc.toUpperCase()]:'<span class="pill bad">thiếu</span>'}</td><td class="num">${o.pr.map(esc).join(', ')}</td><td>${o.loai.join(', ')}</td><td class="r num">${o.lines.length}</td><td class="r num">${VND(o.tong)}</td></tr>`).join('')}
+  ${pend.map(o=>`<tr><td><b>${esc(o.ncc)}</b></td><td class="num">${hasLifnr(o.ncc)?LIFNR[o.ncc.toUpperCase()]:'<span class="pill bad">thiếu</span>'}</td><td class="num" title="${o.pr.map(esc).join(', ')}">${o.pr.length} PR</td><td>${o.loai.join(', ')}</td><td class="r num">${o.lines.length}</td><td class="r num">${VND(o.tong)}</td></tr>`).join('')}
   </tbody><tfoot><tr><td colspan="5">Tổng</td><td class="r num">${VND(pend.reduce((a,o)=>a+o.tong,0))}</td></tr></tfoot></table></div>`
-  :`<div class="empty"><b>Không còn dòng PR nào chờ lên PO</b>${made.length?'Tất cả PR đã duyệt đã có trong danh sách PO. Ghi số PO ở 3.2.':'Duyệt PR ở bước 2.3 trước.'}</div>`}`;
+  :`<div class="empty"><b>Không còn dòng PR nào chờ lên PO</b>${made.length?'Tất cả PR đã duyệt đã có trong danh sách PO.':'Duyệt PR ở bước 2.3 trước.'}<div class="toolbar" style="justify-content:center;margin-top:12px">${made.length?'<button class="btn sm primary" data-act="go-next" data-tab="posap">Mở 3.2 để tạo trên SAP</button>':'<button class="btn sm" data-act="go-next" data-step="2">Mở bước 2</button>'}</div></div>`}`;
 }
 /* ---- 3.2 Ghi số PO ---- */
 function vPOsap(){
-  const L=poOf(S.thang);
-  return head2('3.2 Tạo PO trên SAP','Bấm <b>Tạo trên SAP</b>: trạm SAP chạy CreatePO cho NCC đó (chỉ khi mọi PR nguồn đã duyệt), tự ghi số PO và tổng tiền SAP đọc lại. Chênh lệch khác 0 nghĩa là giá hoặc số lượng trên PO khác PR. Vẫn ghi tay được nếu tạo PO ngoài trạm.')+tramBox('PO')+
-  `${canWrite?`<div class="toolbar"><button class="btn sm" data-act3="po-paste">Dán từ sheet PO</button><span class="meta">Mỗi dòng: Nhà cung cấp ⇥ Số PO ⇥ Tổng tiền trên SAP (tùy chọn).</span></div>`:''}
-  ${ED.poPaste?`<div class="box"><textarea class="paste" id="po-txt"></textarea><div class="toolbar"><button class="btn sm primary" data-act3="po-paste-ok">Ghi số PO</button><button class="btn sm" data-act3="po-paste">Đóng</button></div></div>`:''}
-  ${L.length?`<div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>Nhà cung cấp</th><th>Mã NCC</th><th>PR</th><th class="r">Dòng</th><th class="r">Tổng theo PR</th><th>Số PO</th><th class="r">Tổng trên SAP</th><th class="r">Chênh lệch</th><th>Trạng thái</th><th></th></tr></thead><tbody>
+  const L=poOf(S.thang), can=p=>p.tt==='cho'&&canWrite&&!lenhBusy(p.lenh)&&!!(p.lifnr||LIFNR[String(p.ncc).toUpperCase()]);
+  const elig=L.filter(can), bo=ED.poBo||(ED.poBo=new Set());
+  const sel=elig.filter(p=>!bo.has(p.id));
+  return head2('3.2 Tạo PO trên SAP','Chọn các PO rồi bấm <b>Tạo trên SAP</b>: trạm SAP chạy CreatePO cho từng NCC (chỉ khi mọi PR nguồn đã duyệt), tự ghi số PO và tổng tiền SAP đọc lại. Chênh lệch khác 0 nghĩa là giá hoặc số lượng trên PO khác PR. Vẫn ghi tay được nếu tạo PO ngoài trạm.')+
+  (L.length?`${tramBox('PO')}
+  ${canWrite&&elig.length?`<div class="toolbar"><button class="btn primary" data-tram="po-many" ${sel.length?'':'disabled'}>Tạo ${sel.length} PO đã chọn trên SAP</button><span class="meta">${L.filter(p=>p.soPO).length}/${L.length} PO đã có số</span></div>`:`<p class="meta">${L.filter(p=>p.soPO).length}/${L.length} PO đã có số.</p>`}
+  <div class="tbl-wrap" style="max-height:none"><table class="t po-tbl"><colgroup><col class="c-chk"><col><col class="c-tien"><col class="c-so"><col class="c-tt"><col class="c-acts"></colgroup><thead><tr><th>${elig.length?`<input type="checkbox" id="posel-all" aria-label="Chọn tất cả PO chờ tạo" ${sel.length===elig.length?'checked':''}>`:'<span class="sr">Chọn</span>'}</th><th>Nhà cung cấp</th><th class="r">Tổng theo PR</th><th>Số PO (45… / 42…) · tổng trên SAP</th><th>Trạng thái</th><th><span class="sr">Thao tác</span></th></tr></thead><tbody>
   ${L.map(p=>{const ed=p.tt==='cho'||p.tt==='sap', d=p.tongSAP!=null&&p.tongSAP!==''?(+p.tongSAP)-p.tong:null;
-    return `<tr><td><b>${esc(p.ncc)}</b>${p.loai==='Bổ sung'?' <span class="pill run">bổ sung</span>':''}</td><td class="num">${esc(p.lifnr||'–')}</td><td class="num">${(p.pr||[]).map(esc).join(', ')}</td><td class="r num">${p.lines.length}</td><td class="r num">${VND(p.tong)}</td>
-    <td>${ed&&canWrite?`<input type="text" id="sopo-${p.id}" value="${esc(p.soPO||'')}" placeholder="45…/42…" style="width:120px">`:`<span class="num">${esc(p.soPO||'')}</span>`}</td>
-    <td class="r">${ed&&canWrite?`<input type="text" inputmode="numeric" id="tsap-${p.id}" value="${p.tongSAP!=null?QI(p.tongSAP):''}" style="width:120px;text-align:right">`:VND(p.tongSAP)}</td>
-    <td class="r num">${d==null?'':`<span class="pill ${Math.abs(d)<1?'ok':'bad'}">${d>0?'+':''}${VND(d)}</span>`}</td><td>${poPill(p)}</td>
-    <td>${ed&&canWrite?`<button class="btn sm" data-act3="po-save" data-id="${p.id}">Lưu</button>`:''}${p.tt==='cho'&&canWrite?(p.lenh&&S.lenh&&S.lenh[p.lenh]&&['cho','dang'].includes(S.lenh[p.lenh].tt)?lenhPill(p.lenh):` <button class="btn sm primary" data-tram="po" data-id="${p.id}">Tạo trên SAP</button>`):''}</td></tr>`;}).join('')}</tbody></table></div>`
-  :'<div class="empty"><b>Chưa có PO nào</b>Lập danh sách PO ở 3.1.</div>'}`;
+    return `<tr><td class="chk">${can(p)?`<input type="checkbox" data-posel="${p.id}" ${bo.has(p.id)?'':'checked'} aria-label="Chọn PO ${esc(p.ncc)}">`:''}</td>
+    <td class="ncc"><b>${esc(p.ncc)}</b>${p.loai==='Bổ sung'?' <span class="pill run">bổ sung</span>':''}<small>Mã NCC ${esc(p.lifnr||'–')} · ${p.lines.length} dòng · <span title="${(p.pr||[]).map(esc).join(', ')}">${(p.pr||[]).length} PR</span></small></td>
+    <td class="r num tien">${VND(p.tong)}</td>
+    <td class="so">${ed&&canWrite?`<div class="so-in"><input type="text" id="sopo-${p.id}" value="${esc(p.soPO||'')}" placeholder="Số PO" aria-label="Số PO của ${esc(p.ncc)}"><input type="text" inputmode="numeric" id="tsap-${p.id}" value="${p.tongSAP!=null?QI(p.tongSAP):''}" placeholder="Tổng trên SAP" aria-label="Tổng tiền trên SAP của ${esc(p.ncc)}"></div>`:`<span class="num">${esc(p.soPO||'')}</span>${p.tongSAP!=null?` · <span class="num">${VND(p.tongSAP)}</span>`:''}`}${d==null?'':`<small>Chênh lệch <span class="pill ${Math.abs(d)<1?'ok':'bad'}">${d>0?'+':''}${VND(d)}</span></small>`}</td>
+    <td class="tt">${poPill(p)}${lenhPill(p.lenh)}</td>
+    <td class="acts"><div class="acts-in">${ed&&canWrite?`<button class="btn sm" data-act3="po-save" data-id="${p.id}">Lưu số PO</button>`:''}${can(p)?`<button class="btn sm" data-tram="po" data-id="${p.id}">Tạo trên SAP</button>`:''}</div></td></tr>`;}).join('')}</tbody></table></div>
+  ${canWrite?`<details class="more"${ED.poPaste?' open':''}><summary>Thao tác khác</summary><div class="toolbar"><button class="btn sm" data-act3="po-paste">Dán số PO từ sheet PO</button><span class="meta">Mỗi dòng: Nhà cung cấp ⇥ Số PO ⇥ Tổng tiền trên SAP (tùy chọn).</span></div>
+  ${ED.poPaste?`<div class="box"><textarea class="paste" id="po-txt" aria-label="Dán số PO"></textarea><div class="toolbar"><button class="btn sm primary" data-act3="po-paste-ok">Ghi số PO</button><button class="btn sm" data-act3="po-paste">Đóng</button></div></div>`:''}</details>`:''}`
+  :'<div class="empty"><b>Chưa có PO nào</b>Lập danh sách PO ở 3.1.<div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="go-next" data-tab="pocan">Mở 3.1</button></div></div>');
 }
 /* ---- 3.3 PO so với nhận hàng ---- */
 function poRecvCompute(){
@@ -80,18 +85,19 @@ function vPOdc(){
     <td class="r num">${C.frac>0&&C.frac<1?Q(Math.round(r.db*10)/10):'–'}</td><td><span class="pill ${s[1]}">${s[0]}</span></td>
     <td class="r num">${r.need>0?Q(r.need):''}</td></tr>`;}).join('');
   const nEdit=Object.keys(ED.posl).length, nBS=C.rows.filter(r=>r.need>0).length;
-  return head2('3.3 PO so với nhận hàng','So từng dòng PO với số thực nhận (phiếu MIGO) theo NCC và mã hàng. Kế hoạch đến ngày = SL PO × phần tháng đã qua; cột Chênh cho biết đang nhập nhanh (+) hay chậm (−) so với kế hoạch. Báo cáo để theo dõi trong kỳ; việc chỉnh PO và PR bổ sung làm một lần cuối chu kỳ sau khi đối soát NCC (bước 5–6).',
-    `<label class="meta"><input type="checkbox" id="podc-all" ${ED.podcAll?'checked':''}> Tính cả PO chưa có số</label>`)+
+  return head2('3.3 PO so với nhận hàng','So từng dòng PO với số thực nhận (phiếu MIGO) theo NCC và mã hàng. Kế hoạch đến ngày = SL PO × phần tháng đã qua; cột Chênh cho biết đang nhập nhanh (+) hay chậm (−) so với kế hoạch. Báo cáo để theo dõi trong kỳ; việc chỉnh PO và PR bổ sung làm một lần cuối chu kỳ ở bước 6.1, sau khi đối soát NCC.',
+    '<span class="pill">Theo dõi, không bắt buộc</span>')+
+  (!C.rows.length?`<div class="empty"><b>Chưa có PO nào có số</b>Ghi số PO ở 3.2 rồi quay lại đây để so với số nhận hàng.<div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="go-next" data-tab="posap">Mở 3.2</button><label class="meta"><input type="checkbox" id="podc-all" ${ED.podcAll?'checked':''}> Tính cả PO chưa có số</label></div></div>`:
+
   `<div class="kpis"><div class="kv big"><b>Đã nhận / tổng PO</b><div class="num">${TR(tR)} / ${TR(tPO)}</div><small>${tPO?Math.round(tR/tPO*100):0}% · tới ${C.asOf?dm(C.asOf):'—'} · ${C.nRecv} dòng nhận</small></div>
    <div class="kv"><b>So với kế hoạch đến ngày</b><div class="num">${C.frac>0?(tR-tKH>=0?'+':'')+TR(tR-tKH):'—'}</div><small>KH đến ngày ${TR(tKH)}</small></div>
    <div class="kv"><b>Nhập thừa (vượt + ngoài PO)</b><div class="num">${TR(thua)}</div><small>${(cnt.vuot||0)+(cnt.ngoai||0)} dòng · cần PR bổ sung</small></div>
    <div class="kv"><b>Dự kiến dư cuối tháng</b><div class="num">${TR(du)}</div><small>${cnt.thieu||0} dòng nhận chậm</small></div></div>
-  <div class="toolbar"><select id="podc-ncc"><option value="">Tất cả NCC</option>${nccs.map(n=>`<option ${n===nf?'selected':''}>${esc(n)}</option>`).join('')}</select>
+  <div class="toolbar"><select id="podc-ncc" aria-label="Lọc theo NCC"><option value="">Tất cả NCC</option>${nccs.map(n=>`<option ${n===nf?'selected':''}>${esc(n)}</option>`).join('')}</select>
    <div class="seg"><button data-act3="podc-f" data-f="" aria-pressed="${!f}">Tất cả ${C.rows.length}</button>${Object.entries(PODC).filter(([k])=>cnt[k]).map(([k,v])=>`<button data-act3="podc-f" data-f="${k}" aria-pressed="${f===k}">${v[0]} ${cnt[k]}</button>`).join('')}</div><span class="sp"></span>
-   <span class="meta">Chỉnh PO và PR bổ sung làm 1 lần cuối chu kỳ ở bước 6.1</span></div>
+   <label class="meta"><input type="checkbox" id="podc-all" ${ED.podcAll?'checked':''}> Tính cả PO chưa có số</label></div>
   <div class="meta">${S.nhan?`Số nhận: ${(S.nhan.rows||[]).length} dòng · ${esc(S.nhan.nguon||'')} · cập nhật ${tstr(S.nhan.luc)}. Dán thêm số nhận ở bước 2.4.`:'Chưa có số nhận hàng tháng này. Bước 4 (MIGO) sẽ ghi vào; trước đó dán tay ở bước 2.4.'}</div>
-  ${C.rows.length?`<div class="tbl-wrap"><table class="t"><thead><tr><th>NCC · PO</th><th>Mã</th><th>Tên hàng</th><th>ĐVT</th><th class="r">SL PO</th><th class="r">KH đến ngày</th><th class="r">Đã nhận</th><th class="r">Chênh</th><th class="r">% PO</th><th class="r">Dự báo cuối tháng</th><th>Tình trạng</th><th class="r">Dự kiến thiếu</th></tr></thead><tbody>${body}</tbody></table></div>`
-  :'<div class="empty"><b>Chưa có PO nào có số</b>Ghi số PO ở 3.2, hoặc tích “Tính cả PO chưa có số”.</div>'}`;
+  <div class="tbl-wrap"><table class="t"><thead><tr><th>NCC · PO</th><th>Mã</th><th>Tên hàng</th><th>ĐVT</th><th class="r">SL PO</th><th class="r">KH đến ngày</th><th class="r">Đã nhận</th><th class="r">Chênh</th><th class="r">% PO</th><th class="r">Dự báo cuối tháng</th><th>Tình trạng</th><th class="r">Dự kiến thiếu</th></tr></thead><tbody>${body}</tbody></table></div>`);
 }
 async function makeBSFrom(items,note,buoc){
   const p=S.pb?pbRatio({...S.pb,lines:(S.pb.lines||[])}):pbDefaultPct()/100;
@@ -128,18 +134,26 @@ document.addEventListener('change',e=>{ const t=e.target; if(t.id==='podc-all'){
 function vPOls(){
   const all=poAll().filter(p=>ED.poAll||p.thang===S.thang).sort((a,b)=>b.luc-a.luc);
   const body=all.map(p=>{const open=ED.poOpen===p.id;
-    return `<tr><td><button class="x" data-act3="po-open" data-id="${p.id}" aria-label="Xem chi tiết">${open?'▾':'▸'}</button></td><td><b>${esc(p.ncc)}</b></td><td class="num">${esc(p.soPO||'–')}</td><td>${mmY(p.thang)}</td><td>${p.loai}</td><td class="r num">${p.lines.length}</td><td class="r num">${VND(p.tong)}</td><td>${poPill(p)}</td>
-    <td class="meta">${tstr(p.luc)}</td><td class="meta">${p.sapLuc&&p.soPO?tstr(p.sapLuc):''}</td><td>${canWrite&&p.sua&&p.soPO?(lenhBusy(p.lenh)?lenhPill(p.lenh):`<button class="btn sm primary" data-tram="posua" data-id="${p.id}">Cập nhật trên SAP</button> <button class="btn sm" data-act3="po-sapok" data-id="${p.id}">Đã sửa tay</button> `):''}${canWrite&&p.tt!=='huy'?`<button class="btn sm warn" data-act3="po-huy" data-id="${p.id}">Hủy</button>`:''}</td></tr>
-    ${open?`<tr><td></td><td colspan="10"><div class="two" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)"><div class="tbl-wrap" style="max-height:320px"><table class="t"><thead><tr><th>Dòng PO</th><th>Mã</th><th>Tên</th><th class="r">SL</th><th class="r">Đơn giá</th><th>PR</th><th>Đối tượng</th></tr></thead><tbody>
+    const acts=canWrite?[p.sua&&p.soPO?(lenhBusy(p.lenh)?lenhPill(p.lenh):`<button class="btn sm primary" data-tram="posua" data-id="${p.id}">Cập nhật trên SAP</button><button class="btn sm" data-act3="po-sapok" data-id="${p.id}">Đã sửa tay</button>`):'',p.tt!=='huy'?`<button class="btn sm danger-text" data-act3="po-huy" data-id="${p.id}">${ED.poHuy===p.id?'Bấm lần nữa để hủy':'Hủy'}</button>`:''].join(''):'';
+    return `<tr><td class="exp"><button class="x" data-act3="po-open" data-id="${p.id}" aria-expanded="${open}" aria-label="${open?'Ẩn':'Xem'} chi tiết PO ${esc(p.ncc)}">${open?'▾':'▸'}</button></td>
+    <td class="dg"><b>${esc(p.ncc)}</b><small><span class="num">${p.soPO?'PO '+esc(p.soPO):'chưa có số PO'}</span> · ${esc(p.loai)}${ED.poAll?' · '+mmY(p.thang):''}</small></td>
+    <td class="r tien"><b class="num">${VND(p.tong)}</b><small>${p.lines.length} dòng</small></td>
+    <td class="tt">${poPill(p)}${p.sua&&p.soPO?'<small>Đã sửa SL, chờ cập nhật SAP</small>':''}</td>
+    <td class="meta when">Lập ${tstr(p.luc)}${p.sapLuc&&p.soPO?`<br>Có số ${tstr(p.sapLuc)}`:''}</td>
+    <td class="acts"><div class="acts-in">${acts}</div></td></tr>
+    ${open?`<tr class="detail"><td colspan="6"><div class="two" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)"><div class="tbl-wrap" style="max-height:320px"><table class="t"><thead><tr><th>Dòng PO</th><th>Mã</th><th>Tên</th><th class="r">SL</th><th class="r">Đơn giá</th><th>PR</th><th>Đối tượng</th></tr></thead><tbody>
       ${p.lines.map((l,i)=>`<tr><td class="num">${l.ebelp||((i+1)*10+' ?')}</td><td class="num">${l.ma}</td><td class="wrap">${esc(l.ten)}</td><td class="r num">${Q(l.sl)} ${esc(l.dvt)}</td><td class="r num">${VND(l.g)}</td><td class="num">${esc(l.soPR)}</td><td>${DTG[l.dt]?DTG[l.dt].k:''}</td></tr>`).join('')}</tbody></table></div>
       <div><b class="meta">Lịch sử PO</b><ol style="margin:6px 0 0;padding-left:18px;font-size:13px">${(p.hist||[]).map(h=>`<li><span class="num meta">${tstr(h.ts)}</span> · ${(TTPO[h.tt]||[h.tt])[0]} · ${esc(nm(h.ai))}${h.note?' · '+esc(h.note):''}</li>`).join('')}</ol>
       <p class="meta">Dòng PO lấy theo thứ tự tạo trên SAP; dòng có “?” là dòng mới chưa cập nhật lên SAP.</p></div></div></td></tr>`:''}`;}).join('');
-  const m=poOf(S.thang);
-  return head2('3.4 Lịch sử PO','Mọi PO theo nhà cung cấp: chờ tạo trên SAP → có số PO. PO đã sửa số lượng hoặc thêm dòng PR bổ sung: bấm <b>Cập nhật trên SAP</b>, trạm SAP chạy ME22N (sửa SL các dòng có sẵn, thêm dòng mới) và lưu khi khớp tuyệt đối.',`<label class="meta"><input type="checkbox" id="po-all" ${ED.poAll?'checked':''}> Tất cả các tháng</label>`)+tramBox('POSUA')+
-  `<div class="kpis"><div class="kv big"><b>PO tháng ${mmY(S.thang)}</b><div class="num">${m.length}</div><small>${TR(m.reduce((a,p)=>a+p.tong,0))}</small></div>
-   <div class="kv"><b>Có số PO</b><div class="num">${m.filter(p=>p.soPO).length}/${m.length}</div><small>${m.filter(p=>p.sua).length} PO đã sửa SL chờ cập nhật SAP</small></div>
-   <div class="kv"><b>Chờ số PO</b><div class="num">${m.filter(p=>p.tt==='cho').length}</div><small>NCC</small></div></div>
-  ${all.length?`<div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th></th><th>NCC</th><th>Số PO</th><th>Tháng</th><th>Loại</th><th class="r">Dòng</th><th class="r">Tổng tiền</th><th>Trạng thái</th><th>Lập</th><th>Có số PO</th><th></th></tr></thead><tbody>${body}</tbody></table></div>`:'<div class="empty"><b>Chưa có PO nào</b>Lập ở 3.1.</div>'}`;
+  const m=poOf(S.thang).filter(p=>p.tt!=='huy'), nSua=m.filter(p=>p.sua&&p.soPO).length;
+  return head2('3.4 Lịch sử PO','Mọi PO theo nhà cung cấp: chờ tạo trên SAP → có số PO. PO đã sửa số lượng hoặc thêm dòng PR bổ sung: bấm <b>Cập nhật trên SAP</b>, trạm SAP chạy ME22N (sửa SL các dòng có sẵn, thêm dòng mới) và lưu khi khớp tuyệt đối.')+
+  (m.length?`<div class="kpis"><div class="kv big"><b>PO tháng ${mmY(S.thang)}</b><div class="num">${TR(m.reduce((a,p)=>a+p.tong,0))}</div><small>${m.length} NCC</small></div>
+   <div class="kv"><b>Có số PO</b><div class="num">${m.filter(p=>p.soPO).length} / ${m.length}</div><small>${m.filter(p=>p.tt==='cho').length} PO chờ tạo trên SAP</small></div>
+   <div class="kv"><b>Chờ cập nhật SAP</b><div class="num">${nSua}</div><small>PO đã sửa số lượng</small></div></div>`:'')+
+  (nSua?tramBox('POSUA'):'')+
+  `<div class="toolbar"><label class="meta"><input type="checkbox" id="po-all" ${ED.poAll?'checked':''}> Hiện cả các tháng khác</label></div>
+  ${all.length?`<div class="tbl-wrap" style="max-height:none"><table class="t ls-tbl"><colgroup><col class="c-exp"><col><col class="c-tien"><col class="c-tt"><col class="c-when"><col class="c-acts"></colgroup><thead><tr><th><span class="sr">Chi tiết</span></th><th>Nhà cung cấp</th><th class="r">Tiền</th><th>Trạng thái</th><th>Lập / có số</th><th><span class="sr">Thao tác</span></th></tr></thead><tbody>${body}</tbody></table></div>`
+  :'<div class="empty"><b>Chưa có PO nào</b>Lập danh sách PO ở 3.1.<div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="go-next" data-tab="pocan">Mở 3.1</button></div></div>'}`;
 }
 /* ---- sự kiện bước 3 ---- */
 document.addEventListener('click',async e=>{
@@ -158,9 +172,11 @@ document.addEventListener('click',async e=>{
       if(!p||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} const tsv=c[2]?pnum(c[2].replace(/\./g,'')):null; await setPO(p.id,{soPO:c[1],tongSAP:tsv,tt:'sap',sapLuc:p.sapLuc||Date.now()},'Dán từ sheet PO'); n++; }
     if(n) await log('3.2',`Ghi ${n} số PO (dán từ sheet PO)`); ED.poPaste=bad.length>0; render(); if(ED.poPaste) $('#po-txt').value=bad.join('\n'); toast(`Đã ghi ${n} số PO${bad.length?`, ${bad.length} dòng không khớp NCC hoặc số PO`:''}.`); }
   else if(a==='po-open'){ ED.poOpen=ED.poOpen===id?null:id; render(); }
-  else if(a==='po-huy'){ const p=S.po[id]; if(ED.poHuy!==id){ED.poHuy=id;toast('Bấm Hủy lần nữa để hủy PO '+(p.soPO||p.ncc)+'. Các dòng PR sẽ quay lại 3.1.');return;} ED.poHuy=null;
+  else if(a==='po-huy'){ const p=S.po[id]; if(ED.poHuy!==id){ED.poHuy=id;toast('Bấm Hủy lần nữa để hủy PO '+(p.soPO||p.ncc)+'. Các dòng PR sẽ quay lại 3.1.');render();return;} ED.poHuy=null;
     await setPO(id,{tt:'huy'},'Hủy PO'); await log('3.4',`Hủy PO ${p.soPO||'(chưa có số)'} – ${p.ncc}`); }
   }catch(err){ toast('Không lưu được: '+(err&&err.message||err)); }
 });
-document.addEventListener('change',e=>{ if(e.target.id==='po-all'){ ED.poAll=e.target.checked; render(); } });
+document.addEventListener('change',e=>{ const t=e.target; if(t.id==='po-all'){ ED.poAll=t.checked; render(); }
+  else if(t.dataset&&t.dataset.posel){ ED.poBo=ED.poBo||new Set(); t.checked?ED.poBo.delete(t.dataset.posel):ED.poBo.add(t.dataset.posel); render(); }
+  else if(t.id==='posel-all'){ const L=poOf(S.thang).filter(p=>p.tt==='cho'&&!lenhBusy(p.lenh)); ED.poBo=new Set(t.checked?[]:L.map(p=>p.id)); render(); } });
 

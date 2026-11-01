@@ -14,7 +14,7 @@ function renderTram(){ const el=$('#tramPill'); if(!el) return;
 function lenhPill(id){ if(!lenhBusy(id)) return ''; const L=S.lenh[id], t=TTL[L.tt]; return ` <span class="pill ${t[1]}">${t[0]}${L.tiendo?' · '+esc(L.tiendo):''}</span>`; }
 function tramBox(loai){ const lt=sapLuuThat(loai);
   if(loai==='DNTT') return `<div class="box"><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><b>Trạm SAP</b><span class="pill ${tramOnline()?'ok':'bad'}">${tramOnline()?'trực tuyến':'ngoại tuyến'}</span></div><div class="meta" style="margin-top:6px">Bấm <b>Tạo file ĐNTT</b>: máy công ty chạy TaoDNTT (không đụng SAP), lưu file ĐNTT + PDF ở C:\\TramSAP\\DNTT_xuat và chép lên thư mục XuatSAP của dự án; link hiện ngay trong bảng.${tramOnline()?'':' Trạm đang ngoại tuyến: lệnh chờ tới khi trạm chạy.'}</div></div>`;
-  return `<div class="box"><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><b>Trạm SAP</b><span class="pill ${tramOnline()?'ok':'bad'}">${tramOnline()?'trực tuyến':'ngoại tuyến'}</span>
+  return `<div class="box"><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><b>Trạm SAP</b><span class="meta">· ${SAPTEN[loai]}</span><span class="pill ${tramOnline()?'ok':'bad'}">${tramOnline()?'trực tuyến':'ngoại tuyến'}</span>
     <span class="pill ${lt?'bad':''}">${lt?'LƯU THẬT':'Không lưu (chạy thử)'}</span>${canWrite?`<button class="btn sm" data-tram="mode" data-loai="${loai}" style="width:auto">${lt?'Chuyển sang không lưu':'Chuyển sang lưu thật'}</button>`:''}</div>
     <details class="tram-more"><summary>Chế độ này làm gì?</summary><div class="meta">${lt?(loai==='MIGO'?'Lưu thật: macro tự Post khi đã tích đủ mọi dòng của chứng từ; thiếu dòng thì <b>không Post</b> và báo về đây.':'Lưu thật: macro tự bấm Save khi số lượng và giá trên SAP khớp tuyệt đối với dữ liệu gửi đi; nếu lệch thì <b>không lưu</b> và báo về đây.'):'Không lưu (chạy thử): macro điền màn hình'+(loai==='MIGO'?', bấm Check':'')+' rồi dừng, không có số chứng từ. Chạy thử thành công thì chuyển sang lưu thật.'} Trạm chạy ${SAPTEN[loai]} trên cửa sổ SAP đầu tiên của máy công ty.${tramOnline()?'':' Trạm đang ngoại tuyến: lệnh sẽ chờ tới khi máy công ty chạy ChayTramSAP.bat.'}</div></details></div>`; }
 function prSapBar(sel){
@@ -106,6 +106,7 @@ document.addEventListener('click',async e=>{ const t=e.target.closest('[data-tra
     else if(a==='migo'){ t.disabled=true; await lenhMIGO([...(ED.mgsel||[])]); }
     else if(a==='pr'){ t.disabled=true; await lenhPR(); }
     else if(a==='po'){ t.disabled=true; await lenhPO(t.dataset.id); }
+    else if(a==='po-many'){ t.disabled=true; const bo=ED.poBo||new Set(), ids=poOf(S.thang).filter(p=>p.tt==='cho'&&!lenhBusy(p.lenh)&&!bo.has(p.id)).map(p=>p.id); for(const id of ids) await lenhPO(id); ED.poBo=null; render(); }
     else if(a==='tach'){ const n=$('#tach-ncc').value; if(!n){toast('Chọn NCC cần tách.');return;} await tachNCC(n); }
     else if(a==='huy'){ await WQ; await reloadCol('lenh'); const L=S.lenh[t.dataset.id]; if(!L||L.tt!=='cho'){toast('Trạm đã nhận lệnh, không hủy được.');return;}
       const x={...L,tt:'loi',log:'Người dùng hủy trước khi trạm nhận.',ketqua:null}; delete x.id; await store.set('lenh/'+L.id,x); await log('2.2','Hủy lệnh trạm SAP: '+(L.moTa||L.id)); }

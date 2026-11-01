@@ -389,3 +389,25 @@ table.ls-tbl td small{color:color-mix(in srgb,var(--muted) 80%,var(--ink))}
   table.pb-tbl td.slc,table.pb-tbl td.bn{text-align:left!important}
   table.bt-tbl th:nth-child(3),table.bt-tbl td:nth-child(3),table.bt-tbl th:nth-child(5),table.bt-tbl td:nth-child(5){display:none}
 }
+
+/* ---- 3.2 Tạo PO trên SAP ---- */
+table.po-tbl{table-layout:fixed;min-width:0}
+table.po-tbl col.c-chk{width:44px}table.po-tbl col.c-tien{width:124px}table.po-tbl col.c-so{width:240px}table.po-tbl col.c-tt{width:150px}table.po-tbl col.c-acts{width:236px}
+table.po-tbl th{white-space:normal;line-height:1.25}
+table.po-tbl td{white-space:normal;vertical-align:top}
+table.po-tbl td small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+table.po-tbl .so-in{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+table.po-tbl .so-in input{width:100%;min-width:0}
+table.po-tbl td.tt .pill{margin:0 4px 4px 0}
+table.po-tbl .acts-in{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+@media (max-width:1100px){table.po-tbl col.c-so{width:200px}table.po-tbl .so-in{grid-template-columns:1fr}}
+@media (max-width:700px){
+  table.po-tbl colgroup,table.po-tbl thead{display:none}
+  table.po-tbl,table.po-tbl tbody{display:block}
+  table.po-tbl tr{display:grid;grid-template-columns:32px minmax(0,1fr) auto;grid-template-areas:"chk ncc tien" ". so so" ". tt tt" ". acts acts";gap:6px 8px;padding:10px var(--s3);border-top:1px solid var(--line)}
+  table.po-tbl tr:first-child{border-top:0}
+  table.po-tbl td{display:block;padding:0!important;border:0}
+  table.po-tbl td.chk{grid-area:chk}table.po-tbl td.ncc{grid-area:ncc}table.po-tbl td.tien{grid-area:tien}
+  table.po-tbl td.so{grid-area:so}table.po-tbl td.tt{grid-area:tt}table.po-tbl td.acts{grid-area:acts}
+  table.po-tbl .so-in{grid-template-columns:1fr 1fr}table.po-tbl .acts-in{justify-content:flex-start}
+}
