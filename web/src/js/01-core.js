@@ -7,6 +7,8 @@ const VND=n=>Math.round(n||0).toLocaleString('vi-VN');
 const TR=n=>(Math.round((n||0)/1e5)/10).toLocaleString('vi-VN')+' tr';
 const Q=n=>(+n||0).toLocaleString('vi-VN',{maximumFractionDigits:2});
 const QI=n=>(+n||0).toLocaleString('vi-VN',{maximumFractionDigits:3,useGrouping:false});
+const QG=n=>(+n||0).toLocaleString('vi-VN',{maximumFractionDigits:3});
+const pnumVN=v=>{const s=String(v??'').replace(/\s/g,''); if(/,/.test(s)||/^[1-9]\d{0,2}(\.\d{3})+$/.test(s)) return pnum(s.replace(/\./g,'')); return pnum(s);};
 const pnum=v=>{if(v===''||v==null)return 0;const n=parseFloat(String(v).replace(/\s/g,'').replace(',','.'));return isFinite(n)?n:0;};
 
 /* ---------- dữ liệu nhúng ---------- */

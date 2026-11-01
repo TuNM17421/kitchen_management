@@ -63,7 +63,7 @@ document.addEventListener('input',e=>{
   if(t.dataset.kh){ const K=ED.khach; K[t.dataset.kh]=K[t.dataset.kh]||Z(); K[t.dataset.kh][+t.dataset.i]=Math.max(0,Math.round(pnum(t.value))); ED.khDirty=true; clearTimeout(vKhach.h); vKhach.h=setTimeout(render,500); return; }
   if(t.dataset.dm!=null){ const r=ED.dmRows.rows[+t.dataset.dm]; if(t.dataset.f==='ma'){r.ma=t.value.trim().toUpperCase();} else { const x=IT.get(r.ma); const v=pnum(t.value); r.q=x&&/^(KG|L)$/.test(x.dvt)?v/1000:v; }
     ED.dmDirty=true; clearTimeout(vDM.h); vDM.h=setTimeout(render,600); return; }
-  if(t.dataset.ln!=null){ const l=curLines()[+t.dataset.ln]; if(t.dataset.f==='chot'){l.chot=Math.max(0,pnum(t.value));l.e=true;} else if(t.dataset.f==='note'){l.note=t.value;} ED.lnDirty=true; clearTimeout(vTinh.h); vTinh.h=setTimeout(render,700); return; }
+  if(t.dataset.ln!=null){ const l=curLines()[+t.dataset.ln]; if(t.dataset.f==='chot'){l.chot=Math.max(0,pnumVN(t.value));l.e=true;} else if(t.dataset.f==='note'){l.note=t.value;} ED.lnDirty=true; clearTimeout(vTinh.h); vTinh.h=setTimeout(render,700); return; }
   if(t.dataset.map){ ED.map=ED.map||{}; ED.map[t.dataset.map]=t.value.trim().toUpperCase(); if(!ED.mapDirty){ED.mapDirty=true;render();} return; }
   if(t.id==='f-q'){ ED.filt.q=t.value; clearTimeout(vTinh.f); vTinh.f=setTimeout(render,250); }
 });

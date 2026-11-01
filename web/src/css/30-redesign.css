@@ -297,3 +297,19 @@ ol.chk b{display:block;font-size:14px}ol.chk small{color:var(--muted);font-size:
 details.menu .menu-pop>.btn{border-color:transparent;background:transparent;font-weight:500}
 details.menu .menu-pop>.btn:hover{background:var(--sunk)}
 @media (max-width:700px){.hide-m{display:none}}
+
+/* ===== review Dự trù – đợt 3 ===== */
+/* ô nhập kiểu bảng tính cho mọi bảng nhập liệu */
+@media (hover:hover){
+  table.sheet input[type=text],table.sheet input[type=number],table.sheet select{border-color:transparent;background-color:transparent}
+  table.sheet tbody tr:hover input[type=text],table.sheet tbody tr:hover input[type=number],table.sheet tbody tr:hover select{border-color:var(--line);background-color:var(--surface)}
+  table.sheet input:focus,table.sheet select:focus{border-color:var(--accent);background-color:var(--surface)}
+}
+table.sheet input[type=number]{-moz-appearance:textfield}
+table.sheet input[type=number]::-webkit-inner-spin-button,table.sheet input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+table.ln-tbl input.q{text-align:right}
+table.td-tbl input.num-in::placeholder{font-style:italic;font-size:12px}
+/* 1.4 */
+.calc-note{margin:0}
+.bar{background:color-mix(in srgb,var(--wool) 75%,var(--ink))}
+.morebtn{font-weight:600;color:var(--accent)}

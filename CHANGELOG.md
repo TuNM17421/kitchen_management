@@ -1,5 +1,13 @@
 # Nhật ký thay đổi
 
+## Review bước Dự trù – đợt 3 (01/11/2026)
+
+- Ô nhập kiểu bảng tính (chỉ hiện viền khi rê chuột / đang nhập) cho bảng lượng khách 1.2, định mức 1.3 và dự trù 1.4; bỏ nút tăng giảm của ô số.
+- 1.2: thẻ thứ tư đổi thành "Trung bình / ngày" kèm ngày cao nhất (bỏ thẻ ngân sách trùng với 1.4).
+- 1.4: thẻ "Đề xuất tự động" chỉ hiện khi có chênh do sửa tay; dòng "Lần tính gần nhất" thành chú thích nhỏ; nút "Xem cả N NCC ▾" rõ là nút; thanh tỷ trọng đậm hơn; ô SL chốt hiện số có dấu chấm nghìn (1.549) và đọc được cả "1.600" lẫn "8,4". Thêm nút "Xác nhận dự trù" (trước đây 1.4 chỉ được xác nhận khi chốt).
+- 1.5: thêm thẻ Kỳ 1 / Kỳ 2 và Hàng tươi / Đồ khô; câu nhắc viết trung tính.
+- 1.1: ô "% suất" để trống hiện chữ nghiêng "tự động"; tab có chú thích "Đã xác nhận / Chưa xác nhận" khi rê chuột.
+
 ## Review bước Dự trù – đợt 2 (01/11/2026)
 
 - 1.1: thanh công cụ gọn: chọn nhóm, chọn tuần và menu "Nhập / chép" (chép tuần trước, dán Excel, nạp gói Drive, chép sang nhóm khác); "+ Thêm món" nằm dưới bảng. Khung nạp gói Drive chỉ hiện khi bấm. Tuần mặc định là tuần có ít nhất 4 ngày trong tháng. Trên điện thoại dải nhóm khách cuộn ngang, không gãy chữ.
