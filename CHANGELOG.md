@@ -1,6 +1,13 @@
 # Nhật ký thay đổi
 
-## [Chưa phát hành] – Giao diện gọn + responsive (01/11/2026)
+## [Chưa phát hành] – Redesign khoảng cách (01/11/2026)
+
+- Hệ khoảng cách chung 4/8/12/16/24/32px (`--s1`…`--s6`); các khối trong khung làm việc cách nhau 24px (điện thoại 16px).
+- Thẻ bước, thẻ số, thẻ agent: padding rộng hơn, bo 14px, bóng nhẹ; thẻ bước ghi "Bước N", bước đang chọn tô nền nhạt.
+- Bảng thoáng hơn (ô 10×16px), thanh thông báo có chấm trạng thái, cột nhật ký padding 24px.
+- CSS tách thành `10-base.css`, `20-gon-responsive.css`, `30-redesign.css`.
+
+## Giao diện gọn + responsive (01/11/2026)
 
 - Mô tả dài đầu mỗi mục thu vào nút "Cách làm"; tuỳ chọn tính dự trù thu vào "Tuỳ chọn"; chú thích nguồn dữ liệu cuối trang thu gọn.
 - Dải 8 bước gọn (bỏ dòng mô tả phụ, đưa vào tooltip), cuộn ngang có snap trên màn hình nhỏ, tự cuộn tới bước / mục đang chọn.

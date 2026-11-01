@@ -1,0 +1,95 @@
+/* ================= REDESIGN 01/11/2026: hệ khoảng cách 4/8/12/16/24/32px =================
+   Mỗi nhóm anh em dùng gap của lưới cha, không dùng margin lẻ. Thẻ = nền trắng + viền + bo 14px + bóng nhẹ.
+   Thứ tự đọc: tóm tắt (thẻ số) → bảng chi tiết. */
+:root{--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--r2:14px;--r3:20px}
+
+/* khung trang */
+body{font-size:14.5px}
+.wrap{gap:var(--s5);padding-block:var(--s6) 48px;padding-left:max(var(--s5),env(safe-area-inset-left,0px));padding-right:max(var(--s5),env(safe-area-inset-right,0px))}
+header{gap:var(--s3) var(--s5);padding-bottom:var(--s1)}
+.eyebrow{letter-spacing:.02em;margin-bottom:var(--s1)}
+.hctl{gap:var(--s2)}
+.modebar{margin:0}
+.banner{border-radius:var(--r2);padding:var(--s3) var(--s4);display:flex;gap:var(--s3);align-items:flex-start;line-height:1.5}
+.banner::before{content:"";flex:none;width:8px;height:8px;margin-top:7px;border-radius:50%;background:var(--marigold)}
+
+/* dải 8 bước */
+.track{padding:var(--s1) var(--s1) var(--s2)}
+.nodes{gap:var(--s3)}
+.node{padding:var(--s3) var(--s4) var(--s4);gap:var(--s1);border-radius:var(--r2);background:var(--surface);box-shadow:var(--shadow);min-height:112px}
+.node::before{height:4px;margin:calc(-1 * var(--s3)) calc(-1 * var(--s4)) var(--s3);border-bottom:0}
+.node .dot{font-size:11.5px;letter-spacing:.04em;text-transform:uppercase}
+.node .dot::before{content:"Bước "}
+.node .lbl{font-size:14px;margin-bottom:var(--s3)}
+.node.cur{background:color-mix(in srgb,var(--accent-soft) 55%,var(--surface));border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),var(--shadow)}
+
+/* khung làm việc + cột nhật ký */
+.stage-row{gap:var(--s5)}
+.panel.stage{padding:var(--s5);gap:var(--s5)}
+.tabs{gap:0 var(--s2);margin:calc(-1 * var(--s2)) 0 0}
+.tab{padding:var(--s3) var(--s2)}
+#view{display:flex;flex-direction:column;gap:var(--s5)}
+#view>*{margin-top:0;margin-bottom:0}
+.sh{gap:var(--s3)}
+.sh h2{font-size:21px;line-height:1.3}
+.toolbar{gap:var(--s3)}
+.warns{gap:var(--s2)}
+.warn{padding:var(--s3) var(--s4);border-radius:var(--r1);line-height:1.5}
+.box{padding:var(--s4);gap:var(--s3);border-radius:var(--r2)}
+.empty{padding:var(--s6) var(--s5)}
+
+/* thẻ số tóm tắt */
+.kpis{gap:var(--s4)}
+.kv{padding:var(--s4) var(--s4) var(--s3);border-radius:var(--r2);display:flex;flex-direction:column;gap:var(--s1);box-shadow:var(--shadow)}
+.kv b{font-size:12.5px;line-height:1.35}
+.kv div{font-size:24px;line-height:1.2}
+.kv small{line-height:1.4}
+
+/* bảng */
+.tbl-wrap{border-radius:var(--r2)}
+table.t th{padding:var(--s3) var(--s4)}
+table.t td{padding:10px var(--s4)}
+table.t input[type=text],table.t input[type=number],table.t select{min-height:32px}
+.bar{height:10px;border-radius:5px}
+.two{gap:var(--s5)}
+.ditem{padding:var(--s3) var(--s4)}
+
+/* chi tiết thu gọn */
+details.opts .optbody{padding:var(--s4);gap:var(--s3) var(--s5);margin-top:var(--s3);border-radius:var(--r2)}
+details.help>p{padding:var(--s3) var(--s4);margin-top:var(--s2)}
+.morebtn{align-self:flex-start;margin-top:calc(-1 * var(--s3))}
+
+/* cột nhật ký */
+.log{padding:var(--s5) var(--s5) var(--s4);gap:var(--s4);top:var(--s5);max-height:calc(100vh - 48px)}
+details.lg{padding-top:var(--s4)}
+details.lg>ol,details.lg>.steps{margin-top:var(--s3)}
+.steps{gap:var(--s2)}
+.log ol{gap:var(--s3)}
+.log li{padding-bottom:var(--s3)}
+
+/* bảng điều phối agent */
+.agpanel{padding:var(--s5);gap:var(--s4)}
+.agents{gap:var(--s4)}
+.ag{padding:var(--s4);gap:var(--s2);box-shadow:var(--shadow)}
+
+details.foot{padding:0 var(--s1)}
+
+@media (max-width:1000px){
+  .log{max-height:none}
+}
+@media (max-width:700px){
+  .wrap{gap:var(--s4);padding-block:var(--s4) var(--s6);padding-left:max(var(--s4),env(safe-area-inset-left,0px));padding-right:max(var(--s4),env(safe-area-inset-right,0px))}
+  .nodes{gap:var(--s2);grid-auto-columns:128px}
+  .node{min-height:96px;padding:var(--s3) var(--s3) var(--s3)}
+  .node::before{margin:calc(-1 * var(--s3)) calc(-1 * var(--s3)) var(--s3)}
+  .panel.stage{padding:var(--s4);gap:var(--s4)}
+  #view{gap:var(--s4)}
+  .kpis{gap:var(--s3)}
+  .kv{padding:var(--s3)}
+  .kv div{font-size:19px}
+  table.t th,table.t td{padding:var(--s2) var(--s3)}
+  .log{padding:var(--s4)}
+  .agpanel{padding:var(--s4)}
+}
+details.box:not([open]){display:block}
+details.box>summary{cursor:pointer}

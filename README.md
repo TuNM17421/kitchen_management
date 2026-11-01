@@ -10,7 +10,7 @@ và trạm SAP chạy trên máy công ty. Trước đây là dự án **QuyTrin
 | Thư mục | Nội dung |
 |---|---|
 | `web/src/index.html` | Khung trang (HTML) |
-| `web/src/css/app.css` | Toàn bộ CSS |
+| `web/src/css/*.css` | CSS ghép theo thứ tự tên file: `10-base` (màu, thành phần), `20-gon-responsive`, `30-redesign` (hệ khoảng cách) |
 | `web/src/js/*.js` | JS chia theo phần, ghép theo thứ tự tên file: lõi, tính dự trù, từng bước 1–8, trạm SAP, agent, nạp gói, khởi động |
 | `web/data/` | Bảng giá rút gọn, ghép mã kho, mã NCC SAP, thông tin NCC (ẩn danh) |
 | `web/config/` | `app.config.example.json`: mẫu cấu hình ID Google. File thật `app.config.json` không commit |
