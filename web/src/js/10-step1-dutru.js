@@ -53,9 +53,9 @@ function parsePaste(txt){
 /* ---------- 1.2 LƯỢNG KHÁCH ---------- */
 function vKhach(){
   if(!ED.khach){ED.khach=JSON.parse(JSON.stringify((S.khach&&S.khach.days)||{}));}
-  const K=ED.khach, days=monthDays(S.thang); const tot=Z();
+  const K=ED.khach, days=monthDays(S.thang); const tot=Z(); const LB=CG.flatMap(([g,b])=>b.map(x=>g+' · '+x));
   const rows=days.map(d=>{const r=Array.from({length:NK},(_,i)=>+((K[d]||[])[i])||0);r.forEach((v,i)=>tot[i]+=v);const s=r.reduce((a,b)=>a+b,0);const w=P(d).getUTCDay();
-    return `<tr${w===0||w===6?' class="edited"':''}><td>${DOW[w]} ${dm(d)}</td>${r.map((v,i)=>`<td class="r"><input class="n" type="number" min="0" step="1" id="kh-${d}-${i}" data-kh="${d}" data-i="${i}" value="${v}" ${W()?'':'disabled'}></td>`).join('')}<td class="r num">${VND(s)}</td></tr>`;}).join('');
+    return `<tr${w===0||w===6?' class="edited"':''}><td>${DOW[w]} ${dm(d)}</td>${r.map((v,i)=>`<td class="r"><input class="n" type="number" min="0" step="1" id="kh-${d}-${i}" aria-label="${DOW[w]} ${dm(d)} · ${LB[i]||''}" data-kh="${d}" data-i="${i}" value="${v}" ${W()?'':'disabled'}></td>`).join('')}<td class="r num">${VND(s)}</td></tr>`;}).join('');
   const all=tot.reduce((a,b)=>a+b,0), sum=(a,b)=>tot.slice(a,b).reduce((x,y)=>x+y,0);
   const pct=(v,ref)=>v?((v/ref-1)*100>=0?'+':'')+((v/ref-1)*100).toFixed(1).replace('.',',')+'% so với T9':'';
   return head('1.2 Dự báo lượng khách','Số suất dự kiến theo ngày, theo nhóm khách và bữa. Mặc định điền theo trung bình thực tế tháng 9: nhân viên theo từng thứ trong tuần, nội trú theo từng nhóm (An Nhiên = VVIP khoa Sản + VVIP Nội trú Ngoại; VIP = VVIP các khoa còn lại). Sửa trực tiếp các ngày có lễ, sự kiện hoặc dự báo công suất khác.','khach')+
@@ -65,8 +65,8 @@ function vKhach(){
     <div class="kv"><b>Ngân sách tham chiếu theo khách</b><div class="num">${TR(all*DM_SUAT)}</div><small>${VND(DM_SUAT)} đ/suất (thực chi T9 ÷ suất T9)</small></div></div>
   ${W()?`<div class="toolbar"><button class="btn sm" data-act="kh-fill">Điền theo TB tháng 9</button><span class="meta">${S.khach?`Đã lưu ${tstr(S.khach.luc)} · ${esc(nm(S.khach.ai))}`:'Chưa lưu số khách tháng này.'} ${ED.khDirty?'<span class="dirty">· Có thay đổi chưa lưu</span>':''}</span><span class="sp"></span>
     <button class="btn primary" data-act="kh-save" ${ED.khDirty?'':'disabled'}>Lưu lượng khách</button><button class="btn" data-act="tt" data-k="khach">${S.tt.khach&&S.tt.khach.ok?'Xác nhận lại':'Xác nhận số khách'}</button></div>`:''}
-  <div class="tbl-wrap"><table class="t"><thead><tr><th rowspan="2">Ngày</th>${CG.map(([g,b])=>`<th colspan="${b.length}" style="text-align:center">${g}</th>`).join('')}<th rowspan="2" class="r">Cộng</th></tr>
-  <tr>${CG.map(([g,b])=>b.map(x=>`<th class="r" style="top:28px">${x}</th>`).join('')).join('')}</tr></thead><tbody>${rows}</tbody>
+  <div class="tbl-wrap"><table class="t kh-tbl"><thead><tr><th rowspan="2">Ngày</th>${CG.map(([g,b])=>`<th colspan="${b.length}" style="text-align:center">${g}</th>`).join('')}<th rowspan="2" class="r">Cộng</th></tr>
+  <tr>${CG.map(([g,b])=>b.map(x=>`<th class="r th2">${x}</th>`).join('')).join('')}</tr></thead><tbody>${rows}</tbody>
   <tfoot><tr><td>Tổng</td>${tot.map(v=>`<td class="r num">${VND(v)}</td>`).join('')}<td class="r num">${VND(all)}</td></tr></tfoot></table></div>`;
 }
 
@@ -74,27 +74,27 @@ function vKhach(){
 function vDM(){
   const ds=dishesOfMonth(); if(!ED.dmMon&&ds.length) ED.dmMon=ds[0].k;
   const miss=ds.filter(d=>!S.dm[d.k]);
-  const list=ds.length?ds.map(d=>{const r=S.dm[d.k];return `<div class="ditem" data-act="dm-pick" data-k="${d.k}" aria-current="${ED.dmMon===d.k}"><span>${esc(d.mon)}</span>${r?`<span class="pill ${r.nguon==='AI'?'run':'ok'}">${r.nguon==='AI'?'AI':'đã duyệt'}</span>`:'<span class="pill bad">thiếu</span>'}</div>`;}).join(''):'<div class="empty"><b>Chưa có món nào</b>Nhập thực đơn ở bước 1.1 trước.</div>';
+  const list=ds.length?ds.map(d=>{const r=S.dm[d.k];return `<button type="button" class="ditem" data-act="dm-pick" data-k="${d.k}" aria-current="${ED.dmMon===d.k}"><span>${esc(d.mon)}</span>${r?`<span class="pill ${r.nguon==='AI'?'run':'ok'}">${r.nguon==='AI'?'AI':'đã duyệt'}</span>`:'<span class="pill bad">thiếu</span>'}</button>`;}).join(''):'<div class="empty"><b>Chưa có món nào</b>Nhập thực đơn ở bước 1.1 trước.</div>';
   return head('1.3 Định mức nguyên liệu theo món','Mỗi món cần biết dùng mã hàng nào, bao nhiêu cho 1 suất. Bấm “AI đề xuất” để Claude soạn định mức từ danh mục hàng có giá khung, sau đó bếp xem và sửa. Món đã duyệt được dùng lại cho mọi tuần sau.','dm')+
   `<div class="toolbar">${W()?`<button class="btn primary" data-act="dm-ai" ${miss.length&&!ED.ai?'':'disabled'}>${ED.ai?esc(ED.ai):`AI đề xuất định mức cho ${miss.length} món thiếu`}</button>`:''}
     <span class="meta">${ds.length} món trong tháng · ${ds.length-miss.length} có định mức · ${ds.filter(d=>S.dm[d.k]&&S.dm[d.k].nguon==='AI').length} do AI soạn chưa duyệt</span><span class="sp"></span>
     ${W()?`<button class="btn sm" data-act="dm-paste">Dán định mức từ Excel</button><button class="btn" data-act="tt" data-k="dm">${S.tt.dm&&S.tt.dm.ok?'Xác nhận lại':'Xác nhận định mức'}</button>`:''}</div>
   ${ED.dmPaste?`<div class="box"><label class="meta" for="dm-paste-txt">Mỗi dòng: <b>Tên món</b> ⇥ <b>Mã hàng</b> ⇥ <b>Định lượng/suất</b> (gram với hàng tính KG, số đơn vị với hàng khác). Món đã có định mức sẽ được thay bằng các dòng dán vào.</label>
     <textarea class="paste" id="dm-paste-txt"></textarea><div class="toolbar"><button class="btn sm primary" data-act="dm-paste-ok">Nạp định mức</button><button class="btn sm" data-act="dm-paste">Đóng</button></div></div>`:''}
-  <div class="two"><div class="dlist">${list}</div><div>${ED.dmMon?dmEditor():''}</div></div>`;
+  <div class="two"><div class="dlist" role="group" aria-label="Danh sách món (${ds.length})">${list}</div><div>${ED.dmMon?dmEditor():''}</div></div>`;
 }
 function dmEditor(){
   const k=ED.dmMon, rec=S.dm[k], mon=(dishesOfMonth().find(d=>d.k===k)||{}).mon||(rec&&rec.mon)||'';
   if(!ED.dmRows||ED.dmRows.k!==k){ED.dmRows={k,rows:rec?(rec.nl||[]).map(x=>({...x})):[]};ED.dmDirty=false;}
   const rows=ED.dmRows.rows; let cost=0;
   const body=rows.map((r,i)=>{const x=IT.get(r.ma);const kg=x&&/^(KG|L)$/.test(x.dvt);const g=x?priceOf(x,x.ncc[0]&&x.ncc[0].ncc):0;cost+=g*(r.q||0);
-    return `<tr><td><input type="text" id="dm-ma-${i}" list="dl-item" data-dm="${i}" data-f="ma" value="${esc(r.ma)}" ${W()?'':'disabled'} style="width:120px"></td>
-    <td class="wrap">${x?esc(x.ten):'<span class="pill bad">mã không có trong bảng giá</span>'}</td><td>${x?esc(x.dvt):''}</td>
-    <td class="r"><input class="q" type="text" inputmode="decimal" id="dm-q-${i}" data-dm="${i}" data-f="q" value="${kg?QI((r.q||0)*1000):QI(r.q)}" ${W()?'':'disabled'}> <span class="muted">${kg?'g':esc(x?x.dvt.toLowerCase():'')}</span></td>
-    <td class="r num">${VND(g*(r.q||0))}</td><td>${W()?`<button class="x" data-act="dm-del" data-i="${i}" aria-label="Xóa">×</button>`:''}</td></tr>`;}).join('');
+    return `<tr><td><input type="text" id="dm-ma-${i}" list="dl-item" data-dm="${i}" data-f="ma" aria-label="Mã hàng" value="${esc(r.ma)}" ${W()?'':'disabled'}></td>
+    <td class="wrap nm">${x?esc(x.ten):'<span class="pill bad">mã không có trong bảng giá</span>'}</td><td class="dvt">${x?esc(x.dvt):''}</td>
+    <td class="r q"><input class="q" type="text" inputmode="decimal" aria-label="Định lượng / suất${x?' · '+esc(x.ten):''}" id="dm-q-${i}" data-dm="${i}" data-f="q" value="${kg?QI((r.q||0)*1000):QI(r.q)}" ${W()?'':'disabled'}> <span class="muted u">${kg?'g':esc(x?x.dvt.toLowerCase():'')}</span></td>
+    <td class="r num tien">${VND(g*(r.q||0))}</td><td class="del">${W()?`<button class="x" data-act="dm-del" data-i="${i}" aria-label="Xóa nguyên liệu">×</button>`:''}</td></tr>`;}).join('');
   return `<div class="sh"><div><h2 style="font-size:17px">${esc(mon)}</h2><p>${rec?`${rec.nguon==='AI'?'AI soạn':'Bếp duyệt'} · ${tstr(rec.luc)}${rec.ghichu?' · '+esc(rec.ghichu):''}`:'Chưa có định mức.'} ${ED.dmDirty?'<span class="dirty">· Có thay đổi chưa lưu</span>':''}</p></div>
     <div class="kv"><b>Giá vốn nguyên liệu / suất</b><div class="num">${VND(cost)} đ</div></div></div>
-    <div class="tbl-wrap"><table class="t"><thead><tr><th>Mã hàng</th><th>Tên hàng</th><th>ĐVT</th><th class="r">Định lượng / suất</th><th class="r">Tiền / suất</th><th></th></tr></thead><tbody>${body||'<tr><td colspan="6" class="muted">Chưa có nguyên liệu.</td></tr>'}</tbody></table></div>
+    <div class="tbl-wrap"><table class="t dm-tbl"><colgroup><col class="c-ma"><col><col class="c-dvt"><col class="c-q"><col class="c-tien"><col class="c-x"></colgroup><thead><tr><th>Mã hàng</th><th>Tên hàng</th><th>ĐVT</th><th class="r">Định lượng / suất</th><th class="r">Tiền / suất</th><th><span class="sr">Xóa</span></th></tr></thead><tbody>${body||'<tr><td colspan="6" class="muted">Chưa có nguyên liệu.</td></tr>'}</tbody></table></div>
     ${W()?`<div class="toolbar" style="margin-top:8px"><button class="btn sm" data-act="dm-add">+ Thêm nguyên liệu</button><span class="sp"></span>${rec?'<button class="btn sm warn" data-act="dm-clear">Xóa định mức</button>':''}<button class="btn primary" data-act="dm-save">${rec&&rec.nguon==='AI'&&!ED.dmDirty?'Duyệt định mức':'Lưu định mức'}</button></div>`:''}
 `;
 }

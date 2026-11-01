@@ -1,5 +1,12 @@
 # Nhật ký thay đổi
 
+## Review bước Dự trù – đợt 1 (01/11/2026)
+
+- 1.3: bảng nguyên liệu vừa khung (cột cố định, tên hàng xuống dòng, cột xóa không còn bị cắt); trên điện thoại mỗi nguyên liệu thành thẻ. Danh sách món là nút bấm được bằng bàn phím.
+- 1.2: 420 ô số suất có nhãn đọc màn hình ("CN 01/11 · Nhân viên · Trưa"); cột Ngày cố định khi cuộn ngang; hàng tiêu đề thứ hai dính đúng chỗ khi cuộn dọc.
+- 1.3: ô mã hàng, định lượng có nhãn; cột xóa có tiêu đề ẩn. axe: 0 lỗi ở cả 5 mục.
+- Thông báo nhỏ (toast) tự đóng khi chuyển mục, thời gian hiển thị 2,8 giây.
+
 ## Bảng thực đơn 1.1 + thanh cuộn (01/11/2026)
 
 - Sửa lỗi gốc: ô tên hàng / tên món dùng class `wrap` trùng với khung trang nên bị padding 24px và `display:grid`, làm cột tên bị bóp. Khung trang giờ chỉ áp cho `body>.wrap`.

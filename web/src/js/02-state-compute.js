@@ -3,7 +3,7 @@ const S={thang:'2026-11',step:1,tab:'td',prdot:{},po:{},pn:{},dh:{},ds:{},prbs:{
 const ED={tdKey:null,td:null,tdDirty:false,nhom:'NV',week:null,khach:null,khDirty:false,dmMon:null,dmRows:null,dmDirty:false,lines:null,lnDirty:false,filt:{q:'',ncc:'',n2:''},paste:false,ai:null};
 let unsubMonth=[];
 
-function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,3200);}
+function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2800);}
 async function log(buoc,viec){ try{ await store.add('nhatky',{ts:Date.now(),thang:S.thang,buoc,viec,ai:uid}); }catch(e){} }
 async function setTT(key,ok,extra){ const tt={...S.tt}; tt[key]={ok,luc:Date.now(),ai:uid,...(extra||{})}; await store.set('trangthai/'+S.thang,tt); }
 const locked=()=>!!(S.tt.chot&&S.tt.chot.ok);
