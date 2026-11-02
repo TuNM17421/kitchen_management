@@ -375,7 +375,7 @@ document.addEventListener('click',async e=>{
     else { if(!window.XLSX){toast('Không tạo được file; dùng nút Copy.');return;} const ws=XLSX.utils.aoa_to_sheet([['Ma_phieu','So_PO','Ngay_hach_toan','Dong_PO','Ma_vat_tu','So_luong','Text'],...rows]); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'MIGO_TP');
       try{ await saveOut(`MIGO_TP_${S.thang}_${todayVN()}.xlsx`,new Blob([XLSX.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})); }catch(err){ if(err&&err.code!=='cancelled') toast('Không lưu được file.'); return; } }
     for(const m of W) if(m.tt==='cho') await store.set('migo/'+m.id,{...stripId(m),tt:'xuat',xuatLuc:Date.now()}); await log('7.1',`Xuất ${rows.length} dòng MIGO (${W.length} chứng từ)`); }
-  else if(a==='mg-ok'){ const map=new Map(migoAll().filter(m=>m.thang===S.thang).map(m=>[m.ma,m])); let n=0; const bad=[];
+  else if(a==='mg-ok'){ const map=new Map(migoAll().filter(m=>m.thang===S.thang&&m.tt!=='huy').map(m=>[m.ma,m])); let n=0; const bad=[];
     for(const line of $('#mg-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const m=map.get(c[0]); if(!m||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} await store.set('migo/'+m.id,{...stripId(m),tt:'migo',soMIGO:c[1],migoLuc:Date.now()}); n++; }
     if(n) await log('7.1',`Ghi ${n} số chứng từ MIGO`); $('#mg-txt').value=bad.join('\n'); toast(`Đã ghi ${n} chứng từ${bad.length?`, ${bad.length} dòng không khớp`:''}.`); }
   else if(a==='mg-open'){ ED.mgOpen=ED.mgOpen===t.dataset.id?null:t.dataset.id; render(); }
