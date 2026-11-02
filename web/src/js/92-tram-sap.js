@@ -30,6 +30,9 @@ async function tachNCC(ncc){
     await store.set('prdot/'+nid,d); await setBatch(b.id,{lines:keep,tong:tg(keep)},'Tách '+ncc+' sang '+d.nhom); ED.sel.add(nid); ED.sel.delete(b.id); n++; }
   if(n){ await log('2.2',`Tách ${ncc} thành ${n} đợt riêng`); toast(`Đã tách ${ncc} thành ${n} đợt riêng (đã chọn sẵn các đợt mới).`); render(); }
   else toast('Không có đợt nào cần tách (NCC này đã là đợt riêng, hoặc chưa chọn đợt).'); }
+// Hủy lệnh còn chờ (trạm chưa nhận) khi người dùng đã tự làm bằng tay: tránh trạm chạy lại sau này.
+async function boLenhCho(lid,why){ const L=lid&&S.lenh&&S.lenh[lid]; if(!L||L.tt!=='cho') return false;
+  const x={...L,tt:'loi',log:why,ketqua:null,apDung:true,apLuc:Date.now()}; delete x.id; await store.set('lenh/'+lid,x); return true; }
 async function guiLenh(loai,rows,ref,moTa,lifnr){
   if(!SH){ toast('Chưa kết nối file dữ liệu, không gửi được lệnh.'); return null; }
   const id='L'+Date.now().toString(36), lt=sapLuuThat(loai);
@@ -77,12 +80,13 @@ async function applyLenh(){
   } }
 function renderLenh(){ const el=$('#lenhList'); if(!el) return;
   const A=Object.values(S.lenh||{}).sort((a,b)=>(b.taoLuc||0)-(a.taoLuc||0)).slice(0,12);
-  el.innerHTML=A.length?A.map(L=>{const t=TTL[L.tt]||[L.tt,''];
+  const nCho=Object.values(S.lenh||{}).filter(L=>L.tt==='cho').length;
+  el.innerHTML=(nCho>1&&canWrite?`<li><button class="btn sm warn" data-tram="huy-all">Hủy tất cả ${nCho} lệnh đang chờ</button></li>`:'')+(A.length?A.map(L=>{const t=TTL[L.tt]||[L.tt,''];
     return `<li><div class="h"><span class="pill ${t[1]}">${t[0]}</span><span class="pill">${esc(L.loai)}</span><span class="pill ${L.luuThat?'bad':''}">${L.luuThat?'lưu thật':'không lưu'}</span><time>${tstr(L.taoLuc)}</time></div>
     <div>${esc(L.moTa||'')}${L.tiendo?` · <i>${esc(L.tiendo)}</i>`:''}</div>
     ${L.log?`<details><summary class="meta">Nhật ký macro</summary><pre style="white-space:pre-wrap;font-size:11px;max-height:200px;overflow:auto;margin:4px 0">${esc(L.log)}</pre></details>`:''}
     ${L.tt==='cho'&&canWrite?`<button class="btn sm warn" data-tram="huy" data-id="${L.id}">Hủy lệnh</button>`:''}</li>`;}).join('')
-    :'<li class="muted">Chưa gửi lệnh nào. Bấm “Tạo PR trên SAP” ở 2.2 hoặc “Tạo trên SAP” ở 3.2.</li>'; }
+    :'<li class="muted">Chưa gửi lệnh nào. Bấm “Tạo PR trên SAP” ở 2.2 hoặc “Tạo trên SAP” ở 3.2.</li>'); }
 async function reloadCol(col){
   const V=(pay(await mcp.callTool('Google Sheets','get_values',{spreadsheetId:FILE.sheet,range:`${col}!A1:Z2000`},{cache:false})).values)||[];
   if(PENDING>0) return; const st=V[0]&&V[0][0]==='id'?1:0;
@@ -97,7 +101,10 @@ async function pollTram(){ if(!SH||!mcp||pollBusy) return; pollBusy=true;
     if(act&&PENDING===0) await reloadCol('lenh'); pollN++;
   }catch(e){} finally{ pollBusy=false; renderTram(); if(S.step===2||S.step===3) render(); } }
 setInterval(()=>{ const act=Object.values(S.lenh||{}).some(L=>lenhBusy(L.id)); if(act||pollN%4===0) pollTram(); else pollN++; },15000);
+var TRAM_RUN=new Set(); // lệnh đang gửi: chặn bấm lại khi trang vẽ lại nút (tránh gửi trùng)
+function tramRunMark(){ const v=$('#view'); if(!v||!TRAM_RUN||!TRAM_RUN.size) return; v.querySelectorAll('[data-tram]').forEach(b=>{ if(TRAM_RUN.has(b.dataset.tram+'|'+(b.dataset.id||''))){ b.disabled=true; b.setAttribute('aria-busy','true'); } }); }
 document.addEventListener('click',async e=>{ const t=e.target.closest('[data-tram]'); if(!t) return; const a=t.dataset.tram;
+  const rk=a+'|'+(t.dataset.id||''), guard=!['mode','tach'].includes(a); if(guard){ if(TRAM_RUN.has(rk)) return; TRAM_RUN.add(rk); }
   try{
     if(a==='mode'){ const lo=t.dataset.loai||'PR', lt=sapLuuThat(lo), c={...(MEM.get('cauhinh/sap')||{})}; c[SAPKEY[lo]]=lt; c.luc=Date.now(); c.nguoi=uname; await store.set('cauhinh/sap',c);
       await log('2.2',`Chế độ trạm SAP – ${SAPTEN[lo]}${lo==='PR'||lo==='PO'?' và '+SAPTEN[lo==='PR'?'PO':'PR']:''}: ${lt?'không lưu (chạy thử)':'LƯU THẬT'}`); render(); }
@@ -109,7 +116,10 @@ document.addEventListener('click',async e=>{ const t=e.target.closest('[data-tra
     else if(a==='po-many'){ t.disabled=true; const bo=ED.poBo||new Set(), ids=poOf(S.thang).filter(p=>p.tt==='cho'&&!lenhBusy(p.lenh)&&!bo.has(p.id)).map(p=>p.id); for(const id of ids) await lenhPO(id); ED.poBo=null; render(); }
     else if(a==='tach'){ const n=$('#tach-ncc').value; if(!n){toast('Chọn NCC cần tách.');return;} await tachNCC(n); }
     else if(a==='huy'){ await WQ; await reloadCol('lenh'); const L=S.lenh[t.dataset.id]; if(!L||L.tt!=='cho'){toast('Trạm đã nhận lệnh, không hủy được.');return;}
-      const x={...L,tt:'loi',log:'Người dùng hủy trước khi trạm nhận.',ketqua:null}; delete x.id; await store.set('lenh/'+L.id,x); await log('2.2','Hủy lệnh trạm SAP: '+(L.moTa||L.id)); }
+      await boLenhCho(L.id,'Người dùng hủy trước khi trạm nhận.'); await log('2.2','Hủy lệnh trạm SAP: '+(L.moTa||L.id)); }
+    else if(a==='huy-all'){ await WQ; await reloadCol('lenh'); let n=0; for(const L of Object.values(S.lenh||{})) if(L.tt==='cho'&&await boLenhCho(L.id,'Người dùng hủy tất cả lệnh đang chờ.')) n++;
+      if(n) await log('2.2',`Hủy ${n} lệnh trạm SAP đang chờ`); toast(n?`Đã hủy ${n} lệnh đang chờ.`:'Không còn lệnh nào đang chờ.'); }
   }catch(err){ toast('Lỗi: '+((err&&(err.message||err.code))||err)); }
+  finally{ if(guard){ TRAM_RUN.delete(rk); render(); } }
 });
 

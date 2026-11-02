@@ -250,7 +250,8 @@ document.addEventListener('click',async e=>{
   else if(a==='xuat-copy'){ await exportSel('copy'); }
   else if(a==='ls-open'){ ED.lsOpen=ED.lsOpen===t.dataset.id?null:t.dataset.id; render(); }
   else if(a==='ls-sopr'){ const id=t.dataset.id, v=($('#sopr-'+id).value||'').trim(); if(!/^\d{6,12}$/.test(v)){toast('Số PR là dãy 6–12 chữ số.');return;}
-    await setBatch(id,{soPR:v,tt:'sap',sapLuc:Date.now()},'Ghi số PR '+v); await log('2.3',`Ghi số PR ${v} cho ${S.prdot[id].nhom}`); }
+    const lid=S.prdot[id].lenh; await setBatch(id,{soPR:v,tt:'sap',sapLuc:Date.now(),lenh:''},'Ghi số PR '+v);
+    { const L=lid&&S.lenh&&S.lenh[lid]; if(L&&((L.ref&&L.ref.batches)||[]).every(b=>S.prdot[b]&&S.prdot[b].soPR)) await boLenhCho(lid,'Đã ghi số PR bằng tay.'); } await log('2.3',`Ghi số PR ${v} cho ${S.prdot[id].nhom}`); }
   else if(a==='ls-duyet'){ const id=t.dataset.id,b=S.prdot[id]; const late=b.sapLuc&&tstr(b.sapLuc).slice(0,5)!==tstr(Date.now()).slice(0,5);
     await setBatch(id,{tt:'duyet',duyetLuc:Date.now()},late?'Duyệt trễ (khác ngày tạo)':'Duyệt trong ngày'); await log('2.3',`PR ${b.soPR} (${b.nhom}) đã duyệt${late?' – trễ ngày':''}`); }
   else if(a==='ls-huy'){ const id=t.dataset.id,b=S.prdot[id]; if(ED.huyAsk!==id){ED.huyAsk=id;toast('Bấm Hủy lần nữa để xác nhận hủy '+b.nhom+'.');return;} ED.huyAsk=null;

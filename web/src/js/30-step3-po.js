@@ -121,7 +121,7 @@ document.addEventListener('click',async e=>{
   else if(a==='po-bs'){ const C=poRecvCompute(); const items=C.rows.filter(r=>r.need>0).map(r=>({ma:r.ma,ncc:r.po?r.po.ncc:r.ncc,g:r.g,dvt:r.dvt,q:ED.pobs&&ED.pobs[r.key]!=null?ED.pobs[r.key]:r.need})).filter(o=>o.q>0);
     if(!items.length){toast('Không có dòng nào cần bổ sung.');return;}
     await makeBSFrom(items,`Bổ sung từ đối chiếu PO – nhận hàng tới ${C.asOf?dm(C.asOf):''}`,'3.3'); ED.pobs={}; toast('Đã tạo PR bổ sung. Sang bước 2.2 để xuất lên SAP.'); }
-  else if(a==='po-sapok'){ const p=S.po[t.dataset.id]; await setPO(p.id,{sua:false},'Đã cập nhật SL trên SAP (ME22N)'); await log('3.4',`PO ${p.soPO}: đã cập nhật SAP sau khi sửa SL`); }
+  else if(a==='po-sapok'){ const p=S.po[t.dataset.id]; await boLenhCho(p.lenh,'Đã sửa PO bằng tay (ME22N).'); await setPO(p.id,{sua:false,lenh:''},'Đã cập nhật SL trên SAP (ME22N)'); await log('3.4',`PO ${p.soPO}: đã cập nhật SAP sau khi sửa SL`); }
   }catch(err){ toast('Không lưu được: '+(err&&err.message||err)); }
 });
 document.addEventListener('input',e=>{ const t=e.target;
@@ -164,12 +164,12 @@ document.addEventListener('click',async e=>{
       await store.set('po/'+pid,{thang:S.thang,ncc:o.ncc,lifnr:LIFNR[o.ncc.toUpperCase()]||'',loai:o.loai.includes('Bổ sung')&&!o.loai.includes('Chính')?'Bổ sung':o.loai.join('+'),src:o.src,pr:o.pr,lines:o.lines,tong:o.tong,tt:'cho',soPO:'',tongSAP:null,email:[],luc:Date.now(),ai:uid,hist:[{ts:Date.now(),tt:'cho',ai:uid,note:'Lập từ PR '+o.pr.join(', ')}]}); n++; } }finally{ ED.poMaking=null; render(); }
     await log('3.1',`Lập danh sách ${n} PO tháng ${mmY(S.thang)} (${TR(pend.reduce((s,o)=>s+o.tong,0))})`); toast(`Đã lập ${n} PO. Sau khi tạo trên SAP, ghi số PO ở 3.2.`); }
   else if(a==='po-save'){ const v=($('#sopo-'+id).value||'').trim(), ts=$('#tsap-'+id).value.trim(); if(!/^\d{6,12}$/.test(v)){toast('Số PO là dãy 6–12 chữ số.');return;}
-    const p=S.po[id], tsv=ts===''?null:pnum(ts.replace(/\./g,'')); await setPO(id,{soPO:v,tongSAP:tsv,tt:p.tt==='cho'?'sap':p.tt,sapLuc:p.sapLuc||Date.now()},'Ghi số PO '+v+(tsv!=null?' · SAP '+VND(tsv):''));
+    const p=S.po[id], tsv=ts===''?null:pnum(ts.replace(/\./g,'')); await boLenhCho(p.lenh,'Đã ghi số PO bằng tay.'); await setPO(id,{soPO:v,tongSAP:tsv,tt:p.tt==='cho'?'sap':p.tt,sapLuc:p.sapLuc||Date.now(),lenh:''},'Ghi số PO '+v+(tsv!=null?' · SAP '+VND(tsv):''));
     await log('3.2',`Ghi số PO ${v} cho ${p.ncc}${tsv!=null&&Math.abs(tsv-p.tong)>=1?` – lệch ${VND(tsv-p.tong)} so với PR`:''}`); }
   else if(a==='po-paste'){ ED.poPaste=!ED.poPaste; render(); }
   else if(a==='po-paste-ok'){ const L=poOf(S.thang), bad=[], dung=new Set(); let n=0;
     for(const line of $('#po-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const cand=L.filter(x=>x.ncc.toUpperCase()===(c[0]||'').toUpperCase()&&(x.tt==='cho'||x.tt==='sap')&&!dung.has(x.id)), p=cand.find(x=>x.soPO===c[1])||cand.find(x=>!x.soPO); if(p) dung.add(p.id);
-      if(!p||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} const tsv=c[2]?pnum(c[2].replace(/\./g,'')):null; await setPO(p.id,{soPO:c[1],tongSAP:tsv,tt:'sap',sapLuc:p.sapLuc||Date.now()},'Dán từ sheet PO'); n++; }
+      if(!p||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} const tsv=c[2]?pnum(c[2].replace(/\./g,'')):null; await boLenhCho(p.lenh,'Đã ghi số PO bằng tay (dán từ sheet PO).'); await setPO(p.id,{soPO:c[1],tongSAP:tsv,tt:'sap',sapLuc:p.sapLuc||Date.now(),lenh:''},'Dán từ sheet PO'); n++; }
     if(n) await log('3.2',`Ghi ${n} số PO (dán từ sheet PO)`); ED.poPaste=bad.length>0; render(); if(ED.poPaste) $('#po-txt').value=bad.join('\n'); toast(`Đã ghi ${n} số PO${bad.length?`, ${bad.length} dòng không khớp NCC hoặc số PO`:''}.`); }
   else if(a==='po-open'){ ED.poOpen=ED.poOpen===id?null:id; render(); }
   else if(a==='po-huy'){ const p=S.po[id]; if(ED.poHuy!==id){ED.poHuy=id;toast('Bấm Hủy lần nữa để hủy PO '+(p.soPO||p.ncc)+'. Các dòng PR sẽ quay lại 3.1.');render();return;} ED.poHuy=null;

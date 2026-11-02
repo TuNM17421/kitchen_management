@@ -81,7 +81,7 @@ function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();rend
   const fa=document.activeElement, fid=fa&&fa.id&&$('#view').contains(fa)&&/^(INPUT|TEXTAREA)$/.test(fa.tagName)?fa.id:'', fs=fid&&fa.selectionStart!=null?[fa.selectionStart,fa.selectionEnd]:null;
   { const vk0=S.step+'|'+S.tab; if(vk0!==KEEP_VIEW){ KEEP.clear(); KEEP_VIEW=vk0; } }
   const fsig=fa&&!fid&&$('#view').contains(fa)&&/^(INPUT|TEXTAREA)$/.test(fa.tagName)?keepSigOf(fa):'', fs2=fsig&&fa.selectionStart!=null?[fa.selectionStart,fa.selectionEnd]:null;
-  $('#view').innerHTML=v(); keepRestore();
+  $('#view').innerHTML=v(); keepRestore(); if(typeof tramRunMark==='function') tramRunMark();
   if(fsig){ const nf=(keepSigs($('#view')).find(x=>x[1]===fsig)||[])[0]; if(nf){ nf.focus({preventScroll:true}); if(fs2) try{nf.setSelectionRange(fs2[0],fs2[1]);}catch(e){} } }
   if(fid){ const nf=document.getElementById(fid); if(nf){ nf.focus({preventScroll:true}); if(fs) try{nf.setSelectionRange(fs[0],fs[1]);}catch(e){} } }
   { const vw=$('#view'), sh=vw.querySelector(':scope > .sh'), k=vw.querySelector(':scope > .kpis'), cb=vw.querySelector(':scope > .ctxbar'); if(sh&&cb){ sh.after(cb); if(k) cb.after(k); } else if(sh&&k) sh.after(k); // kết quả lên ngay dưới tiêu đề
