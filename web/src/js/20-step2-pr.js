@@ -258,7 +258,7 @@ document.addEventListener('click',async e=>{
     await setBatch(id,{tt:'huy'},'Hủy đợt'); await log('2.3',`Hủy đợt ${b.nhom}${b.soPR?' (PR '+b.soPR+')':''}`); }
   else if(a==='dc-f'){ ED.dcF=t.dataset.f; render(); }
   else if(a==='nh-paste'){ ED.nhPaste=!ED.nhPaste; render(); }
-  else if(a==='nh-ok'){ const rows=[],bad=[]; for(const line of $('#nh-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim());
+  else if(a==='nh-ok'){ const rows=[],bad=[]; for(const line of $('#nh-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split(/[\t⇥]/).map(x=>x.trim());
       const m=(c[0]||'').match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})/); const ma=(c[1]||'').toUpperCase(), sl=pnum(c[2]);
       if(!m||!ma||!(sl>0)){bad.push(line);continue;} const d=`${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`; if(d.slice(0,7)!==S.thang){bad.push(line);continue;}
       const x=IT.get(ma); if(!x){bad.push(line);continue;} rows.push({d,ma,sl,ncc:(c[3]||'').toUpperCase()||(x&&x.ncc[0]?x.ncc[0].ncc:''),migo:c[4]||'',nguon:'dán tay'}); }

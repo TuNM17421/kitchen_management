@@ -168,7 +168,7 @@ document.addEventListener('click',async e=>{
     await log('3.2',`Ghi số PO ${v} cho ${p.ncc}${tsv!=null&&Math.abs(tsv-p.tong)>=1?` – lệch ${VND(tsv-p.tong)} so với PR`:''}`); }
   else if(a==='po-paste'){ ED.poPaste=!ED.poPaste; render(); }
   else if(a==='po-paste-ok'){ const L=poOf(S.thang), bad=[], dung=new Set(); let n=0;
-    for(const line of $('#po-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const cand=L.filter(x=>x.ncc.toUpperCase()===(c[0]||'').toUpperCase()&&(x.tt==='cho'||x.tt==='sap')&&!dung.has(x.id)), p=cand.find(x=>x.soPO===c[1])||cand.find(x=>!x.soPO); if(p) dung.add(p.id);
+    for(const line of $('#po-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split(/[\t⇥]/).map(x=>x.trim()); const cand=L.filter(x=>x.ncc.toUpperCase()===(c[0]||'').toUpperCase()&&(x.tt==='cho'||x.tt==='sap')&&!dung.has(x.id)), p=cand.find(x=>x.soPO===c[1])||cand.find(x=>!x.soPO); if(p) dung.add(p.id);
       if(!p||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} const tsv=c[2]?pnum(c[2].replace(/\./g,'')):null; await boLenhCho(p.lenh,'Đã ghi số PO bằng tay (dán từ sheet PO).'); await setPO(p.id,{soPO:c[1],tongSAP:tsv,tt:'sap',sapLuc:p.sapLuc||Date.now(),lenh:''},'Dán từ sheet PO'); n++; }
     if(n) await log('3.2',`Ghi ${n} số PO (dán từ sheet PO)`); ED.poPaste=bad.length>0; render(); if(ED.poPaste) $('#po-txt').value=bad.join('\n'); toast(`Đã ghi ${n} số PO${bad.length?`, ${bad.length} dòng không khớp NCC hoặc số PO`:''}.`); }
   else if(a==='po-open'){ ED.poOpen=ED.poOpen===id?null:id; render(); }

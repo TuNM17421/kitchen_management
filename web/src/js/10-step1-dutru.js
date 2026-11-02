@@ -39,7 +39,7 @@ function vTD(){
 function parsePaste(txt){
   const days=Array.from({length:7},(_,i)=>addD(ED.week,i)), N=NHOM[ED.nhom], out=[], bad=[];
   const th={'t2':1,'thu hai':1,'thứ hai':1,'t3':2,'thu ba':2,'thứ ba':2,'t4':3,'thu tu':3,'thứ tư':3,'t5':4,'thu nam':4,'thứ năm':4,'t6':5,'thu sau':5,'thứ sáu':5,'t7':6,'thu bay':6,'thứ bảy':6,'cn':0,'chu nhat':0,'chủ nhật':0};
-  for(const line of txt.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(s=>s.trim());
+  for(const line of txt.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split(/[\t⇥]/).map(s=>s.trim());
     if(c.length<3){bad.push(line);continue;} let d=null; const a=c[0].toLowerCase();
     const m=a.match(/^(\d{1,2})[\/\-.](\d{1,2})/); if(m){const t=`${ED.week.slice(0,4)}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`; d=days.find(x=>x===t)||null;}
     else if(a in th){d=days.find(x=>P(x).getUTCDay()===th[a]);}

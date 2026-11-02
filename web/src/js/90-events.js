@@ -32,7 +32,7 @@ document.addEventListener('click',async e=>{
   else if(a==='dm-clear'){ const rec=S.dm[ED.dmMon]; if(!confirm(`Xóa toàn bộ định mức của “${rec&&rec.mon}”? Món này sẽ tính theo lịch sử cho tới khi nhập lại.`)) return; await store.del('dinhmuc/'+ED.dmMon); ED.dmRows=null;ED.dmDirty=false; await log('1.3',`Xóa định mức “${rec&&rec.mon}”`); }
   else if(a==='dm-paste'){ ED.dmPaste=!ED.dmPaste; render(); }
   else if(a==='dm-paste-ok'){ const by=new Map(), bad=[];
-    for(const line of $('#dm-paste-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const x=IT.get((c[1]||'').toUpperCase()); const v=pnum(c[2]);
+    for(const line of $('#dm-paste-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split(/[\t⇥]/).map(x=>x.trim()); const x=IT.get((c[1]||'').toUpperCase()); const v=pnum(c[2]);
       if(c.length<3||!c[0]||!x||!(v>0)){bad.push(line);continue;} const q=/^(KG|L)$/.test(x.dvt)?v/1000:v; if(!by.has(c[0])) by.set(c[0],[]); by.get(c[0]).push({ma:x.ma,q:+q.toFixed(4)}); }
     for(const [mon,nl] of by) await store.set('dinhmuc/'+slug(mon),{mon,nl,nguon:'Bếp',ghichu:'nạp từ Excel',luc:Date.now(),ai:uid});
     if(by.size) await log('1.3',`Nạp định mức từ Excel: ${by.size} món`); ED.dmPaste=bad.length>0; render(); if(ED.dmPaste) $('#dm-paste-txt').value=bad.join('\n');

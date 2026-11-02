@@ -329,7 +329,7 @@ document.addEventListener('click',async e=>{
   else if(a==='bk-sent'){ await setDS(ED.dsN,ky,{tt:'gui',guiLuc:Date.now()},'Đã gửi bảng kê'); await log('5.1',`Đã gửi bảng kê ${ED.dsN} ${kyName(ky)}`); }
   else if(a==='sf-paste'){ ED.sfPaste=!ED.sfPaste; render(); }
   else if(a==='sf-clear'){ ED.sf=null; render(); }
-  else if(a==='sf-paste-ok'){ const aoa=$('#sf-txt').value.split(/\r?\n/).filter(Boolean).map(l=>l.split('\t')); ED.sf={key:ED.dsN+'|'+ky.k,ten:'bảng dán',...parseNccTable(aoa,ky)}; ED.sfPaste=false; render(); }
+  else if(a==='sf-paste-ok'){ const aoa=$('#sf-txt').value.split(/\r?\n/).filter(Boolean).map(l=>l.split(/[\t⇥]/)); ED.sf={key:ED.dsN+'|'+ky.k,ten:'bảng dán',...parseNccTable(aoa,ky)}; ED.sfPaste=false; render(); }
   else if(a==='sf-fixall'){ const L=(ED.sfD||[]).filter(x=>x.loai==='LỆCH SỐ LƯỢNG'); t.disabled=true; for(const x of L) await sfApply(x,'sf-fix'); await log('5.2',`Sửa ${L.length} dòng lệch số lượng theo file ${ED.dsN}`); toast(`Đã sửa ${L.length} dòng theo file NCC.`); }
   else if(a==='sf-fix'||a==='sf-zero'||a==='sf-add'){ const x=ED.sfD[+t.dataset.i]; await sfApply(x,a);
     await log('5.2',`${a==='sf-add'?'Thêm':a==='sf-zero'?'Bỏ':'Sửa'} ${(x.a||x.b).ma} ngày ${dm((x.a||x.b).d)} theo file ${ED.dsN}`); }
@@ -376,7 +376,7 @@ document.addEventListener('click',async e=>{
       try{ await saveOut(`MIGO_TP_${S.thang}_${todayVN()}.xlsx`,new Blob([XLSX.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})); }catch(err){ if(err&&err.code!=='cancelled') toast('Không lưu được file.'); return; } }
     for(const m of W) if(m.tt==='cho') await store.set('migo/'+m.id,{...stripId(m),tt:'xuat',xuatLuc:Date.now()}); await log('7.1',`Xuất ${rows.length} dòng MIGO (${W.length} chứng từ)`); }
   else if(a==='mg-ok'){ const map=new Map(migoAll().filter(m=>m.thang===S.thang&&m.tt!=='huy').map(m=>[m.ma,m])); let n=0; const bad=[];
-    for(const line of $('#mg-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const m=map.get(c[0]); if(!m||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} await store.set('migo/'+m.id,{...stripId(m),tt:'migo',soMIGO:c[1],migoLuc:Date.now()}); n++; }
+    for(const line of $('#mg-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.trim().split(/[\t⇥]|\s+/).map(x=>x.trim()); const m=map.get(c[0]); if(!m||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} await store.set('migo/'+m.id,{...stripId(m),tt:'migo',soMIGO:c[1],migoLuc:Date.now()}); n++; }
     if(n) await log('7.1',`Ghi ${n} số chứng từ MIGO`); $('#mg-txt').value=bad.join('\n'); toast(`Đã ghi ${n} chứng từ${bad.length?`, ${bad.length} dòng không khớp`:''}.`); }
   else if(a==='mg-open'){ ED.mgOpen=ED.mgOpen===t.dataset.id?null:t.dataset.id; render(); }
   else if(a==='mg-huy'){ const m=S.migo[t.dataset.id]; if(ED.mgHuy!==m.id){ED.mgHuy=m.id;toast('Bấm Hủy lần nữa để hủy '+m.ma+'.');render();return;} ED.mgHuy=null; await store.set('migo/'+m.id,{...stripId(m),tt:'huy'}); await log('7.2',`Hủy chứng từ MIGO ${m.ma}`); }
