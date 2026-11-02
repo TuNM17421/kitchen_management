@@ -23,7 +23,7 @@ function vPOcan(){
    <div class="kv"><b>PO đã lập tháng ${mmY(S.thang)}</b><div class="num">${made.length}</div><small>${made.filter(p=>p.soPO).length} đã có số PO</small></div>
    <div class="kv"><b>PR đã duyệt</b><div class="num">${batchesOf(S.thang).filter(b=>b.tt==='duyet').length} đợt</div><small>${batchesOf(S.thang).filter(b=>b.tt==='sap'||b.tt==='xuat'||b.tt==='nhap').length} đợt chưa duyệt (chưa lên PO)</small></div></div>
   ${noL.length?`<div class="warn">Chưa có mã NCC SAP: <b>${noL.map(o=>esc(o.ncc)).join(', ')}</b>. Thêm vào sheet Mapping (cột E:F) trước khi chạy CreatePO.</div>`:''}
-  ${pend.length?`<div class="toolbar">${canWrite?`<button class="btn primary" data-act3="po-make">Lập danh sách ${pend.length} PO</button>`:''}<span class="meta">Tạo bản ghi PO “chờ tạo trên SAP” để theo dõi số PO, email và nhận hàng.</span></div>
+  ${pend.length?`<div class="toolbar">${canWrite?(ED.poMaking?`<button class="btn primary" disabled>Đang lập PO ${ED.poMaking.n}/${ED.poMaking.N}…</button>`:`<button class="btn primary" data-act3="po-make">Lập danh sách ${pend.length} PO</button>`):''}<span class="meta">Tạo bản ghi PO “chờ tạo trên SAP” để theo dõi số PO, email và nhận hàng.</span></div>
   <div class="tbl-wrap" style="max-height:none"><table class="t"><thead><tr><th>Nhà cung cấp</th><th>Mã NCC SAP</th><th>PR nguồn</th><th>Loại</th><th class="r">Dòng PO</th><th class="r">Tổng tiền</th></tr></thead><tbody>
   ${pend.map(o=>`<tr><td><b>${esc(o.ncc)}</b></td><td class="num">${hasLifnr(o.ncc)?LIFNR[o.ncc.toUpperCase()]:'<span class="pill bad">thiếu</span>'}</td><td class="num" title="${o.pr.map(esc).join(', ')}">${o.pr.length} PR</td><td>${o.loai.join(', ')}</td><td class="r num">${o.lines.length}</td><td class="r num">${VND(o.tong)}</td></tr>`).join('')}
   </tbody><tfoot><tr><td colspan="5">Tổng</td><td class="r num">${VND(pend.reduce((a,o)=>a+o.tong,0))}</td></tr></tfoot></table></div>`
@@ -45,7 +45,7 @@ function vPOsap(){
     <td class="so">${ed&&canWrite?`<div class="so-in"><input type="text" id="sopo-${p.id}" value="${esc(p.soPO||'')}" placeholder="Số PO" aria-label="Số PO của ${esc(p.ncc)}"><input type="text" inputmode="numeric" id="tsap-${p.id}" value="${p.tongSAP!=null?QI(p.tongSAP):''}" placeholder="Tổng trên SAP" aria-label="Tổng tiền trên SAP của ${esc(p.ncc)}"></div>`:`<span class="num">${esc(p.soPO||'')}</span>${p.tongSAP!=null?` · <span class="num">${VND(p.tongSAP)}</span>`:''}`}${d==null?'':`<small>Chênh lệch <span class="pill ${Math.abs(d)<1?'ok':'bad'}">${d>0?'+':''}${VND(d)}</span></small>`}</td>
     <td class="tt">${poPill(p)}${lenhPill(p.lenh)}</td>
     <td class="acts"><div class="acts-in">${ed&&canWrite?`<button class="btn sm" data-act3="po-save" data-id="${p.id}">Lưu số PO</button>`:''}${can(p)?`<button class="btn sm" data-tram="po" data-id="${p.id}">Tạo trên SAP</button>`:''}</div></td></tr>`;}).join('')}</tbody></table></div>
-  ${canWrite?`<details class="more"${ED.poPaste?' open':''}><summary>Thao tác khác</summary><div class="toolbar"><button class="btn sm" data-act3="po-paste">Dán số PO từ sheet PO</button><span class="meta">Mỗi dòng: Nhà cung cấp ⇥ Số PO ⇥ Tổng tiền trên SAP (tùy chọn).</span></div>
+  ${canWrite?`<details class="more"${ED.poPaste?' open':''}><summary>Thao tác khác</summary><div class="toolbar"><button class="btn sm" data-act3="po-paste">Dán số PO từ sheet PO</button><span class="meta">Mỗi dòng: Nhà cung cấp ⇥ Số PO ⇥ Tổng tiền trên SAP (tùy chọn). NCC có nhiều PO thì dán nhiều dòng, lần lượt điền vào PO chưa có số.</span></div>
   ${ED.poPaste?`<div class="box"><textarea class="paste" id="po-txt" aria-label="Dán số PO"></textarea><div class="toolbar"><button class="btn sm primary" data-act3="po-paste-ok">Ghi số PO</button><button class="btn sm" data-act3="po-paste">Đóng</button></div></div>`:''}</details>`:''}`
   :'<div class="empty"><b>Chưa có PO nào</b>Lập danh sách PO ở 3.1.<div class="toolbar" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="go-next" data-tab="pocan">Mở 3.1</button></div></div>');
 }
@@ -159,16 +159,16 @@ function vPOls(){
 document.addEventListener('click',async e=>{
   const t=e.target.closest('[data-act3]'); if(!t) return; const a=t.dataset.act3, id=t.dataset.id;
   try{
-  if(a==='po-make'){ const pend=poPending(); let n=0;
-    for(const o of pend){ const pid=S.thang+'-'+slug(o.ncc)+'-'+Date.now().toString(36)+n;
-      await store.set('po/'+pid,{thang:S.thang,ncc:o.ncc,lifnr:LIFNR[o.ncc.toUpperCase()]||'',loai:o.loai.includes('Bổ sung')&&!o.loai.includes('Chính')?'Bổ sung':o.loai.join('+'),src:o.src,pr:o.pr,lines:o.lines,tong:o.tong,tt:'cho',soPO:'',tongSAP:null,email:[],luc:Date.now(),ai:uid,hist:[{ts:Date.now(),tt:'cho',ai:uid,note:'Lập từ PR '+o.pr.join(', ')}]}); n++; }
+  if(a==='po-make'){ if(ED.poMaking) return; const pend=poPending(); let n=0; ED.poMaking={n:0,N:pend.length}; render(); try{
+    for(const o of pend){ ED.poMaking.n=n+1; const pid=S.thang+'-'+slug(o.ncc)+'-'+Date.now().toString(36)+n;
+      await store.set('po/'+pid,{thang:S.thang,ncc:o.ncc,lifnr:LIFNR[o.ncc.toUpperCase()]||'',loai:o.loai.includes('Bổ sung')&&!o.loai.includes('Chính')?'Bổ sung':o.loai.join('+'),src:o.src,pr:o.pr,lines:o.lines,tong:o.tong,tt:'cho',soPO:'',tongSAP:null,email:[],luc:Date.now(),ai:uid,hist:[{ts:Date.now(),tt:'cho',ai:uid,note:'Lập từ PR '+o.pr.join(', ')}]}); n++; } }finally{ ED.poMaking=null; render(); }
     await log('3.1',`Lập danh sách ${n} PO tháng ${mmY(S.thang)} (${TR(pend.reduce((s,o)=>s+o.tong,0))})`); toast(`Đã lập ${n} PO. Sau khi tạo trên SAP, ghi số PO ở 3.2.`); }
   else if(a==='po-save'){ const v=($('#sopo-'+id).value||'').trim(), ts=$('#tsap-'+id).value.trim(); if(!/^\d{6,12}$/.test(v)){toast('Số PO là dãy 6–12 chữ số.');return;}
     const p=S.po[id], tsv=ts===''?null:pnum(ts.replace(/\./g,'')); await setPO(id,{soPO:v,tongSAP:tsv,tt:p.tt==='cho'?'sap':p.tt,sapLuc:p.sapLuc||Date.now()},'Ghi số PO '+v+(tsv!=null?' · SAP '+VND(tsv):''));
     await log('3.2',`Ghi số PO ${v} cho ${p.ncc}${tsv!=null&&Math.abs(tsv-p.tong)>=1?` – lệch ${VND(tsv-p.tong)} so với PR`:''}`); }
   else if(a==='po-paste'){ ED.poPaste=!ED.poPaste; render(); }
-  else if(a==='po-paste-ok'){ const L=poOf(S.thang), bad=[]; let n=0;
-    for(const line of $('#po-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const p=L.find(x=>x.ncc.toUpperCase()===(c[0]||'').toUpperCase()&&(x.tt==='cho'||x.tt==='sap'));
+  else if(a==='po-paste-ok'){ const L=poOf(S.thang), bad=[], dung=new Set(); let n=0;
+    for(const line of $('#po-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const cand=L.filter(x=>x.ncc.toUpperCase()===(c[0]||'').toUpperCase()&&(x.tt==='cho'||x.tt==='sap')&&!dung.has(x.id)), p=cand.find(x=>x.soPO===c[1])||cand.find(x=>!x.soPO); if(p) dung.add(p.id);
       if(!p||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} const tsv=c[2]?pnum(c[2].replace(/\./g,'')):null; await setPO(p.id,{soPO:c[1],tongSAP:tsv,tt:'sap',sapLuc:p.sapLuc||Date.now()},'Dán từ sheet PO'); n++; }
     if(n) await log('3.2',`Ghi ${n} số PO (dán từ sheet PO)`); ED.poPaste=bad.length>0; render(); if(ED.poPaste) $('#po-txt').value=bad.join('\n'); toast(`Đã ghi ${n} số PO${bad.length?`, ${bad.length} dòng không khớp NCC hoặc số PO`:''}.`); }
   else if(a==='po-open'){ ED.poOpen=ED.poOpen===id?null:id; render(); }
