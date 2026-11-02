@@ -66,10 +66,14 @@ const colL=n=>{let s='';n++;while(n>0){const m=(n-1)%26;s=String.fromCharCode(65
 const CH=45000;
 function notify(){ MEML.forEach(f=>f()); }
 function rowVals(id,data){ const json=data==null?'':JSON.stringify(data), parts=[]; for(let i=0;i<json.length;i+=CH) parts.push("'"+json.slice(i,i+CH)); return ["'"+id,data==null?'đã xóa':tstrFull(Date.now()),...parts]; }
+/* Connector Google Sheets không có append_values: đọc cột A để tìm dòng trống kế tiếp rồi ghi bằng update_values. */
+async function appendRows(col,rows,label){ if(!rows.length) return 0; const w=Math.max(...rows.map(r=>r.length)); rows.forEach(r=>{while(r.length<w)r.push('');});
+  const a=(pay(await call('Google Sheets','get_values',{spreadsheetId:FILE.sheet,range:`${col}!A1:A`},`Tìm dòng trống ${col}`)).values)||[]; let n=a.length+1; if(n<2) n=2;
+  await call('Google Sheets','update_values',{spreadsheetId:FILE.sheet,range:`${col}!A${n}:${colL(w-1)}${n+rows.length-1}`,values:rows},label||`Thêm ${rows.length} dòng vào ${col}`); return n; }
 async function shWrite(path,data){
   const i=path.indexOf('/'), col=path.slice(0,i), id=path.slice(i+1), vals=rowVals(id,data), prev=ROW.get(path), real=vals.length-2;
   if(prev){ while(vals.length-2<prev.n) vals.push(''); await call('Google Sheets','update_values',{spreadsheetId:FILE.sheet,range:`${col}!A${prev.row}:${colL(vals.length-1)}${prev.row}`,values:[vals]},(data==null?'Xóa ':'Ghi ')+`${col} · ${id}`); ROW.set(path,{row:prev.row,n:real}); }
-  else if(data!=null){ const r=pay(await call('Google Sheets','append_values',{spreadsheetId:FILE.sheet,range:`${col}!A1`,values:[vals]},`Thêm ${col} · ${id}`)); const m=String(((r.updates||r).updatedRange)||'').match(/![A-Z]+(\d+)/); if(m) ROW.set(path,{row:+m[1],n:real}); }
+  else if(data!=null){ const n=await appendRows(col,[vals],`Thêm ${col} · ${id}`); if(n) ROW.set(path,{row:n,n:real}); }
 }
 let PENDING=0;
 function enqueue(fn){ PENDING++; WQ=WQ.then(fn).finally(()=>{PENDING--;}).catch(e=>{ toast('Không ghi được vào file dữ liệu: '+((e&&(e.message||e.code))||e)+'. Bấm “Tải lại dữ liệu”.'); }); return WQ; }
@@ -78,7 +82,7 @@ const store={
   async del(path){ MEM.delete(path); notify(); if(SH) return enqueue(()=>shWrite(path,null)); },
   async add(col,data){
     if(col==='nhatky'){ const id='m'+Date.now()+Math.random().toString(36).slice(2,5), d={...data,nguoi:uname}; MEM.set('nhatky/'+id,d); notify();
-      if(SH) return enqueue(()=>call('Google Sheets','append_values',{spreadsheetId:FILE.sheet,range:'nhatky!A1',values:[[d.ts,"'"+tstrFull(d.ts),"'"+(d.thang||''),"'"+(d.buoc||''),d.viec,uname||'']]},'Ghi nhật ký')); return; }
+      if(SH) return enqueue(()=>appendRows('nhatky',[[d.ts,"'"+tstrFull(d.ts),"'"+(d.thang||''),"'"+(d.buoc||''),d.viec,uname||'']],'Ghi nhật ký')); return; }
     return this.set(col+'/a'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),data); },
   watchDoc(path,cb){ const f=()=>cb(MEM.get(path)||null); MEML.add(f); f(); return ()=>MEML.delete(f); },
   watchCol(col,cb,q){ const f=()=>{let a=[...MEM.entries()].filter(([k])=>k.startsWith(col+'/')&&k.split('/').length===2).map(([k,v])=>({id:k.slice(col.length+1),...v}));
@@ -109,9 +113,9 @@ async function seedAll(){
   const r=pay(await call('Google Drive','download_file_content',{fileId:FILE.seed},'Tải DuLieuApp/khoitao.json'));
   const txt=new TextDecoder().decode(Uint8Array.from(atob(r.content||''),c=>c.charCodeAt(0))); const S0=JSON.parse(txt);
   for(const [col,docs] of Object.entries(S0)){ if(col==='nhatky') continue; const rows=Object.entries(docs).map(([id,d])=>rowVals(id,d)); const w=Math.max(...rows.map(x=>x.length)); rows.forEach(x=>{while(x.length<w)x.push('');});
-    await call('Google Sheets','append_values',{spreadsheetId:FILE.sheet,range:`${col}!A1`,values:rows},`Nạp ${rows.length} bản ghi vào sheet ${col}`); }
+    await appendRows(col,rows,`Nạp ${rows.length} bản ghi vào sheet ${col}`); }
   const L=Object.values(S0.nhatky||{}).sort((a,b)=>a.ts-b.ts).map(d=>[d.ts,"'"+tstrFull(d.ts),"'"+(d.thang||''),"'"+(d.buoc||''),d.viec,'Claude (khởi tạo)']);
-  if(L.length) await call('Google Sheets','append_values',{spreadsheetId:FILE.sheet,range:'nhatky!A1',values:L},`Nạp ${L.length} dòng nhật ký`);
+  if(L.length) await appendRows('nhatky',L,`Nạp ${L.length} dòng nhật ký`);
   await loadAll();
 }
 async function saveOut(filename,blob){

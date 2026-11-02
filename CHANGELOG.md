@@ -1,5 +1,9 @@
 # Nhật ký thay đổi
 
+## Chạy thật với connector Google
+
+- Connector Google Sheets không có `append_values`: thêm dòng mới bằng cách đọc cột A tìm dòng trống rồi ghi `update_values` (01-core.js, 96-pack.js).
+
 ## Bước 8 · ĐNTT theo PO – review UI/UX
 
 - 8.1: bảng hóa đơn thành dạng thẻ trên điện thoại, gọn 6 cột trên máy tính (không còn tràn ngang). Ô nhập có nhãn, nút "= Tiền PO", tiền tự định dạng. Lưu hóa đơn cần đủ số, ngày (không trước đầu kỳ) và tiền, có thông báo kết quả và chống bấm hai lần. Thêm KPI, lọc NCC / Chưa lập / Đã lập, điều kiện thiếu có nút Mở 5.2 / 7.1 / 3.4 / 6.1.

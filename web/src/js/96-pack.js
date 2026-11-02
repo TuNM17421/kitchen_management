@@ -5,8 +5,7 @@ async function bulkSet(col,entries){ // entries: [[id,doc]] – dòng mới gom 
   for(const [id,doc] of entries){ const path=col+'/'+id, d=JSON.parse(JSON.stringify(doc)); MEM.set(path,d); if(ROW.has(path)||!SH){ if(SH) await enqueue(()=>shWrite(path,d)); } else neu.push([path,id,d]); }
   notify();
   if(SH&&neu.length) await enqueue(async()=>{ const rows=neu.map(([p,id,d])=>rowVals(id,d)), np=rows.map(r=>r.length-2), w=Math.max(...rows.map(r=>r.length)); rows.forEach(r=>{while(r.length<w)r.push('');});
-    const r=pay(await call('Google Sheets','append_values',{spreadsheetId:FILE.sheet,range:`${col}!A1`,values:rows},`Thêm ${rows.length} bản ghi vào sheet ${col}`));
-    const m=String(((r.updates||r).updatedRange)||'').match(/![A-Z]+(\d+)/); if(m){ const s=+m[1]; neu.forEach(([p],i)=>ROW.set(p,{row:s+i,n:np[i]})); } });
+    const s=await appendRows(col,rows,`Thêm ${rows.length} bản ghi vào sheet ${col}`); if(s) neu.forEach(([p],i)=>ROW.set(p,{row:s+i,n:np[i]})); });
 }
 async function napGoi(ref){
   const DEMO=window.__PACK_DEMO&&(!mcp||/demo/i.test(String(ref))); // bản demo (build.py --demo) có gói test nhúng sẵn
