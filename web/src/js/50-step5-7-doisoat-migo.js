@@ -377,7 +377,7 @@ document.addEventListener('click',async e=>{
     for(const m of W) if(m.tt==='cho') await store.set('migo/'+m.id,{...stripId(m),tt:'xuat',xuatLuc:Date.now()}); await log('7.1',`Xuất ${rows.length} dòng MIGO (${W.length} chứng từ)`); }
   else if(a==='mg-ok'){ const map=new Map(migoAll().filter(m=>m.thang===S.thang&&m.tt!=='huy').map(m=>[m.ma,m])); let n=0; const bad=[];
     for(const line of $('#mg-txt').value.split(/\r?\n/)){ if(!line.trim()) continue; const c=line.split('\t').map(x=>x.trim()); const m=map.get(c[0]); if(!m||!/^\d{6,12}$/.test(c[1]||'')){bad.push(line);continue;} await store.set('migo/'+m.id,{...stripId(m),tt:'migo',soMIGO:c[1],migoLuc:Date.now()}); n++; }
-    if(n) await log('7.1',`Ghi ${n} số chứng từ MIGO`); $('#mg-txt').value=bad.join('\n'); toast(`Đã ghi ${n} chứng từ${bad.length?`, ${bad.length} dòng không khớp`:''}.`); }
+    if(n) await log('7.1',`Ghi ${n} số chứng từ MIGO`); const mgTa=$('#mg-txt'); if(mgTa) mgTa.value=bad.join('\n'); toast(`Đã ghi ${n} chứng từ${bad.length?`, ${bad.length} dòng không khớp`:''}.`); }
   else if(a==='mg-open'){ ED.mgOpen=ED.mgOpen===t.dataset.id?null:t.dataset.id; render(); }
   else if(a==='mg-huy'){ const m=S.migo[t.dataset.id]; if(ED.mgHuy!==m.id){ED.mgHuy=m.id;toast('Bấm Hủy lần nữa để hủy '+m.ma+'.');render();return;} ED.mgHuy=null; await store.set('migo/'+m.id,{...stripId(m),tt:'huy'}); await log('7.2',`Hủy chứng từ MIGO ${m.ma}`); }
   }catch(err){ toast('Không lưu được: '+(err&&err.message||err)); }
