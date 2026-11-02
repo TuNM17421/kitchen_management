@@ -540,3 +540,10 @@ table.dnls-tbl>tbody>tr.qh>td.tt .pill{outline:2px solid color-mix(in srgb,var(-
 .dn-hist{margin:0;padding-left:18px;font-size:13px;display:grid;gap:2px}
 .dn-bulk .fld{display:flex;flex-direction:column;gap:2px;font-size:12px}
 @media (max-width:700px){.dn-ask .fld,.dn-ask .fld input{width:100%;min-width:0}.hd-f{grid-template-columns:minmax(0,1fr)}}
+/* bảng rộng trong thẻ "Xem trước" không được đẩy vỡ khung: co theo cột, cuộn ngang, hiện thanh cuộn */
+ol.flow>li{grid-template-columns:minmax(0,1fr)}
+ol.flow>li>*,details.more{min-width:0;max-width:100%}
+details.more .tbl-wrap{scrollbar-width:thin;-ms-overflow-style:auto;overflow-x:auto}
+details.more .tbl-wrap::-webkit-scrollbar{display:block;height:10px;width:10px}
+details.more .tbl-wrap::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 45%,transparent);border-radius:6px}
+details.more table.cn-tbl td,details.more table.cn-tbl th{white-space:nowrap}
