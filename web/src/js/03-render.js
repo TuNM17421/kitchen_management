@@ -62,10 +62,27 @@ function applyMode(){ const ag=ED.mode==='agent'; $('#agentPanel').hidden=!ag; $
   document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.mode==='agent')===ag)));
   const n=Object.values(S.dx||{}).filter(d=>d.thang===S.thang&&d.tt==='cho').length, c=$('#agCount'); if(c){ c.hidden=!n; c.textContent=n; c.className='pill '+(n?'bad':''); } }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-mode]'); if(!b) return; ED.mode=b.dataset.mode; applyMode(); renderAgents(); window.scrollTo({top:0}); });
+/* Giữ chữ người dùng đang gõ khi trang tự vẽ lại (đồng bộ Sheets, hỏi trạm SAP, ghi nhật ký...).
+   Ô đã gõ được nhớ theo "chữ ký" (thẻ + id, name, data-…, placeholder + thứ tự); chỉ quên khi đổi màn
+   hoặc khi bấm nút trong cùng hàng/khối với ô đó (nút đó đã dùng giá trị). */
+const KEEP=new Map(); let KEEP_VIEW='';
+const KEEP_SEL='input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=button]):not([type=submit]),textarea';
+function keepBase(el){ const a=[el.tagName,el.type||'']; if(el.id) a.push('#'+el.id); else { if(el.name) a.push('n='+el.name);
+  for(const k of Object.keys(el.dataset).sort()) a.push(k+'='+el.dataset[k]); if(a.length<3) a.push('p='+(el.placeholder||el.getAttribute('aria-label')||'')); } return a.join('|'); }
+function keepSigs(root){ const cnt={}, out=[]; root.querySelectorAll(KEEP_SEL).forEach(el=>{ const b=keepBase(el); cnt[b]=(cnt[b]||0)+1; out.push([el,b+'@'+cnt[b]]); }); return out; }
+function keepSigOf(el){ const v=$('#view'); if(!v||!v.contains(el)) return ''; const f=keepSigs(v).find(x=>x[0]===el); return f?f[1]:''; }
+document.addEventListener('input',e=>{ const t=e.target; if(!t.matches||!t.matches(KEEP_SEL)) return; const k=keepSigOf(t); if(k) KEEP.set(k,t.value); },true);
+document.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('button,[data-act],[data-act2]'); const v=$('#view'); if(!b||!v||!v.contains(b)||!KEEP.size) return;
+  const box=b.closest('tr,li,.box,form,details,.toolbar,.dn-ask,.hd-f')||v; const sig=new Map(keepSigs(v).map(x=>[x[0],x[1]]));
+  box.querySelectorAll(KEEP_SEL).forEach(el=>{ const k=sig.get(el); if(k) KEEP.delete(k); }); },true);
+function keepRestore(){ const v=$('#view'); if(!v||!KEEP.size) return; for(const [el,k] of keepSigs(v)){ if(KEEP.has(k)&&el.value!==KEEP.get(k)&&!el.disabled) el.value=KEEP.get(k); } }
 function render(){ try{applyMode();renderAgents();}catch(e){} renderTrack();renderTabs();renderSteps();renderLog();
   const v={td:vTD,khach:vKhach,dm:vDM,tinh:vTinh,chot:vChot,pb:vPB,xuat:vXuat,ls:vLS,dc:vDC,pocan:vPOcan,posap:vPOsap,podc:vPOdc,pols:vPOls,dat:vDat,nhan:vNhan,nls:vNls,bk:vBK,sofile:vSoFile,dsk:vDSK,cpo:vCPO,gpo:vGPO,kpo:vKPO,mg:vMG,mgls:vMGls,hd:vHD,dn:vDN,dnls:vDNls}[S.tab]; const ae=document.activeElement, id=ae&&ae.id, pos=ae&&ae.selectionStart;
   const fa=document.activeElement, fid=fa&&fa.id&&$('#view').contains(fa)&&/^(INPUT|TEXTAREA)$/.test(fa.tagName)?fa.id:'', fs=fid&&fa.selectionStart!=null?[fa.selectionStart,fa.selectionEnd]:null;
-  $('#view').innerHTML=v();
+  { const vk0=S.step+'|'+S.tab; if(vk0!==KEEP_VIEW){ KEEP.clear(); KEEP_VIEW=vk0; } }
+  const fsig=fa&&!fid&&$('#view').contains(fa)&&/^(INPUT|TEXTAREA)$/.test(fa.tagName)?keepSigOf(fa):'', fs2=fsig&&fa.selectionStart!=null?[fa.selectionStart,fa.selectionEnd]:null;
+  $('#view').innerHTML=v(); keepRestore();
+  if(fsig){ const nf=(keepSigs($('#view')).find(x=>x[1]===fsig)||[])[0]; if(nf){ nf.focus({preventScroll:true}); if(fs2) try{nf.setSelectionRange(fs2[0],fs2[1]);}catch(e){} } }
   if(fid){ const nf=document.getElementById(fid); if(nf){ nf.focus({preventScroll:true}); if(fs) try{nf.setSelectionRange(fs[0],fs[1]);}catch(e){} } }
   { const vw=$('#view'), sh=vw.querySelector(':scope > .sh'), k=vw.querySelector(':scope > .kpis'), cb=vw.querySelector(':scope > .ctxbar'); if(sh&&cb){ sh.after(cb); if(k) cb.after(k); } else if(sh&&k) sh.after(k); // kết quả lên ngay dưới tiêu đề
     const kb=vw.querySelector(':scope > #khoBox'); if(kb) vw.appendChild(kb); // tồn kho (ít dùng) xuống cuối
